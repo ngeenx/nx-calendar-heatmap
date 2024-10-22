@@ -2,16 +2,17 @@
   <div class="calendar-heatmap">
     <div class="heatmap-grid">
       <!-- First Week Empty Days -->
-      <button
-        v-for="empty in firstWeekOffset"
-        :key="'empty-' + empty"
-        class="day empty"
-        :style="{
-          height: (props.options.cellSize || 15) + 'px',
-          width: (props.options.cellSize || 15) + 'px',
-        }"
-        v-if="!props.options.hideEmptyDays"
-      ></button>
+      <template v-if="!props.options.hideEmptyDays">
+        <button
+          v-for="empty in firstWeekOffset"
+          :key="'empty-' + empty"
+          class="day empty"
+          :style="{
+            height: (props.options.cellSize || 15) + 'px',
+            width: (props.options.cellSize || 15) + 'px',
+          }"
+        />
+      </template>
 
       <!-- Available Days -->
       <button
@@ -21,19 +22,20 @@
         :class="getDayClass(day.count)"
         :style="getGridPosition(index)"
         @click="onDayClick(day)"
-      ></button>
+      />
 
       <!-- Last Week Empty Days -->
-      <button
-        v-for="empty in lastWeekOffset"
-        :key="'empty-' + empty"
-        class="day empty"
-        :style="{
-          height: (props.options.cellSize || 15) + 'px',
-          width: (props.options.cellSize || 15) + 'px',
-        }"
-        v-if="!props.options.hideEmptyDays"
-      ></button>
+      <template v-if="!props.options.hideEmptyDays">
+        <button
+          v-for="empty in lastWeekOffset"
+          :key="'empty-' + empty"
+          class="day empty"
+          :style="{
+            height: (props.options.cellSize || 15) + 'px',
+            width: (props.options.cellSize || 15) + 'px',
+          }"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -41,7 +43,10 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { DateTime } from 'luxon';
-import { ICalendarHeatmapOptions, IHeatmapDay } from '@ngeenx/nx-calendar-heatmap-utils';
+import {
+  ICalendarHeatmapOptions,
+  IHeatmapDay,
+} from '@ngeenx/nx-calendar-heatmap-utils';
 
 const levels = ref(4);
 const min = ref(0);
@@ -70,7 +75,7 @@ const calculateLastWeekOffset = (endDate: DateTime) => {
   const weekday = endDate.weekday; // Luxon: 1 = Monday, 7 = Sunday
 
   return weekday === 7 ? 0 : 7 - weekday; // Sunday (7) needs 0 empty cells, Monday (1) needs 6
-}
+};
 
 // Generate heatmap data for the given date range
 const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
@@ -97,18 +102,18 @@ const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
 const getGridPosition = (index: number) => {
   if (props.options.type === 'weekly') {
     return {
-        gridRow: 1,
-        gridColumn: index + 1,
-        height: (props.options.cellSize || 15) + 'px',
-        width: (props.options.cellSize || 15) + 'px'
-      };
+      gridRow: 1,
+      gridColumn: index + 1,
+      height: (props.options.cellSize || 15) + 'px',
+      width: (props.options.cellSize || 15) + 'px',
+    };
   } else {
     return {
-        gridRow: ((index + firstWeekOffset.value) % 7) + 1,
-        gridColumn: Math.floor((index + firstWeekOffset.value) / 7) + 1,
-        height: (props.options.cellSize || 15) + 'px',
-        width: (props.options.cellSize || 15) + 'px'
-      };
+      gridRow: ((index + firstWeekOffset.value) % 7) + 1,
+      gridColumn: Math.floor((index + firstWeekOffset.value) / 7) + 1,
+      height: (props.options.cellSize || 15) + 'px',
+      width: (props.options.cellSize || 15) + 'px',
+    };
   }
 };
 
@@ -124,7 +129,9 @@ const updateHeatmapData = () => {
   if (levels.value < 4) {
     levels.value = 4;
 
-    console.warn(`CalendarHeatmap: The 'levels' option must be at least 4, but it was set to ${levels.value}.`)
+    console.warn(
+      `CalendarHeatmap: The 'levels' option must be at least 4, but it was set to ${levels.value}.`
+    );
   }
 
   min.value = 0;
