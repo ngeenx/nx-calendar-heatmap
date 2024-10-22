@@ -1,0 +1,9 @@
+{
+  "name": "nx-vue-calendar-heatmap",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/features/nx-vue-calendar-heatmap/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project nx-vue-calendar-heatmap --web",
+  "targets": {}
+}
