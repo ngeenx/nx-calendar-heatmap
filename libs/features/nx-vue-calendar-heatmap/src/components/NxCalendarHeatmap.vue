@@ -46,6 +46,7 @@ import { DateTime } from 'luxon';
 import {
   ICalendarHeatmapOptions,
   IHeatmapDay,
+  HeatMapCalendarType,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 
 const levels = ref(4);
@@ -100,7 +101,7 @@ const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
 
 // Grid position calculation depending on format
 const getGridPosition = (index: number) => {
-  if (props.options.type === 'weekly') {
+  if (props.options.type === HeatMapCalendarType.WEEKLY) {
     return {
       gridRow: 1,
       gridColumn: index + 1,
@@ -144,20 +145,31 @@ const updateHeatmapData = () => {
   let endDate: DateTime;
 
   switch (type) {
-    case 'weekly':
-      endDate = DateTime.fromISO(startDate).plus({ days: 6 }); // Weekly, only 7 days
+    case HeatMapCalendarType.WEEKLY:
+      // weekly, only 7 days
+      endDate = DateTime.fromISO(startDate).plus({ days: 6 });
+
       break;
-    case 'monthly':
-      endDate = DateTime.fromISO(startDate).endOf('month'); // Monthly, all days of the month
+    case HeatMapCalendarType.MONTHLY:
+      // monthly, all days of the month
+      endDate = DateTime.fromISO(startDate).endOf('month');
+
       break;
-    case 'yearly':
-      endDate = DateTime.fromISO(startDate).endOf('year'); // Yearly, full year
+    case HeatMapCalendarType.YEARLY:
+      // yearly, full year
+      endDate = DateTime.fromISO(startDate).endOf('year');
+
       break;
   }
 
   heatmapData.value = generateHeatmapData(DateTime.fromISO(startDate), endDate);
-  firstWeekOffset.value = calculateFirstWeekOffset(DateTime.fromISO(startDate));
-  lastWeekOffset.value = calculateLastWeekOffset(endDate);
+
+  if (type !== HeatMapCalendarType.WEEKLY) {
+    firstWeekOffset.value = calculateFirstWeekOffset(
+      DateTime.fromISO(startDate)
+    );
+    lastWeekOffset.value = calculateLastWeekOffset(endDate);
+  }
 };
 
 // Watch for prop changes and update heatmap accordingly

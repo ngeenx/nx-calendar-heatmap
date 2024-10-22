@@ -6,7 +6,7 @@
 
     <NxCalendarHeatmap
       :options="{
-        type: 'yearly',
+        type: HeatMapCalendarType.YEARLY,
         startDate: startDate,
         cellSize: cellSize,
         hideEmptyDays: false,
@@ -19,7 +19,7 @@
         v-for="(month, index) in months"
         :key="index"
         :options="{
-          type: 'monthly',
+          type: HeatMapCalendarType.MONTHLY,
           startDate: month,
           cellSize: cellSize,
           onClick: onDayClick,
@@ -29,7 +29,7 @@
 
     <NxCalendarHeatmap
       :options="{
-        type: 'weekly',
+        type: HeatMapCalendarType.WEEKLY,
         startDate: startDate,
         cellSize: cellSize,
         onClick: onDayClick,
@@ -40,7 +40,10 @@
 
 <script setup lang="ts">
 import { NxCalendarHeatmap } from '@ngeenx/nx-vue-calendar-heatmap';
-import { IHeatmapDay } from '@ngeenx/nx-calendar-heatmap-utils';
+import {
+  IHeatmapDay,
+  HeatMapCalendarType,
+} from '@ngeenx/nx-calendar-heatmap-utils';
 import { DateTime } from 'luxon';
 import { ref } from 'vue';
 

@@ -5,6 +5,12 @@ export enum HeatmapColorType {
   CLASS_NAME = "class-name",
 }
 
+export enum HeatMapCalendarType {
+  WEEKLY = "weekly",
+  MONTHLY = "monthly",
+  YEARLY = "yearly",
+}
+
 export interface IHeatmapColor {
   min?: number;
   max?: number;
@@ -19,7 +25,7 @@ export interface IHeatmapDay {
 
 export interface ICalendarHeatmapOptions {
   // options
-  type: "weekly" | "monthly" | "yearly";
+  type: HeatMapCalendarType;
   startDate: string;
   cellSize?: number;
   colors?: IHeatmapColor[];
