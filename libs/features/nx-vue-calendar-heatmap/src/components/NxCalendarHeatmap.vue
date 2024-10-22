@@ -4,8 +4,8 @@
       <!-- First Week Empty Days -->
       <template v-if="!props.options.hideEmptyDays">
         <button
-          v-for="empty in firstWeekOffset"
-          :key="'empty-' + empty"
+          v-for="firstWeekDayOffset in firstWeekOffset"
+          :key="'empty-' + firstWeekDayOffset"
           class="day"
           :class="getEmptyDayClass()"
           :style="{
@@ -28,8 +28,8 @@
       <!-- Last Week Empty Days -->
       <template v-if="!props.options.hideEmptyDays">
         <button
-          v-for="empty in lastWeekOffset"
-          :key="'empty-' + empty"
+          v-for="lastWeekDayOffset in lastWeekOffset"
+          :key="'empty-' + lastWeekDayOffset"
           class="day"
           :class="getEmptyDayClass()"
           :style="{
