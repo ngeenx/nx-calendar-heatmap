@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-start justify-start gap-5">
+  <div class="flex flex-col items-start justify-start gap-5 p-20">
     <span>
       {{ startDate }}
     </span>

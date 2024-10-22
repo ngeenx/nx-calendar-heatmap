@@ -8,14 +8,14 @@
     grid-auto-flow: column;
 
     .day {
-      @apply transition-all duration-200 ease-in-out;
+      @apply transition-all duration-200 ease-in-out rounded-[3px];
 
       &:hover {
         @apply opacity-70;
       }
 
       &.empty {
-        @apply cursor-default bg-gray-800;
+        @apply cursor-default border border-gray-200 bg-gray-100 dark:bg-gray-800;
       }
 
       &.level-0 {
