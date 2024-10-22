@@ -5,7 +5,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 const config: Config = {
   title: "My Site",
   tagline: "Dinosaurs are cool",
-  favicon: "https://fav.farm/✨",
+  favicon: "https://fav.farm/📅",
 
   // Set the production url of your site here
   url: "https://your-docusaurus-site.example.com",
