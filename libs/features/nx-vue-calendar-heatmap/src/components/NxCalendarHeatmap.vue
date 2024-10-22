@@ -47,6 +47,7 @@ import {
   ICalendarHeatmapOptions,
   IHeatmapDay,
   HeatMapCalendarType,
+  IHeatmapColor,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 
 const levels = ref(4);
@@ -54,6 +55,7 @@ const min = ref(0);
 const max = ref(0);
 const range = ref(0);
 const step = ref(0);
+const colors = ref<IHeatmapColor[]>([]);
 
 const props = defineProps({
   options: {
@@ -135,6 +137,7 @@ const updateHeatmapData = () => {
     );
   }
 
+  colors.value = props.options.colors || [];
   min.value = 0;
   max.value = 100;
   range.value = max.value - min.value;
@@ -177,14 +180,32 @@ watch(() => props.options, updateHeatmapData, { immediate: true });
 
 // Function to classify the day based on its value
 const getDayClass = (value: number): string => {
-  if (value === 0) {
+  if (!colors.value.length) {
+    if (value === 0) {
+      return 'level-0';
+    }
+
+    for (let i = 0; i < levels.value; i++) {
+      if (value <= min.value + step.value * (i + 1)) {
+        return `level-${i + 1}`;
+      }
+    }
+
     return 'level-0';
   }
 
-  for (let i = 0; i < levels.value; i++) {
-    if (value <= min.value + step.value * (i + 1)) {
-      return `level-${i + 1}`;
+  for (const color of colors.value) {
+    if (value >= color.min && value <= color.max) {
+      return color.className;
     }
+  }
+
+  const defaultColor = colors.value?.find(
+    (color: IHeatmapColor) => color.isDefault
+  );
+
+  if (defaultColor) {
+    return defaultColor.className;
   }
 
   return 'level-0';

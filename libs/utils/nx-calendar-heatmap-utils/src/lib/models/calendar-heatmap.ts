@@ -1,10 +1,5 @@
 import { DateTime } from "luxon";
 
-export enum HeatmapColorType {
-  STYLE = "style",
-  CLASS_NAME = "class-name",
-}
-
 export enum HeatMapCalendarType {
   WEEKLY = "weekly",
   MONTHLY = "monthly",
@@ -12,10 +7,10 @@ export enum HeatMapCalendarType {
 }
 
 export interface IHeatmapColor {
-  min?: number;
-  max?: number;
-  color: string;
-  type: HeatmapColorType;
+  min: number;
+  max: number;
+  isDefault: boolean;
+  className: string;
 }
 
 export interface IHeatmapDay {
@@ -28,7 +23,7 @@ export interface ICalendarHeatmapOptions {
   type: HeatMapCalendarType;
   startDate: string;
   cellSize?: number;
-  colors?: IHeatmapColor[];
+  colors?: IHeatmapColor[] | null;
   hideEmptyDays?: boolean;
 
   // events
