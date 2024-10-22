@@ -15,19 +15,12 @@
         @apply opacity-60;
       }
 
-      &.empty {
+      &.empty,
+      &.level-0 {
         @apply cursor-default border-gray-200 bg-gray-100 dark:bg-gray-700 dark:border-gray-600;
 
         &:hover {
           @apply bg-gray-300 dark:bg-gray-700;
-        }
-      }
-
-      &.level-0 {
-        @apply border-gray-200 bg-white;
-
-        &:hover {
-          @apply bg-gray-100;
         }
       }
 

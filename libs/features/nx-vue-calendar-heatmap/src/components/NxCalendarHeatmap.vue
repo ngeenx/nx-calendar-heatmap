@@ -6,7 +6,8 @@
         <button
           v-for="empty in firstWeekOffset"
           :key="'empty-' + empty"
-          class="day empty"
+          class="day"
+          :class="getEmptyDayClass()"
           :style="{
             height: (props.options.cellSize || 15) + 'px',
             width: (props.options.cellSize || 15) + 'px',
@@ -29,7 +30,8 @@
         <button
           v-for="empty in lastWeekOffset"
           :key="'empty-' + empty"
-          class="day empty"
+          class="day"
+          :class="getEmptyDayClass()"
           :style="{
             height: (props.options.cellSize || 15) + 'px',
             width: (props.options.cellSize || 15) + 'px',
@@ -178,7 +180,11 @@ const updateHeatmapData = () => {
 // Watch for prop changes and update heatmap accordingly
 watch(() => props.options, updateHeatmapData, { immediate: true });
 
-// Function to classify the day based on its value
+/**
+ * Get the class name of a day based on its value with leveled classes
+ *
+ * @param value - The value of the day
+ */
 const getDayClass = (value: number): string => {
   if (!colors.value.length) {
     if (value === 0) {
@@ -206,6 +212,23 @@ const getDayClass = (value: number): string => {
 
   if (defaultColor) {
     return defaultColor.className;
+  }
+
+  return 'level-0';
+};
+
+/**
+ * Get the class name of an empty day based on its value with leveled classes
+ */
+const getEmptyDayClass = (): string => {
+  if (!colors.value.length) {
+    return 'level-0';
+  }
+
+  for (const color of colors.value) {
+    if (color.isDefault) {
+      return color.className;
+    }
   }
 
   return 'level-0';
