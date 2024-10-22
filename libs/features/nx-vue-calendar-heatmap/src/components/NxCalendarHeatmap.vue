@@ -8,10 +8,7 @@
           :key="'empty-' + firstWeekDayOffset"
           class="day"
           :class="getEmptyDayClass()"
-          :style="{
-            height: (props.options.cellSize || 15) + 'px',
-            width: (props.options.cellSize || 15) + 'px',
-          }"
+          :style="emptyCellStyle"
         />
       </template>
 
@@ -32,10 +29,7 @@
           :key="'empty-' + lastWeekDayOffset"
           class="day"
           :class="getEmptyDayClass()"
-          :style="{
-            height: (props.options.cellSize || 15) + 'px',
-            width: (props.options.cellSize || 15) + 'px',
-          }"
+          :style="emptyCellStyle"
         />
       </template>
     </div>
@@ -43,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, watch, StyleValue } from 'vue';
 import { DateTime } from 'luxon';
 import {
   ICalendarHeatmapOptions,
@@ -58,7 +52,14 @@ const max = ref(0);
 const range = ref(0);
 const step = ref(0);
 const colors = ref<IHeatmapColor[]>([]);
+const heatmapData = ref<IHeatmapDay[]>([]);
+const firstWeekOffset = ref<number>(0);
+const lastWeekOffset = ref<number>(0);
+const emptyCellStyle = ref<StyleValue>();
 
+/**
+ * Component props
+ */
 const props = defineProps({
   options: {
     type: Object as () => ICalendarHeatmapOptions,
@@ -68,19 +69,6 @@ const props = defineProps({
     }),
   },
 });
-
-// Calculate the number of empty cells before the first date
-const calculateFirstWeekOffset = (startDate: DateTime) => {
-  const weekday = startDate.weekday; // Luxon: 1 = Monday, 7 = Sunday
-
-  return weekday === 7 ? 6 : weekday - 1; // Sunday (7) needs 6 empty cells, Monday (1) needs 0
-};
-
-const calculateLastWeekOffset = (endDate: DateTime) => {
-  const weekday = endDate.weekday; // Luxon: 1 = Monday, 7 = Sunday
-
-  return weekday === 7 ? 0 : 7 - weekday; // Sunday (7) needs 0 empty cells, Monday (1) needs 6
-};
 
 // Generate heatmap data for the given date range
 const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
@@ -103,8 +91,38 @@ const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
   return heatmap;
 };
 
-// Grid position calculation depending on format
-const getGridPosition = (index: number) => {
+/**
+ * Calculate the number of empty cells before the first date
+ *
+ * @param startDate - The start date (luxon)
+ */
+const calculateFirstWeekOffset = (startDate: DateTime) => {
+  // Luxon: 1 = Monday, 7 = Sunday
+  const weekday = startDate.weekday;
+
+  // Sunday (7) needs 6 empty cells, Monday (1) needs 0
+  return weekday === 7 ? 6 : weekday - 1;
+};
+
+/**
+ * Calculate the number of empty cells after the last date
+ *
+ * @param endDate - The end date (luxon)
+ */
+const calculateLastWeekOffset = (endDate: DateTime) => {
+  // Luxon: 1 = Monday, 7 = Sunday
+  const weekday = endDate.weekday;
+
+  // Sunday (7) needs 0 empty cells, Monday (1) needs 6
+  return weekday === 7 ? 0 : 7 - weekday;
+};
+
+/**
+ * Grid position calculation depending on format
+ *
+ * @param index
+ */
+const getGridPosition = (index: number): StyleValue => {
   if (props.options.type === HeatMapCalendarType.WEEKLY) {
     return {
       gridRow: 1,
@@ -122,11 +140,15 @@ const getGridPosition = (index: number) => {
   }
 };
 
-const heatmapData = ref<IHeatmapDay[]>([]);
-const firstWeekOffset = ref<number>(0);
-const lastWeekOffset = ref<number>(0);
+/**
+ * Update the heatmap data based on the options
+ */
+const updateHeatmapData = (): void => {
+  emptyCellStyle.value = {
+    height: (props.options.cellSize || 15) + 'px',
+    width: (props.options.cellSize || 15) + 'px',
+  };
 
-const updateHeatmapData = () => {
   if (props.options.colors) {
     levels.value = props.options.colors.length;
   }
@@ -176,9 +198,6 @@ const updateHeatmapData = () => {
     lastWeekOffset.value = calculateLastWeekOffset(endDate);
   }
 };
-
-// Watch for prop changes and update heatmap accordingly
-watch(() => props.options, updateHeatmapData, { immediate: true });
 
 /**
  * Get the class name of a day based on its value with leveled classes
@@ -234,11 +253,21 @@ const getEmptyDayClass = (): string => {
   return 'level-0';
 };
 
+/**
+ * Handle day click event
+ *
+ * @param day - The day to click
+ */
 const onDayClick = (day: IHeatmapDay): void => {
   if (props.options.onClick !== undefined) {
     props.options.onClick(day);
   }
 };
+
+/**
+ * Watch for changes in the options and update the heatmap data
+ */
+watch(() => props.options, updateHeatmapData, { immediate: true });
 </script>
 
 <style scoped lang="scss">
