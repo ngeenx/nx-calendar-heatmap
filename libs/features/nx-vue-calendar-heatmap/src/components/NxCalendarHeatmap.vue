@@ -1,5 +1,5 @@
 <template>
-  <div class="calendar-heatmap">
+  <div class="nx-calendar-heatmap">
     <div class="heatmap-grid">
       <!-- First Week Empty Days -->
       <template v-if="!props.options.hideEmptyDays">

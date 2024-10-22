@@ -1,5 +1,5 @@
-.calendar-heatmap {
-  @apply flex flex-row justify-center select-none;
+.nx-calendar-heatmap {
+  @apply flex flex-col justify-center select-none;
 
   .heatmap-grid {
     @apply grid gap-[4px];
