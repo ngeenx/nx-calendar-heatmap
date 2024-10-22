@@ -1,5 +1,5 @@
 .calendar-heatmap {
-  @apply flex flex-row justify-center;
+  @apply flex flex-row justify-center select-none;
 
   .heatmap-grid {
     @apply grid gap-[4px];
@@ -24,11 +24,15 @@
       }
 
       &.level-0 {
-        @apply border-gray-50 bg-white;
+        @apply border-gray-200 bg-white;
+
+        &:hover {
+          @apply bg-gray-100;
+        }
       }
 
       &.level-1 {
-        @apply border-green-200/50 bg-green-100;
+        @apply border-green-200 bg-green-100;
       }
 
       &.level-2 {
