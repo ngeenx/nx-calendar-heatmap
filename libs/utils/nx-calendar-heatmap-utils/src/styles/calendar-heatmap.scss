@@ -16,6 +16,10 @@
 
       &.empty {
         @apply cursor-default border border-gray-200 bg-gray-100 dark:bg-gray-800;
+
+        &:hover {
+          @apply bg-gray-300 dark:bg-gray-700;
+        }
       }
 
       &.level-0 {
