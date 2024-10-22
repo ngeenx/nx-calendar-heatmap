@@ -2,20 +2,21 @@
   @apply flex flex-row justify-center;
 
   .heatmap-grid {
-    @apply grid gap-[2px];
+    @apply grid gap-[4px];
 
-    grid-template-rows: repeat(0, 20px);
+    grid-template-rows: repeat(0, 15px);
+    grid-template-columns: repeat(0, 15px);
     grid-auto-flow: column;
 
     .day {
-      @apply transition-all duration-200 ease-in-out rounded-[3px];
+      @apply border transition-all duration-200 ease-in-out rounded-[3px];
 
       &:hover {
-        @apply opacity-70;
+        @apply opacity-60;
       }
 
       &.empty {
-        @apply cursor-default border border-gray-200 bg-gray-100 dark:bg-gray-800;
+        @apply cursor-default border-gray-200 bg-gray-100 dark:bg-gray-800;
 
         &:hover {
           @apply bg-gray-300 dark:bg-gray-700;
@@ -23,27 +24,27 @@
       }
 
       &.level-0 {
-        @apply bg-white;
+        @apply border-gray-50 bg-white;
       }
 
       &.level-1 {
-        @apply bg-green-100;
+        @apply border-green-200/50 bg-green-100;
       }
 
       &.level-2 {
-        @apply bg-green-300;
+        @apply border-green-400/50 bg-green-300;
       }
 
       &.level-3 {
-        @apply bg-green-500;
+        @apply border-green-600/50 bg-green-500;
       }
 
       &.level-4 {
-        @apply bg-green-700;
+        @apply border-green-800/50 bg-green-700;
       }
 
       &.level-5 {
-        @apply bg-green-800;
+        @apply border-green-900/50 bg-green-800;
       }
     }
   }

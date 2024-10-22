@@ -1,8 +1,6 @@
 <template>
-  <div class="flex flex-col items-start justify-start gap-5 p-20">
-    <span>
-      {{ startDate }}
-    </span>
+  <div class="flex flex-col items-start justify-start p-12 gap-7">
+    <span> Yearly </span>
 
     <NxCalendarHeatmap
       :options="{
@@ -12,9 +10,12 @@
         hideEmptyDays: false,
         onClick: onDayClick,
       }"
+      class="p-4 bg-white rounded-md"
     />
 
-    <div class="flex flex-row">
+    <span> Monthly </span>
+
+    <div class="flex flex-row p-4 bg-white rounded-md gap-x-2">
       <NxCalendarHeatmap
         v-for="(month, index) in months"
         :key="index"
@@ -27,6 +28,8 @@
       />
     </div>
 
+    <span> Weekly </span>
+
     <NxCalendarHeatmap
       :options="{
         type: HeatMapCalendarType.WEEKLY,
@@ -34,6 +37,7 @@
         cellSize: cellSize,
         onClick: onDayClick,
       }"
+      class="p-4 bg-white rounded-md"
     />
   </div>
 </template>
