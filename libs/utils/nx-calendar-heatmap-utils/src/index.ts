@@ -1,1 +1,1 @@
-export * from './lib/nx-calendar-heatmap-utils';
+export * from "./lib/models/calendar-heatmap";
