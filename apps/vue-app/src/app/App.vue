@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col w-full h-full dark:bg-gray-900">
     <select
       v-model="selectedYear"
-      class="p-2 m-2 border border-gray-300 rounded-md"
+      class="p-2 m-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
     >
       <option v-for="(year, index) in years" :key="index">
         {{ year }}
@@ -20,12 +20,14 @@
           hideEmptyDays: false,
           onClick: onDayClick,
         }"
-        class="p-4 bg-white rounded-md"
+        class="p-4 bg-white rounded-md dark:bg-gray-800"
       />
 
       <span> Monthly </span>
 
-      <div class="flex flex-row p-4 bg-white rounded-md gap-x-2">
+      <div
+        class="flex flex-row p-4 bg-white rounded-md gap-x-2 dark:bg-gray-800"
+      >
         <NxCalendarHeatmap
           v-for="(month, index) in months"
           :key="index"
@@ -47,7 +49,7 @@
           cellSize: cellSize,
           onClick: onDayClick,
         }"
-        class="p-4 bg-white rounded-md"
+        class="p-4 bg-white rounded-md dark:bg-gray-800"
       />
     </div>
   </div>
