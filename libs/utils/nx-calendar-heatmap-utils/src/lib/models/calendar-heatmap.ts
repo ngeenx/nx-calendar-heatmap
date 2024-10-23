@@ -21,7 +21,7 @@ export interface IHeatmapDay {
 export interface ICalendarHeatmapOptions {
   // options
   type: HeatMapCalendarType;
-  startDate: string;
+  startDate: DateTime;
   cellSize?: number;
   colors?: IHeatmapColor[] | null;
   hideEmptyDays?: boolean;

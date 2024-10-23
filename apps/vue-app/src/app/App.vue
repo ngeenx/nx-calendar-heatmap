@@ -26,50 +26,37 @@
       </select>
     </div>
 
-    <div class="flex flex-col items-start justify-start gap-3 p-5">
-      <span> Yearly </span>
-
-      <NxCalendarHeatmap
-        :options="yearlyOptions"
-        class="p-4 bg-white rounded-md dark:bg-gray-800"
+    <div class="flex flex-col items-start justify-start">
+      <YearlyView
+        :selected-color-variant="selectedColorVariant"
+        :selected-year="Number(selectedYear)"
       />
 
-      <span> Monthly </span>
+      <MonthlyView
+        :selected-color-variant="selectedColorVariant"
+        :selected-year="Number(selectedYear)"
+      />
 
-      <div
-        class="flex flex-row p-4 bg-white rounded-md gap-x-2 dark:bg-gray-800"
-      >
-        <NxCalendarHeatmap
-          v-for="(month, index) in months"
-          :key="index"
-          :options="montlyOptions"
-        />
-      </div>
-
-      <span> Weekly </span>
-
-      <NxCalendarHeatmap
-        :options="weeklyOptions"
-        class="p-4 bg-white rounded-md dark:bg-gray-800"
+      <WeeklyView
+        :selected-color-variant="selectedColorVariant"
+        :selected-year="Number(selectedYear)"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NxCalendarHeatmap } from '@ngeenx/nx-vue-calendar-heatmap';
-import {
-  IHeatmapDay,
-  HeatMapCalendarType,
-  IHeatmapColor,
-  ICalendarHeatmapOptions,
-} from '@ngeenx/nx-calendar-heatmap-utils';
+import YearlyView from './components/YearlyView.vue';
+import MonthlyView from './components/MonthlyView.vue';
+import WeeklyView from './components/WeeklyView.vue';
+
+import { IHeatmapColor } from '@ngeenx/nx-calendar-heatmap-utils';
 import { DateTime } from 'luxon';
 import { ref, watch } from 'vue';
 
-const startDate = ref('1998-01-01');
-const cellSize = 15;
+const startDate = ref(DateTime.now().startOf('year'));
 
+const selectedColorVariant = ref();
 const heatmapColorsVariants: IHeatmapColor[][] = [
   // variant 1
   <IHeatmapColor[]>[
@@ -209,68 +196,10 @@ const heatmapColorsVariants: IHeatmapColor[][] = [
   ],
 ];
 
-const selectedColorVariant = ref();
-
-const months = Array.from({ length: 12 }, (_, i) => {
-  const firstDayOfMonth = DateTime.local().set({ month: i + 1, day: 1 });
-
-  return firstDayOfMonth.toISODate();
-});
-
-const years = ref(Array.from({ length: 30 }, (_, i) => i + 1998).reverse());
-
-const onDayClick = (day: IHeatmapDay) => {
-  console.log(`Clicked on ${day.date} with value ${day.count}`);
-};
-
+const years = ref<number[]>(
+  Array.from({ length: 30 }, (_, i) => i + 1998).reverse()
+);
 const selectedYear = ref(years.value[0]);
-
-const yearlyOptions = ref({
-    type: HeatMapCalendarType.YEARLY,
-    startDate: startDate,
-    cellSize: cellSize,
-    hideEmptyDays: false,
-    colors: selectedColorVariant,
-    onClick: onDayClick,
-  }),
-  montlyOptions = ref({
-    type: HeatMapCalendarType.MONTHLY,
-    startDate: startDate,
-    cellSize: cellSize,
-    onClick: onDayClick,
-  }),
-  weeklyOptions = ref({
-    type: HeatMapCalendarType.WEEKLY,
-    startDate: startDate,
-    cellSize: cellSize,
-    onClick: onDayClick,
-  });
-
-watch(selectedYear, () => {
-  startDate.value = `${selectedYear.value}-01-01`;
-
-  yearlyOptions.value = {
-    ...yearlyOptions.value,
-    startDate: startDate.value,
-  };
-});
-
-watch(selectedColorVariant, () => {
-  yearlyOptions.value = {
-    ...yearlyOptions.value,
-    colors: selectedColorVariant.value,
-  };
-
-  montlyOptions.value = <ICalendarHeatmapOptions | any>{
-    ...montlyOptions.value,
-    colors: selectedColorVariant.value,
-  };
-
-  weeklyOptions.value = <ICalendarHeatmapOptions | any>{
-    ...weeklyOptions.value,
-    colors: selectedColorVariant.value,
-  };
-});
 
 const onColorVariantChange = (event: any) => {
   const colorVariant = heatmapColorsVariants.find(
@@ -286,6 +215,12 @@ const onColorVariantChange = (event: any) => {
     selectedColorVariant.value = [];
   }
 };
+
+watch(selectedYear, () => {
+  startDate.value = DateTime.fromJSDate(
+    new Date(`${selectedYear.value}-01-01`)
+  ) as any;
+});
 </script>
 
 <style scoped lang="scss">

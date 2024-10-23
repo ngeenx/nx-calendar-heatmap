@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, StyleValue } from 'vue';
+import { ref, watch, computed, StyleValue } from 'vue';
 import { DateTime } from 'luxon';
 import {
   ICalendarHeatmapOptions,
@@ -52,7 +52,7 @@ const max = ref(0);
 const range = ref(0);
 const step = ref(0);
 const colors = ref<IHeatmapColor[]>([]);
-const heatmapData = ref<IHeatmapDay[]>([]);
+const heatmapData = computed(() => props.heatmapData || []);
 const firstWeekOffset = ref<number>(0);
 const lastWeekOffset = ref<number>(0);
 const emptyCellStyle = ref<StyleValue>();
@@ -65,31 +65,14 @@ const props = defineProps({
     type: Object as () => ICalendarHeatmapOptions,
     default: () => ({
       type: 'yearly',
-      startDate: DateTime.local(2023, 1, 1).toISODate(),
+      startDate: DateTime.now().startOf('year').toISODate(),
     }),
   },
+  heatmapData: {
+    type: Array as () => IHeatmapDay[],
+    default: () => [],
+  },
 });
-
-// Generate heatmap data for the given date range
-const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
-  const daysBetween = Math.floor(endDate.diff(startDate, 'days').days);
-  const heatmap = [];
-
-  let currentDate = startDate;
-
-  for (let i = 0; i <= daysBetween; i++) {
-    const day: IHeatmapDay = {
-      date: currentDate,
-      count: Math.floor(Math.random() * 101), // Random value between 0-100
-    };
-
-    heatmap.push(day);
-
-    currentDate = currentDate.plus({ days: 1 });
-  }
-
-  return heatmap;
-};
 
 /**
  * Calculate the number of empty cells before the first date
@@ -99,6 +82,8 @@ const generateHeatmapData = (startDate: DateTime, endDate: DateTime) => {
 const calculateFirstWeekOffset = (startDate: DateTime) => {
   // Luxon: 1 = Monday, 7 = Sunday
   const weekday = startDate.weekday;
+
+  // console.log(startDate.weekday);
 
   // Sunday (7) needs 6 empty cells, Monday (1) needs 0
   return weekday === 7 ? 6 : weekday - 1;
@@ -174,27 +159,25 @@ const updateHeatmapData = (): void => {
   switch (type) {
     case HeatMapCalendarType.WEEKLY:
       // weekly, only 7 days
-      endDate = DateTime.fromISO(startDate).plus({ days: 6 });
+      endDate = startDate.plus({ days: 6 });
 
       break;
     case HeatMapCalendarType.MONTHLY:
       // monthly, all days of the month
-      endDate = DateTime.fromISO(startDate).endOf('month');
+      endDate = startDate.endOf('month');
 
       break;
     case HeatMapCalendarType.YEARLY:
       // yearly, full year
-      endDate = DateTime.fromISO(startDate).endOf('year');
+      endDate = startDate.endOf('year');
 
       break;
   }
 
-  heatmapData.value = generateHeatmapData(DateTime.fromISO(startDate), endDate);
+  // heatmapData.value = generateHeatmapData(DateTime.fromISO(startDate), endDate);
 
   if (type !== HeatMapCalendarType.WEEKLY) {
-    firstWeekOffset.value = calculateFirstWeekOffset(
-      DateTime.fromISO(startDate)
-    );
+    firstWeekOffset.value = calculateFirstWeekOffset(startDate);
     lastWeekOffset.value = calculateLastWeekOffset(endDate);
   }
 };
