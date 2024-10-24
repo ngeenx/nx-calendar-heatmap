@@ -254,19 +254,21 @@ const updateHeatmapData = (): void => {
  * @param value - The value of the day
  */
 const getDayClass = (value: number | undefined): string => {
+  const baseClasses = `${mergedOptions.value.onClick ? 'clickable' : ''}`;
+
   // if we are using default colors
   if (!mergedOptions.value.colors?.length) {
     if (value === 0 || value === undefined) {
-      return 'level-0';
+      return `${baseClasses} level-0`;
     }
 
     for (let i = 0; i < levels.value; i++) {
       if (value <= min.value + step.value * (i + 1)) {
-        return `level-${i + 1}`;
+        return `${baseClasses} level-${i + 1}`;
       }
     }
 
-    return 'level-0';
+    return `${baseClasses} level-0`;
   }
 
   // if we are using custom colors and value is not undefined (empty days values are undefined)
@@ -288,7 +290,7 @@ const getDayClass = (value: number | undefined): string => {
     return defaultColor.className;
   }
 
-  return 'level-0';
+  return `${baseClasses} level-0`;
 };
 
 /**
