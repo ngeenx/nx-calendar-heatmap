@@ -7,9 +7,9 @@ export enum HeatMapCalendarType {
 }
 
 export interface IHeatmapColor {
-  min: number;
-  max: number;
-  isDefault: boolean;
+  min: number | undefined;
+  max: number | undefined;
+  isDefault: boolean | undefined;
   className: string;
 }
 
@@ -35,6 +35,7 @@ export interface ICalendarHeatmapOptions {
   cellSize?: number;
   colors?: IHeatmapColor[] | null;
   hideEmptyDays?: boolean;
+  hetmapLevelDirection?: "left" | "right";
 
   // locale
   locale: string;

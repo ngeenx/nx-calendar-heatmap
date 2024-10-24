@@ -1,5 +1,6 @@
 <template>
   <div class="nx-calendar-heatmap">
+    <!-- Calendar Grid -->
     <div class="heatmap-grid">
       <!-- First Week Empty Days -->
       <template v-if="!mergedOptions.hideEmptyDays">
@@ -36,12 +37,24 @@
         />
       </template>
     </div>
+
+    <!-- Heatmap Levels -->
+    <NxHeatmapLevels
+      :options="mergedOptions"
+      :min="min"
+      :max="max"
+      :range="range"
+      :step="step"
+      :levels="levels"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
+// vue
 import { ref, watch, computed, StyleValue, onUnmounted, onMounted } from 'vue';
-import { DateTime } from 'luxon';
+
+// libs
 import {
   ICalendarHeatmapOptions,
   IHeatmapDay,
@@ -49,17 +62,18 @@ import {
   IHeatmapColor,
   TippyUtils,
 } from '@ngeenx/nx-calendar-heatmap-utils';
+import NxHeatmapLevels from './NxHeatmapLevels.vue';
 
 // third party
+import { DateTime } from 'luxon';
 import 'tippy.js/dist/tippy.css';
 
-const levels = ref(4);
+const levels = ref(5);
 const min = ref(0);
 const max = ref(0);
 const range = ref(0);
 const step = ref(0);
-const colors = ref<IHeatmapColor[]>([]);
-const heatmapData = computed(() => props.heatmapData || []);
+const heatmapData = computed<IHeatmapDay[]>(() => props.heatmapData || []);
 const firstWeekOffsetDays = ref<IHeatmapDay[]>([]);
 const lastWeekOffsetDays = ref<IHeatmapDay[]>([]);
 const emptyCellStyle = ref<StyleValue>();
@@ -71,6 +85,7 @@ const defaultOptions: ICalendarHeatmapOptions = {
   tooltipDateFormat: 'MMMM d',
   locale: 'en',
   showTooltip: true,
+  hetmapLevelDirection: 'right',
   i18n: {
     months: [
       'January',
@@ -196,19 +211,10 @@ const updateHeatmapData = (): void => {
     width: (mergedOptions.value.cellSize || 15) + 'px',
   };
 
-  if (mergedOptions.value.colors) {
+  if (mergedOptions.value.colors?.length) {
     levels.value = mergedOptions.value.colors.length;
   }
 
-  if (levels.value < 4) {
-    levels.value = 4;
-
-    console.warn(
-      `CalendarHeatmap: The 'levels' option must be at least 4, but it was set to ${levels.value}.`
-    );
-  }
-
-  colors.value = mergedOptions.value.colors || [];
   min.value = 0;
   max.value = 100;
   range.value = max.value - min.value;
@@ -248,8 +254,9 @@ const updateHeatmapData = (): void => {
  * @param value - The value of the day
  */
 const getDayClass = (value: number | undefined): string => {
-  if (!colors.value.length) {
-    if (value === 0) {
+  // if we are using default colors
+  if (!mergedOptions.value.colors?.length) {
+    if (value === 0 || value === undefined) {
       return 'level-0';
     }
 
@@ -262,15 +269,20 @@ const getDayClass = (value: number | undefined): string => {
     return 'level-0';
   }
 
-  for (const color of colors.value) {
-    if (value >= color.min && value <= color.max) {
-      return color.className;
+  // if we are using custom colors and value is not undefined (empty days values are undefined)
+  if (value !== undefined) {
+    for (const color of mergedOptions.value.colors) {
+      if (color.min && color.max && value >= color.min && value <= color.max) {
+        return color.className;
+      }
     }
   }
 
-  const defaultColor = colors.value?.find(
-    (color: IHeatmapColor) => color.isDefault
-  );
+  // find default color
+  const defaultColor =
+    mergedOptions.value.colors?.find(
+      (color: IHeatmapColor) => color.isDefault
+    ) || mergedOptions.value.colors?.[0];
 
   if (defaultColor) {
     return defaultColor.className;
@@ -283,11 +295,11 @@ const getDayClass = (value: number | undefined): string => {
  * Get the class name of an empty day based on its value with leveled classes
  */
 const getEmptyDayClass = (): string => {
-  if (!colors.value.length) {
+  if (!mergedOptions.value.colors?.length) {
     return 'level-0';
   }
 
-  for (const color of colors.value) {
+  for (const color of mergedOptions.value.colors) {
     if (color.isDefault) {
       return color.className;
     }

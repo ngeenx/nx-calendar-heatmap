@@ -1,48 +1,64 @@
 .nx-calendar-heatmap {
-  @apply flex flex-col justify-center select-none;
+  @apply flex flex-col justify-center select-none gap-3;
 
   .heatmap-grid {
     @apply grid gap-[4px];
 
-    grid-template-rows: repeat(0, 15px);
-    grid-template-columns: repeat(0, 15px);
+    // grid-template-rows: repeat(0, 15px);
+    // grid-template-columns: repeat(0, 15px);
     grid-auto-flow: column;
+  }
 
-    .day {
-      @apply border transition-all duration-200 ease-in-out rounded-[3px];
+  .heatmap-levels {
+    @apply flex flex-row gap-2 justify-end items-center;
+
+    &.left {
+      @apply justify-start;
+    }
+
+    &.right {
+      @apply justify-end;
+    }
+
+    span {
+      @apply text-sm;
+    }
+  }
+
+  .day {
+    @apply border transition-all duration-200 ease-in-out rounded-[3px];
+
+    &:hover {
+      @apply opacity-60;
+    }
+
+    &.empty,
+    &.level-0 {
+      @apply cursor-default border-gray-200 bg-gray-100 dark:bg-gray-700 dark:border-gray-600;
 
       &:hover {
-        @apply opacity-60;
+        @apply bg-gray-300 dark:bg-gray-700;
       }
+    }
 
-      &.empty,
-      &.level-0 {
-        @apply cursor-default border-gray-200 bg-gray-100 dark:bg-gray-700 dark:border-gray-600;
+    &.level-1 {
+      @apply border-green-200 bg-green-100;
+    }
 
-        &:hover {
-          @apply bg-gray-300 dark:bg-gray-700;
-        }
-      }
+    &.level-2 {
+      @apply border-green-400/50 bg-green-300;
+    }
 
-      &.level-1 {
-        @apply border-green-200 bg-green-100;
-      }
+    &.level-3 {
+      @apply border-green-600/50 bg-green-500;
+    }
 
-      &.level-2 {
-        @apply border-green-400/50 bg-green-300;
-      }
+    &.level-4 {
+      @apply border-green-800/50 bg-green-700;
+    }
 
-      &.level-3 {
-        @apply border-green-600/50 bg-green-500;
-      }
-
-      &.level-4 {
-        @apply border-green-800/50 bg-green-700;
-      }
-
-      &.level-5 {
-        @apply border-green-900/50 bg-green-800;
-      }
+    &.level-5 {
+      @apply border-green-900/50 bg-green-800;
     }
   }
 }
