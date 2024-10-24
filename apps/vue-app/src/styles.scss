@@ -11,6 +11,9 @@ body,
 $dark-gray: #2f3746;
 $dark-gray-lighter: #404857;
 
+$light-gray: #f3f4f6;
+$light-gray-lighter: #e3e6e9;
+
 // #region Variant 1
 
 $variant-1-50: #fdfbed;
@@ -26,8 +29,8 @@ $variant-1-900: #6e3d19;
 $variant-1-950: #3e1f0a;
 
 .custom-variant1-level-0 {
-  background-color: $dark-gray;
-  border-color: $dark-gray-lighter;
+  background-color: $light-gray;
+  border-color: $light-gray-lighter;
 }
 .custom-variant1-level-1 {
   background-color: $variant-1-300;
@@ -50,6 +53,13 @@ $variant-1-950: #3e1f0a;
   border-color: $variant-1-800;
 }
 
+@media (prefers-color-scheme: dark) {
+  .custom-variant1-level-0 {
+    background-color: $dark-gray;
+    border-color: $dark-gray-lighter;
+  }
+}
+
 // #endregion
 
 // #region Variant 2
@@ -67,8 +77,8 @@ $variant2-900: #144666;
 $variant2-950: #0e2c43;
 
 .custom-variant2-level-0 {
-  background-color: $dark-gray;
-  border-color: $dark-gray-lighter;
+  background-color: $light-gray;
+  border-color: $light-gray-lighter;
 }
 .custom-variant2-level-1 {
   background-color: $variant2-300;
@@ -91,6 +101,13 @@ $variant2-950: #0e2c43;
   border-color: $variant2-800;
 }
 
+@media (prefers-color-scheme: dark) {
+  .custom-variant2-level-0 {
+    background-color: $dark-gray;
+    border-color: $dark-gray-lighter;
+  }
+}
+
 // #endregion
 
 // #region Variant 3
@@ -108,8 +125,8 @@ $variant3-900: #7b2121;
 $variant3-950: #430c0c;
 
 .custom-variant3-level-0 {
-  background-color: $dark-gray;
-  border-color: $dark-gray-lighter;
+  background-color: $light-gray;
+  border-color: $light-gray-lighter;
 }
 .custom-variant3-level-1 {
   background-color: $variant3-300;
@@ -132,6 +149,13 @@ $variant3-950: #430c0c;
   border-color: $variant3-800;
 }
 
+@media (prefers-color-scheme: dark) {
+  .custom-variant3-level-0 {
+    background-color: $dark-gray;
+    border-color: $dark-gray-lighter;
+  }
+}
+
 // #endregion
 
 // #region Variant 4
@@ -149,8 +173,8 @@ $variant4-900: #5b1e71;
 $variant4-950: #38074b;
 
 .custom-variant4-level-0 {
-  background-color: $variant4-900;
-  border-color: $variant4-500;
+  background-color: $light-gray;
+  border-color: $light-gray-lighter;
 }
 .custom-variant4-level-1 {
   background-color: $variant4-300;
@@ -171,6 +195,13 @@ $variant4-950: #38074b;
 .custom-variant4-level-5 {
   background-color: $variant4-700;
   border-color: $variant4-800;
+}
+
+@media (prefers-color-scheme: dark) {
+  .custom-variant4-level-0 {
+    background-color: $dark-gray;
+    border-color: $dark-gray-lighter;
+  }
 }
 
 // #endregion

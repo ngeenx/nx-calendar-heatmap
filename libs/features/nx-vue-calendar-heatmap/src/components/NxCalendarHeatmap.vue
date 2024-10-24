@@ -68,7 +68,7 @@ const defaultOptions: ICalendarHeatmapOptions = {
   type: HeatMapCalendarType.YEARLY,
   startDate: DateTime.now().startOf('year'),
   tooltipUnit: 'contribution',
-  tooltipDateFormat: 'MMMM d, yyyy',
+  tooltipDateFormat: 'MMMM d',
   locale: 'en',
   showTooltip: true,
   i18n: {
