@@ -18,6 +18,15 @@ export interface IHeatmapDay {
   count: number;
 }
 
+export interface ILocale {
+  months: string[];
+  weekdays: string[];
+  on: string;
+  less: string;
+  more: string;
+  noData: string;
+}
+
 export interface ICalendarHeatmapOptions {
   // options
   type: HeatMapCalendarType;
@@ -25,6 +34,16 @@ export interface ICalendarHeatmapOptions {
   cellSize?: number;
   colors?: IHeatmapColor[] | null;
   hideEmptyDays?: boolean;
+
+  // locale
+  locale: string;
+  i18n: ILocale;
+
+  // tooltip
+  showTooltip?: boolean;
+  tooltipUnit: string;
+  tooltipDateFormat: string;
+  tooltipFormatter?: (day: IHeatmapDay, unit: string) => string;
 
   // events
   onClick?: (day: IHeatmapDay) => void;

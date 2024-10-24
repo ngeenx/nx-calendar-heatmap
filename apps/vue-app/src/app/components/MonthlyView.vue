@@ -2,7 +2,7 @@
   <div class="flex flex-col items-start justify-start gap-3 p-5">
     <span> Monthly </span>
 
-    <div class="flex flex-row p-4 bg-white rounded-md gap-x-2 dark:bg-gray-800">
+    <div class="flex flex-row p-4 bg-white rounded-md gap-x-5 dark:bg-gray-800">
       <NxCalendarHeatmap
         v-for="(_heatmapDataMonthly, index) in heatmapData"
         :key="index"

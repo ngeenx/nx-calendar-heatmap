@@ -2,13 +2,14 @@
   <div class="nx-calendar-heatmap">
     <div class="heatmap-grid">
       <!-- First Week Empty Days -->
-      <template v-if="!props.options.hideEmptyDays">
+      <template v-if="!mergedOptions.hideEmptyDays">
         <button
           v-for="firstWeekDayOffset in firstWeekOffset"
           :key="'empty-' + firstWeekDayOffset"
           class="day"
           :class="getEmptyDayClass()"
           :style="emptyCellStyle"
+          @mouseover="tippyUtils?.lazyLoadTooltip($event, null)"
         />
       </template>
 
@@ -20,16 +21,18 @@
         :class="getDayClass(day.count)"
         :style="getGridPosition(index)"
         @click="onDayClick(day)"
+        @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
       />
 
       <!-- Last Week Empty Days -->
-      <template v-if="!props.options.hideEmptyDays">
+      <template v-if="!mergedOptions.hideEmptyDays">
         <button
           v-for="lastWeekDayOffset in lastWeekOffset"
           :key="'empty-' + lastWeekDayOffset"
           class="day"
           :class="getEmptyDayClass()"
           :style="emptyCellStyle"
+          @mouseover="tippyUtils?.lazyLoadTooltip($event, null)"
         />
       </template>
     </div>
@@ -37,14 +40,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, computed, StyleValue } from 'vue';
+import { ref, watch, computed, StyleValue, onUnmounted, onMounted } from 'vue';
 import { DateTime } from 'luxon';
 import {
   ICalendarHeatmapOptions,
   IHeatmapDay,
   HeatMapCalendarType,
   IHeatmapColor,
+  TippyUtils,
 } from '@ngeenx/nx-calendar-heatmap-utils';
+
+// third party
+import 'tippy.js/dist/tippy.css';
 
 const levels = ref(4);
 const min = ref(0);
@@ -57,16 +64,45 @@ const firstWeekOffset = ref<number>(0);
 const lastWeekOffset = ref<number>(0);
 const emptyCellStyle = ref<StyleValue>();
 
+const defaultOptions: ICalendarHeatmapOptions = {
+  type: HeatMapCalendarType.YEARLY,
+  startDate: DateTime.now().startOf('year'),
+  tooltipUnit: 'contribution',
+  tooltipDateFormat: 'MMMM d',
+  locale: 'en',
+  showTooltip: true,
+  i18n: {
+    months: [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ],
+    weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    on: 'on',
+    less: 'less',
+    more: 'more',
+    noData: 'No Data',
+  },
+};
+
+let tippyUtils: TippyUtils | undefined;
+
 /**
  * Component props
  */
 const props = defineProps({
   options: {
     type: Object as () => ICalendarHeatmapOptions,
-    default: () => ({
-      type: 'yearly',
-      startDate: DateTime.now().startOf('year').toISODate(),
-    }),
+    default: () => ({}),
   },
   heatmapData: {
     type: Array as () => IHeatmapDay[],
@@ -74,12 +110,23 @@ const props = defineProps({
   },
 });
 
+const mergedOptions = computed(() => {
+  return {
+    ...defaultOptions,
+    ...props.options,
+    i18n: {
+      ...defaultOptions.i18n,
+      ...props.options.i18n,
+    },
+  };
+});
+
 /**
  * Calculate the number of empty cells before the first date
  *
  * @param startDate - The start date (luxon)
  */
-const calculateFirstWeekOffset = (startDate: DateTime) => {
+const calculateFirstWeekOffset = (startDate: DateTime): number => {
   // Luxon: 1 = Monday, 7 = Sunday
   const weekday = startDate.weekday;
 
@@ -94,7 +141,7 @@ const calculateFirstWeekOffset = (startDate: DateTime) => {
  *
  * @param endDate - The end date (luxon)
  */
-const calculateLastWeekOffset = (endDate: DateTime) => {
+const calculateLastWeekOffset = (endDate: DateTime): number => {
   // Luxon: 1 = Monday, 7 = Sunday
   const weekday = endDate.weekday;
 
@@ -108,19 +155,19 @@ const calculateLastWeekOffset = (endDate: DateTime) => {
  * @param index
  */
 const getGridPosition = (index: number): StyleValue => {
-  if (props.options.type === HeatMapCalendarType.WEEKLY) {
+  if (mergedOptions.value.type === HeatMapCalendarType.WEEKLY) {
     return {
       gridRow: 1,
       gridColumn: index + 1,
-      height: (props.options.cellSize || 15) + 'px',
-      width: (props.options.cellSize || 15) + 'px',
+      height: (mergedOptions.value.cellSize || 15) + 'px',
+      width: (mergedOptions.value.cellSize || 15) + 'px',
     };
   } else {
     return {
       gridRow: ((index + firstWeekOffset.value) % 7) + 1,
       gridColumn: Math.floor((index + firstWeekOffset.value) / 7) + 1,
-      height: (props.options.cellSize || 15) + 'px',
-      width: (props.options.cellSize || 15) + 'px',
+      height: (mergedOptions.value.cellSize || 15) + 'px',
+      width: (mergedOptions.value.cellSize || 15) + 'px',
     };
   }
 };
@@ -130,12 +177,12 @@ const getGridPosition = (index: number): StyleValue => {
  */
 const updateHeatmapData = (): void => {
   emptyCellStyle.value = {
-    height: (props.options.cellSize || 15) + 'px',
-    width: (props.options.cellSize || 15) + 'px',
+    height: (mergedOptions.value.cellSize || 15) + 'px',
+    width: (mergedOptions.value.cellSize || 15) + 'px',
   };
 
-  if (props.options.colors) {
-    levels.value = props.options.colors.length;
+  if (mergedOptions.value.colors) {
+    levels.value = mergedOptions.value.colors.length;
   }
 
   if (levels.value < 4) {
@@ -146,13 +193,13 @@ const updateHeatmapData = (): void => {
     );
   }
 
-  colors.value = props.options.colors || [];
+  colors.value = mergedOptions.value.colors || [];
   min.value = 0;
   max.value = 100;
   range.value = max.value - min.value;
   step.value = range.value / levels.value;
 
-  const { type, startDate } = props.options;
+  const { type, startDate } = mergedOptions.value;
 
   let endDate: DateTime;
 
@@ -173,8 +220,6 @@ const updateHeatmapData = (): void => {
 
       break;
   }
-
-  // heatmapData.value = generateHeatmapData(DateTime.fromISO(startDate), endDate);
 
   if (type !== HeatMapCalendarType.WEEKLY) {
     firstWeekOffset.value = calculateFirstWeekOffset(startDate);
@@ -242,15 +287,24 @@ const getEmptyDayClass = (): string => {
  * @param day - The day to click
  */
 const onDayClick = (day: IHeatmapDay): void => {
-  if (props.options.onClick !== undefined) {
-    props.options.onClick(day);
+  if (mergedOptions.value.onClick !== undefined) {
+    mergedOptions.value.onClick(day);
   }
 };
 
 /**
  * Watch for changes in the options and update the heatmap data
  */
-watch(() => props.options, updateHeatmapData, { immediate: true });
+watch(() => mergedOptions.value, updateHeatmapData, { immediate: true });
+
+onMounted(() => {
+  tippyUtils = new TippyUtils(mergedOptions.value);
+  tippyUtils.init();
+});
+
+onUnmounted(() => {
+  tippyUtils?.destroy();
+});
 </script>
 
 <style scoped lang="scss">

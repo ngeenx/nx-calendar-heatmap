@@ -11,6 +11,10 @@
 </template>
 
 <script setup lang="ts">
+// vue
+import { onMounted, ref, watch } from 'vue';
+
+// libs
 import { NxCalendarHeatmap } from '@ngeenx/nx-vue-calendar-heatmap';
 import {
   IHeatmapDay,
@@ -18,8 +22,9 @@ import {
   ICalendarHeatmapOptions,
   IHeatmapColor,
 } from '@ngeenx/nx-calendar-heatmap-utils';
+
+// third party
 import { DateTime } from 'luxon';
-import { onMounted, ref, watch } from 'vue';
 
 /**
  * Component props
