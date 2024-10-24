@@ -15,8 +15,8 @@ export class TippyUtils {
   /**
    * Init tippy.js singleton and instances
    */
-  public init = (): void => {
-    this.tippyInstances.clear();
+  public init(): void {
+    this.tippyInstances?.clear();
 
     if (this.tippySingletonInstance) {
       this.tippySingletonInstance.setInstances(
@@ -32,13 +32,23 @@ export class TippyUtils {
         }
       );
     }
-  };
+  }
+
+  public reset(): void {
+    console.log(this.tippyInstances);
+
+    this.tippyInstances?.clear();
+    this.tippySingletonInstance?.setInstances([]);
+    console.log(this.tippyInstances);
+    // this.destroy();
+    // this.init();
+  }
 
   /**
    * Destroy tippy.js singleton and tippy instances
    */
-  public destroy = (): void => {
+  public destroy(): void {
     this.tippySingletonInstance?.destroy();
     this.tippyInstances?.forEach((item: Instance<Props>) => item.destroy());
-  };
+  }
 }

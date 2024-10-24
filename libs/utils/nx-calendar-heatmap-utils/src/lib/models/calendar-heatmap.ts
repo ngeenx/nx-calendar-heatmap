@@ -36,6 +36,7 @@ export enum HeatmapLevelsDirection {
 export interface IHeatmapLevels {
   display?: boolean;
   direction?: HeatmapLevelsDirection;
+  tooltipFormatter?: (color: IHeatmapColor) => string;
 }
 
 export interface ICalendarHeatmapOptions {

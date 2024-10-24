@@ -21,6 +21,7 @@
         height: (props.options.cellSize || 15) - 2 + 'px',
       }"
       :class="getDayClass(color.min)"
+      @mouseover="tippyUtils?.lazyLoadTooltip($event, color)"
     />
 
     <!-- More -->
@@ -31,13 +32,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import {
   ICalendarHeatmapOptions,
   IHeatmapColor,
+  LevelsTippyUtils,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 
 const colors = ref<IHeatmapColor[]>([]);
+let tippyUtils: LevelsTippyUtils | undefined;
 
 const props = defineProps({
   options: {
@@ -119,8 +122,23 @@ const getDayClass = (value: number | undefined): string => {
   return 'level-0';
 };
 
+watch(
+  () => props.options,
+  () => {
+    updateLevelMap();
+    tippyUtils?.reset();
+  }
+);
+
 onMounted(() => {
   updateLevelMap();
+
+  tippyUtils = new LevelsTippyUtils(props.options);
+  tippyUtils.init();
+});
+
+onUnmounted(() => {
+  tippyUtils?.destroy();
 });
 </script>
 
