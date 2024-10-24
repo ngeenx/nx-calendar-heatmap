@@ -20,12 +20,12 @@ export interface IHeatmapDay {
 }
 
 export interface ILocale {
-  months: string[];
-  weekdays: string[];
-  on: string;
-  less: string;
-  more: string;
-  noData: string;
+  months?: string[];
+  weekdays?: string[];
+  on?: string;
+  less?: string;
+  more?: string;
+  noData?: string;
 }
 
 export interface ICalendarHeatmapOptions {
@@ -39,13 +39,13 @@ export interface ICalendarHeatmapOptions {
   hetmapLevelDirection?: "left" | "right";
 
   // locale
-  locale: string;
-  i18n: ILocale;
+  locale?: string;
+  i18n?: ILocale;
 
   // tooltip
   showTooltip?: boolean;
-  tooltipUnit: string;
-  tooltipDateFormat: string;
+  tooltipUnit?: string;
+  tooltipDateFormat?: string;
   tooltipFormatter?: (day: IHeatmapDay, unit: string) => string;
 
   // events

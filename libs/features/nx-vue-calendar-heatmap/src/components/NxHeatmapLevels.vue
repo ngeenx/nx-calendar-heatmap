@@ -8,7 +8,7 @@
   >
     <!-- Less -->
     <span>
-      {{ props.options.i18n.less }}
+      {{ props.options.i18n?.less }}
     </span>
 
     <!-- Level -->
@@ -25,7 +25,7 @@
 
     <!-- More -->
     <span>
-      {{ props.options.i18n.more }}
+      {{ props.options.i18n?.more }}
     </span>
   </div>
 </template>

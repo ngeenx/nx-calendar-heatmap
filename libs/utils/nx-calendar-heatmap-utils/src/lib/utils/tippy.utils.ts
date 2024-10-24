@@ -83,18 +83,21 @@ export class TippyUtils {
       if (day?.count !== undefined) {
         // format with custom formatter
         if (this.options.tooltipFormatter) {
-          return this.options.tooltipFormatter(day, this.options.tooltipUnit);
+          return this.options.tooltipFormatter(
+            day,
+            this.options.tooltipUnit ?? "contributions"
+          );
         }
 
         // default tooltip content
         return `<b>${day.count}</b> ${this.options.tooltipUnit} ${
-          this.options.i18n.on
-        } ${day.date.toFormat(this.options.tooltipDateFormat)}`;
-      } else if (this.options.i18n.noData) {
+          this.options.i18n?.on
+        } ${day.date.toFormat(this.options.tooltipDateFormat ?? "MMMM d")}`;
+      } else if (this.options.i18n?.noData) {
         // no data
-        return `${this.options.i18n.noData} ${this.options.tooltipUnit} ${
-          this.options.i18n.on
-        } ${day.date.toFormat(this.options.tooltipDateFormat)}`;
+        return `${this.options.i18n?.noData} ${this.options.tooltipUnit} ${
+          this.options.i18n?.on
+        } ${day.date.toFormat(this.options.tooltipDateFormat ?? "MMMM d")}`;
       }
     }
 
