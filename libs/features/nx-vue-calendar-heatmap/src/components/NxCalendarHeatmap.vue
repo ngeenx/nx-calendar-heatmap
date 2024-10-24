@@ -66,7 +66,7 @@ import {
   IHeatmapDay,
   HeatMapCalendarType,
   IHeatmapColor,
-  TippyUtils,
+  DayTippyUtils,
   HeatmapLevelsDirection,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 import NxHeatmapLevels from './NxHeatmapLevels.vue';
@@ -119,7 +119,7 @@ const defaultOptions: ICalendarHeatmapOptions = {
   },
 };
 
-let tippyUtils: TippyUtils | undefined;
+let tippyUtils: DayTippyUtils | undefined;
 
 /**
  * Component props
@@ -337,7 +337,7 @@ const onDayClick = (day: IHeatmapDay): void => {
 watch(() => mergedOptions.value, updateHeatmapData, { immediate: true });
 
 onMounted(() => {
-  tippyUtils = new TippyUtils(mergedOptions.value);
+  tippyUtils = new DayTippyUtils(mergedOptions.value);
   tippyUtils.init();
 });
 
