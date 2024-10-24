@@ -4,12 +4,12 @@
       <!-- First Week Empty Days -->
       <template v-if="!mergedOptions.hideEmptyDays">
         <button
-          v-for="firstWeekDayOffset in firstWeekOffset"
-          :key="'empty-' + firstWeekDayOffset"
+          v-for="day in firstWeekOffsetDays"
+          :key="'empty-' + day.data"
           class="day"
           :class="getEmptyDayClass()"
           :style="emptyCellStyle"
-          @mouseover="tippyUtils?.lazyLoadTooltip($event, null)"
+          @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
         />
       </template>
 
@@ -27,12 +27,12 @@
       <!-- Last Week Empty Days -->
       <template v-if="!mergedOptions.hideEmptyDays">
         <button
-          v-for="lastWeekDayOffset in lastWeekOffset"
-          :key="'empty-' + lastWeekDayOffset"
+          v-for="day in lastWeekOffsetDays"
+          :key="'empty-' + day.data"
           class="day"
           :class="getEmptyDayClass()"
           :style="emptyCellStyle"
-          @mouseover="tippyUtils?.lazyLoadTooltip($event, null)"
+          @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
         />
       </template>
     </div>
@@ -60,15 +60,15 @@ const range = ref(0);
 const step = ref(0);
 const colors = ref<IHeatmapColor[]>([]);
 const heatmapData = computed(() => props.heatmapData || []);
-const firstWeekOffset = ref<number>(0);
-const lastWeekOffset = ref<number>(0);
+const firstWeekOffsetDays = ref<IHeatmapDay[]>([]);
+const lastWeekOffsetDays = ref<IHeatmapDay[]>([]);
 const emptyCellStyle = ref<StyleValue>();
 
 const defaultOptions: ICalendarHeatmapOptions = {
   type: HeatMapCalendarType.YEARLY,
   startDate: DateTime.now().startOf('year'),
   tooltipUnit: 'contribution',
-  tooltipDateFormat: 'MMMM d',
+  tooltipDateFormat: 'MMMM d, yyyy',
   locale: 'en',
   showTooltip: true,
   i18n: {
@@ -90,7 +90,7 @@ const defaultOptions: ICalendarHeatmapOptions = {
     on: 'on',
     less: 'less',
     more: 'more',
-    noData: 'No Data',
+    noData: 'No',
   },
 };
 
@@ -126,14 +126,20 @@ const mergedOptions = computed(() => {
  *
  * @param startDate - The start date (luxon)
  */
-const calculateFirstWeekOffset = (startDate: DateTime): number => {
+const calculateFirstWeekOffset = (startDate: DateTime): IHeatmapDay[] => {
   // Luxon: 1 = Monday, 7 = Sunday
   const weekday = startDate.weekday;
 
-  // console.log(startDate.weekday);
-
   // Sunday (7) needs 6 empty cells, Monday (1) needs 0
-  return weekday === 7 ? 6 : weekday - 1;
+  return Array.from(
+    { length: weekday === 7 ? 6 : weekday - 1 },
+    (_, i) =>
+      <IHeatmapDay>{
+        date: startDate.minus({ days: i }),
+        count: undefined,
+        data: i,
+      }
+  );
 };
 
 /**
@@ -141,12 +147,20 @@ const calculateFirstWeekOffset = (startDate: DateTime): number => {
  *
  * @param endDate - The end date (luxon)
  */
-const calculateLastWeekOffset = (endDate: DateTime): number => {
+const calculateLastWeekOffset = (endDate: DateTime): IHeatmapDay[] => {
   // Luxon: 1 = Monday, 7 = Sunday
   const weekday = endDate.weekday;
 
   // Sunday (7) needs 0 empty cells, Monday (1) needs 6
-  return weekday === 7 ? 0 : 7 - weekday;
+  return Array.from(
+    { length: weekday === 7 ? 0 : 7 - weekday },
+    (_, i) =>
+      <IHeatmapDay>{
+        date: endDate.minus({ days: i }),
+        count: undefined,
+        data: i,
+      }
+  );
 };
 
 /**
@@ -164,8 +178,9 @@ const getGridPosition = (index: number): StyleValue => {
     };
   } else {
     return {
-      gridRow: ((index + firstWeekOffset.value) % 7) + 1,
-      gridColumn: Math.floor((index + firstWeekOffset.value) / 7) + 1,
+      gridRow: ((index + firstWeekOffsetDays.value.length) % 7) + 1,
+      gridColumn:
+        Math.floor((index + firstWeekOffsetDays.value.length) / 7) + 1,
       height: (mergedOptions.value.cellSize || 15) + 'px',
       width: (mergedOptions.value.cellSize || 15) + 'px',
     };
@@ -222,8 +237,8 @@ const updateHeatmapData = (): void => {
   }
 
   if (type !== HeatMapCalendarType.WEEKLY) {
-    firstWeekOffset.value = calculateFirstWeekOffset(startDate);
-    lastWeekOffset.value = calculateLastWeekOffset(endDate);
+    firstWeekOffsetDays.value = calculateFirstWeekOffset(startDate);
+    lastWeekOffsetDays.value = calculateLastWeekOffset(endDate);
   }
 };
 
@@ -232,7 +247,7 @@ const updateHeatmapData = (): void => {
  *
  * @param value - The value of the day
  */
-const getDayClass = (value: number): string => {
+const getDayClass = (value: number | undefined): string => {
   if (!colors.value.length) {
     if (value === 0) {
       return 'level-0';

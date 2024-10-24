@@ -15,7 +15,8 @@ export interface IHeatmapColor {
 
 export interface IHeatmapDay {
   date: DateTime;
-  count: number;
+  count?: number;
+  data?: unknown;
 }
 
 export interface ILocale {

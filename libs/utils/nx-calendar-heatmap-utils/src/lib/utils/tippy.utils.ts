@@ -87,16 +87,14 @@ export class TippyUtils {
         }
 
         // default tooltip content
-        return `<b>${day.count} ${this.options.tooltipUnit}</b> ${
+        return `<b>${day.count}</b> ${this.options.tooltipUnit} ${
           this.options.i18n.on
         } ${day.date.toFormat(this.options.tooltipDateFormat)}`;
       } else if (this.options.i18n.noData) {
         // no data
-        return `<b>${this.options.i18n.noData} ${
-          this.options.tooltipUnit
-        }</b> ${this.options.i18n.on} ${day.date.toFormat(
-          this.options.tooltipDateFormat
-        )}`;
+        return `${this.options.i18n.noData} ${this.options.tooltipUnit} ${
+          this.options.i18n.on
+        } ${day.date.toFormat(this.options.tooltipDateFormat)}`;
       }
     }
 
