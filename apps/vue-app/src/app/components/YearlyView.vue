@@ -21,6 +21,7 @@ import {
   HeatMapCalendarType,
   ICalendarHeatmapOptions,
   IHeatmapColor,
+  HeatmapLevelsDirection,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 
 // third party
@@ -40,6 +41,12 @@ const props = defineProps({
       return DateTime.now().year;
     },
   },
+  selectedHeatmapLevelState: {
+    type: Boolean,
+    default: () => {
+      return true;
+    },
+  },
 });
 
 const startDate = ref(DateTime.now().startOf('year'));
@@ -55,6 +62,10 @@ const options = ref<ICalendarHeatmapOptions>({
   cellSize: 15,
   hideEmptyDays: false,
   colors: props.selectedColorVariant,
+  heatmapLevels: {
+    display: props.selectedHeatmapLevelState,
+    direction: HeatmapLevelsDirection.RIGHT,
+  },
   onClick: onDayClick,
 });
 
@@ -103,6 +114,19 @@ watch(
     };
 
     heatmapData.value = generateHeatmapData(startDate.value);
+  }
+);
+
+watch(
+  () => props.selectedHeatmapLevelState,
+  () => {
+    options.value = {
+      ...options.value,
+      heatmapLevels: {
+        ...options.value.heatmapLevels,
+        display: props.selectedHeatmapLevelState,
+      },
+    };
   }
 );
 

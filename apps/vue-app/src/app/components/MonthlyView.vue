@@ -26,7 +26,7 @@ import {
   HeatMapCalendarType,
   ICalendarHeatmapOptions,
   IHeatmapColor,
-  IHeatmapLevels,
+  HeatmapLevelsDirection,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 import { DateTime } from 'luxon';
 import { onMounted, ref, watch } from 'vue';
@@ -43,6 +43,12 @@ const props = defineProps({
     type: Number,
     default: () => {
       return DateTime.now().year;
+    },
+  },
+  selectedHeatmapLevelState: {
+    type: Boolean,
+    default: () => {
+      return true;
     },
   },
 });
@@ -66,9 +72,9 @@ const options = ref<ICalendarHeatmapOptions>({
   hideEmptyDays: false,
   colors: props.selectedColorVariant,
   onClick: onDayClick,
-  heatmapLevels: <IHeatmapLevels>{
-    direction: 'left',
-    display: false,
+  heatmapLevels: {
+    display: props.selectedHeatmapLevelState,
+    direction: HeatmapLevelsDirection.RIGHT,
   },
 });
 
@@ -128,6 +134,19 @@ watch(
     options.value = {
       ...options.value,
       colors: props.selectedColorVariant,
+    };
+  }
+);
+
+watch(
+  () => props.selectedHeatmapLevelState,
+  () => {
+    options.value = {
+      ...options.value,
+      heatmapLevels: {
+        ...options.value.heatmapLevels,
+        display: props.selectedHeatmapLevelState,
+      },
     };
   }
 );

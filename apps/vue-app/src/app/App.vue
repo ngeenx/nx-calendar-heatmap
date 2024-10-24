@@ -1,45 +1,76 @@
 <template>
   <div class="flex flex-col w-full h-full dark:bg-gray-900">
-    <div class="flex flex-row gap-5">
-      <select
-        v-model="selectedYear"
-        class="w-6/12 p-2 m-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
-      >
-        <option v-for="(year, index) in years" :key="index">
-          {{ year }}
-        </option>
-      </select>
+    <div class="flex flex-row gap-5 p-3">
+      <!-- Year -->
+      <div class="flex flex-col w-4/12 gap-3 m-2">
+        <span> Year </span>
 
-      <select
-        class="w-6/12 p-2 m-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
-        @change="onColorVariantChange($event)"
-      >
-        <option value="default">Default</option>
-        <option
-          v-for="(variant, index) in heatmapColorsVariants"
-          :key="index"
-          class="text-gray-800"
-          :class="variant[heatmapColorsVariants.length - 1].className"
+        <select
+          v-model="selectedYear"
+          class="p-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
         >
-          {{ variant[0].className }}
-        </option>
-      </select>
+          <option v-for="(year, index) in years" :key="index">
+            {{ year }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Color Variant -->
+      <div class="flex flex-col w-4/12 gap-3 m-2">
+        <span> Color Variant </span>
+
+        <select
+          class="p-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
+          @change="onColorVariantChange($event)"
+        >
+          <option value="default">Default</option>
+          <option
+            v-for="(variant, index) in heatmapColorsVariants"
+            :key="index"
+            class="text-gray-800"
+            :class="variant[heatmapColorsVariants.length - 1].className"
+          >
+            {{ variant[0].className }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Display Heatmap Level -->
+      <div class="flex flex-col w-4/12 gap-3 m-2">
+        <span> Display Heatmap Level </span>
+
+        <select
+          v-model="selectedHeatmapLevelState"
+          class="p-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
+        >
+          <option
+            v-for="(option, index) in heatmapLevelDisplayOptions"
+            :key="index"
+            :value="Boolean(option)"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div class="flex flex-col items-start justify-start">
       <YearlyView
         :selected-color-variant="selectedColorVariant"
         :selected-year="Number(selectedYear)"
+        :selected-heatmap-level-state="selectedHeatmapLevelState"
       />
 
       <MonthlyView
         :selected-color-variant="selectedColorVariant"
         :selected-year="Number(selectedYear)"
+        :selected-heatmap-level-state="selectedHeatmapLevelState"
       />
 
       <WeeklyView
         :selected-color-variant="selectedColorVariant"
         :selected-year="Number(selectedYear)"
+        :selected-heatmap-level-state="selectedHeatmapLevelState"
       />
     </div>
   </div>
@@ -195,6 +226,9 @@ const heatmapColorsVariants: IHeatmapColor[][] = [
     },
   ],
 ];
+
+const selectedHeatmapLevelState = ref<boolean>(true);
+const heatmapLevelDisplayOptions: boolean[] = [true, false];
 
 const years = ref<number[]>(
   Array.from({ length: 30 }, (_, i) => i + 1998).reverse()

@@ -35,6 +35,12 @@ const props = defineProps({
       return DateTime.now().year;
     },
   },
+  selectedHeatmapLevelState: {
+    type: Boolean,
+    default: () => {
+      return true;
+    },
+  },
 });
 
 const startDate = ref(DateTime.now().startOf('year'));
@@ -97,6 +103,19 @@ watch(
     options.value = {
       ...options.value,
       startDate: startDate.value,
+    };
+  }
+);
+
+watch(
+  () => props.selectedHeatmapLevelState,
+  () => {
+    options.value = {
+      ...options.value,
+      heatmapLevels: {
+        ...options.value.heatmapLevels,
+        display: props.selectedHeatmapLevelState,
+      },
     };
   }
 );
