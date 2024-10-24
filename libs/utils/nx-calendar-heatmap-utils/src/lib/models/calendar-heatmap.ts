@@ -28,6 +28,16 @@ export interface ILocale {
   noData?: string;
 }
 
+export enum HeatmapLevelsDirection {
+  LEFT = "left",
+  RIGHT = "right",
+}
+
+export interface IHeatmapLevels {
+  display?: boolean;
+  direction?: HeatmapLevelsDirection;
+}
+
 export interface ICalendarHeatmapOptions {
   // options
   type: HeatMapCalendarType;
@@ -35,8 +45,9 @@ export interface ICalendarHeatmapOptions {
   cellSize?: number;
   colors?: IHeatmapColor[] | null;
   hideEmptyDays?: boolean;
-  hideHeatmpaLevels?: boolean;
-  hetmapLevelDirection?: "left" | "right";
+
+  // levels
+  heatmapLevels?: IHeatmapLevels;
 
   // locale
   locale?: string;

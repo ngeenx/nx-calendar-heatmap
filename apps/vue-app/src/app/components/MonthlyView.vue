@@ -26,6 +26,7 @@ import {
   HeatMapCalendarType,
   ICalendarHeatmapOptions,
   IHeatmapColor,
+  IHeatmapLevels,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 import { DateTime } from 'luxon';
 import { onMounted, ref, watch } from 'vue';
@@ -65,6 +66,10 @@ const options = ref<ICalendarHeatmapOptions>({
   hideEmptyDays: false,
   colors: props.selectedColorVariant,
   onClick: onDayClick,
+  heatmapLevels: <IHeatmapLevels>{
+    direction: 'left',
+    display: false,
+  },
 });
 
 const generateHeatmapData = (startDate: DateTime) => {

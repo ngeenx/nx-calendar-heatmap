@@ -45,7 +45,7 @@
 
     <!-- Heatmap Levels -->
     <NxHeatmapLevels
-      v-if="!mergedOptions.hideHeatmpaLevels"
+      v-if="mergedOptions.heatmapLevels?.display"
       :options="mergedOptions"
       :min="min"
       :max="max"
@@ -67,6 +67,7 @@ import {
   HeatMapCalendarType,
   IHeatmapColor,
   TippyUtils,
+  HeatmapLevelsDirection,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 import NxHeatmapLevels from './NxHeatmapLevels.vue';
 
@@ -91,8 +92,10 @@ const defaultOptions: ICalendarHeatmapOptions = {
   tooltipDateFormat: 'MMMM d',
   locale: 'en',
   showTooltip: true,
-  hetmapLevelDirection: 'right',
-  hideHeatmpaLevels: false,
+  heatmapLevels: {
+    display: true,
+    direction: HeatmapLevelsDirection.RIGHT,
+  },
   i18n: {
     months: [
       'January',
