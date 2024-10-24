@@ -17,8 +17,8 @@
       :key="index"
       class="day"
       :style="{
-        width: (props.options.cellSize || 15) - 3 + 'px',
-        height: (props.options.cellSize || 15) - 3 + 'px',
+        width: (props.options.cellSize || 15) - 2 + 'px',
+        height: (props.options.cellSize || 15) - 2 + 'px',
       }"
       :class="getDayClass(color.min)"
     />

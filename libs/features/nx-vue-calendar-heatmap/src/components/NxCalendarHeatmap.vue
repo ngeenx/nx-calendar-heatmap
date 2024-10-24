@@ -1,7 +1,12 @@
 <template>
   <div class="nx-calendar-heatmap">
     <!-- Calendar Grid -->
-    <div class="heatmap-grid">
+    <div
+      class="heatmap-grid"
+      :class="{
+        monthly: mergedOptions.type === HeatMapCalendarType.MONTHLY,
+      }"
+    >
       <!-- First Week Empty Days -->
       <template v-if="!mergedOptions.hideEmptyDays">
         <button
@@ -40,6 +45,7 @@
 
     <!-- Heatmap Levels -->
     <NxHeatmapLevels
+      v-if="!mergedOptions.hideHeatmpaLevels"
       :options="mergedOptions"
       :min="min"
       :max="max"
@@ -86,6 +92,7 @@ const defaultOptions: ICalendarHeatmapOptions = {
   locale: 'en',
   showTooltip: true,
   hetmapLevelDirection: 'right',
+  hideHeatmpaLevels: false,
   i18n: {
     months: [
       'January',

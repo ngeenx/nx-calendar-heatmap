@@ -4,9 +4,12 @@
   .heatmap-grid {
     @apply grid gap-[4px];
 
-    // grid-template-rows: repeat(0, 15px);
-    // grid-template-columns: repeat(0, 15px);
     grid-auto-flow: column;
+
+    &.monthly {
+      grid-template-rows: repeat(5, 15px);
+      grid-template-columns: repeat(5, 15px);
+    }
   }
 
   .heatmap-levels {

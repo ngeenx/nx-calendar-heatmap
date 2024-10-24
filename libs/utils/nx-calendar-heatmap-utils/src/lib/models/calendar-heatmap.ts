@@ -35,6 +35,7 @@ export interface ICalendarHeatmapOptions {
   cellSize?: number;
   colors?: IHeatmapColor[] | null;
   hideEmptyDays?: boolean;
+  hideHeatmpaLevels?: boolean;
   hetmapLevelDirection?: "left" | "right";
 
   // locale
