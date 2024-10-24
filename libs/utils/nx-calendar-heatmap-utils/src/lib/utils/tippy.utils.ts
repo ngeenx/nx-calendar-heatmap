@@ -35,13 +35,8 @@ export class TippyUtils {
   }
 
   public reset(): void {
-    console.log(this.tippyInstances);
-
     this.tippyInstances?.clear();
     this.tippySingletonInstance?.setInstances([]);
-    console.log(this.tippyInstances);
-    // this.destroy();
-    // this.init();
   }
 
   /**

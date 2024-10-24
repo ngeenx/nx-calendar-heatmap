@@ -1,6 +1,36 @@
 .nx-calendar-heatmap {
   @apply flex flex-col justify-center select-none gap-3;
 
+  .calendar-container {
+    .weekdays-container {
+      @apply flex flex-row gap-3;
+
+      .months-container {
+        @apply flex flex-col gap-1;
+
+        .months {
+          @apply flex flex-row;
+
+          span {
+            @apply text-[12.5px] w-[83px];
+
+            &.centered {
+              @apply text-center;
+            }
+          }
+        }
+      }
+
+      .weekdays {
+        @apply flex flex-col items-start justify-end;
+
+        span {
+          @apply text-[12.5px];
+        }
+      }
+    }
+  }
+
   .heatmap-grid {
     @apply grid gap-[4px];
 

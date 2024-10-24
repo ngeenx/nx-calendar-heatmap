@@ -1,46 +1,89 @@
 <template>
   <div class="nx-calendar-heatmap">
-    <!-- Calendar Grid -->
-    <div
-      class="heatmap-grid"
-      :class="{
-        monthly: mergedOptions.type === HeatMapCalendarType.MONTHLY,
-      }"
-    >
-      <!-- First Week Empty Days -->
-      <template v-if="!mergedOptions.hideEmptyDays">
-        <button
-          v-for="day in firstWeekOffsetDays"
-          :key="'empty-' + day.data"
-          class="day"
-          :class="getEmptyDayClass()"
-          :style="emptyCellStyle"
-          @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
-        />
-      </template>
+    <!-- Calendar Container -->
+    <div class="calendar-container">
+      <div class="weekdays-container">
+        <!-- Weekdays -->
+        <div
+          v-if="mergedOptions.type !== HeatMapCalendarType.WEEKLY"
+          class="weekdays"
+        >
+          <span
+            v-for="(weekday, index) in mergedOptions.i18n?.weekdays"
+            :key="index"
+          >
+            {{ weekday }}
+          </span>
+        </div>
 
-      <!-- Available Days -->
-      <button
-        v-for="(day, index) in heatmapData"
-        :key="index"
-        class="day"
-        :class="getDayClass(day.count)"
-        :style="getGridPosition(index)"
-        @click="onDayClick(day)"
-        @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
-      />
+        <div class="months-container">
+          <!-- Yearly -->
+          <div
+            v-if="mergedOptions.type === HeatMapCalendarType.YEARLY"
+            class="months"
+          >
+            <span
+              v-for="(month, index) of mergedOptions.i18n.months"
+              :key="index"
+            >
+              {{ month }}
+            </span>
+          </div>
 
-      <!-- Last Week Empty Days -->
-      <template v-if="!mergedOptions.hideEmptyDays">
-        <button
-          v-for="day in lastWeekOffsetDays"
-          :key="'empty-' + day.data"
-          class="day"
-          :class="getEmptyDayClass()"
-          :style="emptyCellStyle"
-          @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
-        />
-      </template>
+          <!-- Monthly -->
+          <div
+            v-if="mergedOptions.type === HeatMapCalendarType.MONTHLY"
+            class="months"
+          >
+            <span class="centered">
+              {{ mergedOptions.startDate.toFormat('LLLL') }}
+            </span>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div
+            class="heatmap-grid"
+            :class="{
+              monthly: mergedOptions.type === HeatMapCalendarType.MONTHLY,
+            }"
+          >
+            <!-- First Week Empty Days -->
+            <template v-if="!mergedOptions.hideEmptyDays">
+              <button
+                v-for="day in firstWeekOffsetDays"
+                :key="'empty-' + day.data"
+                class="day"
+                :class="getEmptyDayClass()"
+                :style="emptyCellStyle"
+                @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
+              />
+            </template>
+
+            <!-- Available Days -->
+            <button
+              v-for="(day, index) in heatmapData"
+              :key="index"
+              class="day"
+              :class="getDayClass(day.count)"
+              :style="getGridPosition(index)"
+              @click="onDayClick(day)"
+              @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
+            />
+
+            <!-- Last Week Empty Days -->
+            <template v-if="!mergedOptions.hideEmptyDays">
+              <button
+                v-for="day in lastWeekOffsetDays"
+                :key="'empty-' + day.data"
+                class="day"
+                :class="getEmptyDayClass()"
+                :style="emptyCellStyle"
+                @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
+              />
+            </template>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Heatmap Levels -->
@@ -111,7 +154,7 @@ const defaultOptions: ICalendarHeatmapOptions = {
       'November',
       'December',
     ],
-    weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    weekdays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     on: 'on',
     less: 'less',
     more: 'more',
@@ -223,6 +266,8 @@ const updateHeatmapData = (): void => {
 
   if (mergedOptions.value.colors?.length) {
     levels.value = mergedOptions.value.colors.length;
+  } else {
+    levels.value = 5;
   }
 
   min.value = 0;
