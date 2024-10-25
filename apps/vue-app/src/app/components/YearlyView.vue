@@ -66,7 +66,7 @@ const options = ref<ICalendarHeatmapOptions>({
   cellSize: 15,
   hideEmptyDays: false,
   colors: props.selectedColorVariant,
-  heatmapLevels: {
+  heatmapLegend: {
     display: props.selectedHeatmapLevelState,
     direction: HeatmapLevelsDirection.RIGHT,
   },
@@ -126,8 +126,8 @@ watch(
   () => {
     options.value = {
       ...options.value,
-      heatmapLevels: {
-        ...options.value.heatmapLevels,
+      heatmapLegend: {
+        ...options.value.heatmapLegend,
         display: props.selectedHeatmapLevelState,
       },
     };

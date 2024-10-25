@@ -2,8 +2,8 @@
   <div
     class="heatmap-levels"
     :class="{
-      left: props.options.heatmapLevels?.direction === 'left',
-      right: props.options.heatmapLevels?.direction === 'right',
+      left: props.options.heatmapLegend?.direction === 'left',
+      right: props.options.heatmapLegend?.direction === 'right',
     }"
   >
     <!-- Less -->

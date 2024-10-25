@@ -51,8 +51,8 @@ export class LevelsTippyUtils extends TippyUtils {
     heatmapColor: IHeatmapColor
   ): string | null => {
     if (this.options.tooltip?.display) {
-      if (this.options.heatmapLevels?.tooltipFormatter) {
-        return this.options.heatmapLevels.tooltipFormatter(heatmapColor);
+      if (this.options.heatmapLegend?.tooltipFormatter) {
+        return this.options.heatmapLegend.tooltipFormatter(heatmapColor);
       }
 
       if (heatmapColor.min === heatmapColor.max) {

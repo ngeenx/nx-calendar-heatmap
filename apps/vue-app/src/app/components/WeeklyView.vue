@@ -115,8 +115,8 @@ watch(
   () => {
     options.value = {
       ...options.value,
-      heatmapLevels: {
-        ...options.value.heatmapLevels,
+      heatmapLegend: {
+        ...options.value.heatmapLegend,
         display: props.selectedHeatmapLevelState,
       },
     };

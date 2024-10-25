@@ -39,7 +39,7 @@ export enum HeatmapLevelsDirection {
   RIGHT = "right",
 }
 
-export interface IHeatmapLevels {
+export interface IHeatmapLegend {
   display?: boolean;
   direction?: HeatmapLevelsDirection;
   tooltipFormatter?: (color: IHeatmapColor) => string;
@@ -62,7 +62,7 @@ export interface ICalendarHeatmapOptions {
   overWritedDayStyle?: object;
 
   // levels
-  heatmapLevels?: IHeatmapLevels;
+  heatmapLegend?: IHeatmapLegend;
 
   // locale
   locale?: string;

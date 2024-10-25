@@ -98,7 +98,7 @@
       <div class="legend">
         <!-- Heatmap Legend -->
         <NxHeatmapLegend
-          v-if="mergedOptions.heatmapLevels?.display"
+          v-if="mergedOptions.heatmapLegend?.display"
           :options="mergedOptions"
           :min="min"
           :max="max"
@@ -153,7 +153,7 @@ const defaultOptions: ICalendarHeatmapOptions = {
   tippyProps: {
     placement: 'top',
   } as Props,
-  heatmapLevels: {
+  heatmapLegend: {
     display: true,
     direction: HeatmapLevelsDirection.RIGHT,
   },
