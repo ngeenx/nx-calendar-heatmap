@@ -216,6 +216,7 @@ const getGridPosition = (index: number): StyleValue => {
       gridColumn: index + 1,
       height: (mergedOptions.value.cellSize || 15) + 'px',
       width: (mergedOptions.value.cellSize || 15) + 'px',
+      ...mergedOptions.value.overWritedDayStyle,
     };
   } else {
     return {
@@ -224,6 +225,7 @@ const getGridPosition = (index: number): StyleValue => {
         Math.floor((index + firstWeekOffsetDays.value.length) / 7) + 1,
       height: (mergedOptions.value.cellSize || 15) + 'px',
       width: (mergedOptions.value.cellSize || 15) + 'px',
+      ...mergedOptions.value.overWritedDayStyle,
     };
   }
 };
@@ -359,6 +361,10 @@ onMounted(() => {
   // tippy utils
   tippyUtils = new DayTippyUtils(mergedOptions.value);
   tippyUtils.init();
+
+  emptyCellStyle.value = {
+    ...mergedOptions.value.overWritedDayStyle,
+  };
 });
 
 onUnmounted(() => {

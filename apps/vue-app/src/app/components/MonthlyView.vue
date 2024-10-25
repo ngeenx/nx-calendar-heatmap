@@ -76,6 +76,9 @@ const options = ref<ICalendarHeatmapOptions>({
     display: props.selectedHeatmapLevelState,
     direction: HeatmapLevelsDirection.RIGHT,
   },
+  overWritedDayStyle: {
+    borderRadius: '50%',
+  },
 });
 
 const generateHeatmapData = (startDate: DateTime) => {

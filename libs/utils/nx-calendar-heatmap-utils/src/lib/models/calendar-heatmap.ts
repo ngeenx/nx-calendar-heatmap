@@ -51,6 +51,7 @@ export interface ICalendarHeatmapOptions {
   cellSize?: number;
   colors?: IHeatmapColor[] | null;
   hideEmptyDays?: boolean;
+  overWritedDayStyle?: object;
 
   // levels
   heatmapLevels?: IHeatmapLevels;
