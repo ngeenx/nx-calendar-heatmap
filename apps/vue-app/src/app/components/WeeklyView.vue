@@ -17,6 +17,7 @@ import {
   HeatMapCalendarType,
   ICalendarHeatmapOptions,
   IHeatmapColor,
+  HeatmapLevelsDirection,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 import { DateTime } from 'luxon';
 import { onMounted, ref, watch } from 'vue';
@@ -59,6 +60,9 @@ const options = ref<ICalendarHeatmapOptions>({
   onClick: onDayClick,
   tippyProps: {
     placement: 'bottom',
+  },
+  heatmapLegend: {
+    direction: HeatmapLevelsDirection.LEFT,
   },
 });
 

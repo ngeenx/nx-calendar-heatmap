@@ -199,13 +199,21 @@ const props = defineProps({
   },
 });
 
-const mergedOptions = computed(() => {
+const mergedOptions = computed((): ICalendarHeatmapOptions => {
   return {
     ...defaultOptions,
     ...props.options,
     i18n: {
       ...defaultOptions.i18n,
       ...props.options.i18n,
+    },
+    heatmapLegend: {
+      ...defaultOptions.heatmapLegend,
+      ...props.options.heatmapLegend,
+    },
+    tooltip: {
+      ...defaultOptions.tooltip,
+      ...props.options.tooltip,
     },
   };
 });
