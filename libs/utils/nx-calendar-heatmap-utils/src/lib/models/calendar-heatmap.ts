@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { Props } from "tippy.js";
 
 export enum HeatMapCalendarType {
   WEEKLY = "weekly",
@@ -61,6 +62,7 @@ export interface ICalendarHeatmapOptions {
   i18n?: ILocale;
 
   // tooltip
+  tippyProps?: Props | object;
   showTooltip?: boolean;
   tooltipUnit?: string;
   tooltipDateFormat?: string;

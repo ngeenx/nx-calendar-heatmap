@@ -26,9 +26,9 @@ export class TippyUtils {
       this.tippySingletonInstance = createSingleton(
         Array.from(this.tippyInstances.values()),
         {
-          overrides: [],
           moveTransition: "transform 0.1s ease-out",
           allowHTML: true,
+          ...(this.options.tippyProps as object),
         }
       );
     }

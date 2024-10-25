@@ -57,6 +57,9 @@ const options = ref<ICalendarHeatmapOptions>({
   hideEmptyDays: false,
   colors: props.selectedColorVariant,
   onClick: onDayClick,
+  tippyProps: {
+    placement: 'bottom',
+  },
 });
 
 const generateHeatmapData = (startDate: DateTime) => {
