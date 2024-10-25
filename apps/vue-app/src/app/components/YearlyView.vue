@@ -65,6 +65,7 @@ const options = ref<ICalendarHeatmapOptions>({
   startDate: startDate.value,
   cellSize: 15,
   hideEmptyDays: false,
+  locale: 'en',
   colors: props.selectedColorVariant,
   heatmapLegend: {
     display: props.selectedHeatmapLevelState,

@@ -1,7 +1,12 @@
 import { DateTime } from "luxon";
-import { IHeatmapDay } from "../../models/calendar-heatmap";
+import {
+  ICalendarHeatmapOptions,
+  IHeatmapDay,
+} from "../../models/calendar-heatmap";
 
 export class CalendarUtils {
+  public constructor(public readonly options: ICalendarHeatmapOptions) {}
+
   /**
    * Calculate the number of empty cells before the first date
    *
@@ -42,5 +47,23 @@ export class CalendarUtils {
           data: i,
         }
     );
+  }
+
+  public getLocalizedMonthNames(
+    locale = this.options.locale ?? "en"
+  ): string[] {
+    const months = Array.from({ length: 12 }, (_, i) => i).map(
+      (value: number): string =>
+        this.getLocalizedMonthName(
+          DateTime.local(this.options.startDate.year, value + 1, 1),
+          locale
+        )
+    );
+
+    return months;
+  }
+
+  public getLocalizedMonthName(date: DateTime, locale = "en"): string {
+    return date.setLocale(locale).toFormat("LLLL");
   }
 }

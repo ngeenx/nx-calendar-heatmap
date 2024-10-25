@@ -23,7 +23,7 @@
             class="months"
           >
             <span
-              v-for="(month, index) of mergedOptions.i18n.months"
+              v-for="(month, index) of mergedOptions.i18n?.months"
               :key="index"
             >
               {{ month }}
@@ -37,9 +37,10 @@
           >
             <span class="centered">
               {{
-                mergedOptions.startDate
-                  .setLocale(mergedOptions.locale ?? 'en')
-                  .toFormat('LLLL')
+                calendarUtils.getLocalizedMonthName(
+                  mergedOptions.startDate,
+                  mergedOptions.locale
+                )
               }}
             </span>
           </div>
@@ -158,20 +159,6 @@ const defaultOptions: ICalendarHeatmapOptions = {
     direction: HeatmapLevelsDirection.RIGHT,
   },
   i18n: {
-    months: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ],
     weekdays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     on: 'on',
     less: 'less',
@@ -183,7 +170,9 @@ const defaultOptions: ICalendarHeatmapOptions = {
 };
 
 let tippyUtils!: DayTippyUtils;
-const calendarUtils: CalendarUtils = new CalendarUtils();
+let calendarUtils: CalendarUtils = new CalendarUtils(defaultOptions);
+
+defaultOptions.i18n!.months = calendarUtils.getLocalizedMonthNames();
 
 /**
  * Component props
@@ -248,6 +237,14 @@ const getGridPosition = (index: number): StyleValue => {
  * Update the heatmap data based on the options
  */
 const updateHeatmapData = (): void => {
+  calendarUtils = new CalendarUtils(mergedOptions.value);
+  defaultOptions.i18n!.months = calendarUtils.getLocalizedMonthNames(
+    mergedOptions.value.locale
+  );
+  mergedOptions.value.i18n!.months = calendarUtils.getLocalizedMonthNames(
+    mergedOptions.value.locale
+  );
+
   emptyCellStyle.value = {
     height: (mergedOptions.value.cellSize || 15) + 'px',
     width: (mergedOptions.value.cellSize || 15) + 'px',
