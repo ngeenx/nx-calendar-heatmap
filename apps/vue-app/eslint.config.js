@@ -12,6 +12,10 @@ module.exports = [
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.vue'],
-    rules: { 'vue/multi-word-component-names': 'off' },
+    rules: {
+      'vue/multi-word-component-names': 'off',
+      'vue/max-attributes-per-line': 'off',
+      'vue/singleline-html-element-content-newline': 'off',
+    },
   },
 ];

@@ -215,11 +215,11 @@ const mergedOptions = computed((): ICalendarHeatmapOptions => {
  *
  * @param index
  */
-const getGridPosition = (index: number): StyleValue | object => {
+const getGridPosition = (index: number): StyleValue => {
   return calendarUtils.getGridPositionOfDay(
     index,
     firstWeekOffsetDays.value.length
-  );
+  ) as StyleValue;
 };
 
 /**
