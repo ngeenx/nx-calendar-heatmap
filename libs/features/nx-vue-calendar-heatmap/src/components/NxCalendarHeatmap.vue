@@ -248,6 +248,7 @@ const updateHeatmapData = (): void => {
   emptyCellStyle.value = {
     height: (mergedOptions.value.cellSize || 15) + 'px',
     width: (mergedOptions.value.cellSize || 15) + 'px',
+    ...mergedOptions.value.overWritedDayStyle,
   };
 
   if (mergedOptions.value.colors?.length) {
