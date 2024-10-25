@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "vue:start": "nx serve vue-app"
+    "vue:start": "nx serve vue-app",
+    "utils:test": "nx test nx-calendar-heatmap-utils"
   },
   "private": true,
+  "type": "module",
   "devDependencies": {
     "@angular-devkit/core": "~18.2.0",
     "@eslint/js": "^9.8.0",

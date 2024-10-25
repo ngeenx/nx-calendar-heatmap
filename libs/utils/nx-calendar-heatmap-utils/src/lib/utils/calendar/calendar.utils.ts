@@ -90,17 +90,25 @@ export class CalendarUtils {
   public getLocalizedWeekdayNames(
     locale = this.options.locale ?? "en"
   ): string[] {
-    const weekDays: string[] = [];
-    const dt = DateTime.now().setLocale(locale);
+    const weekDays: string[] = [],
+      date = DateTime.now().setLocale(locale);
 
     for (let i = 1 as const; i <= 7; i++) {
-      const day = dt.set({ weekday: i }).toLocaleString({ weekday: "short" });
+      const day = date.set({ weekday: i }).toLocaleString({ weekday: "short" });
+
       weekDays.push(day);
     }
 
     return weekDays;
   }
 
+  /**
+   * Return the grid position of a day in the calendar grid as CSS properties
+   *
+   * @param index - The index of the day
+   * @param firstWeekOffsetDayLength - The number of empty cells before the first date
+   * @returns An object with the grid position as CSS properties
+   */
   public getGridPositionOfDay = (
     index: number,
     firstWeekOffsetDayLength: number
