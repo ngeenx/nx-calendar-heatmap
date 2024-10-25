@@ -1,4 +1,7 @@
+// models
 export * from "./lib/models/calendar-heatmap";
-export * from "./lib/utils/tippy.utils";
-export * from "./lib/utils/day-tippy.utils";
-export * from "./lib/utils/levels-tippy.utils";
+
+// tippy utils
+export * from "./lib/utils/tippy/tippy.utils";
+export * from "./lib/utils/tippy/day-tippy.utils";
+export * from "./lib/utils/tippy/levels-tippy.utils";

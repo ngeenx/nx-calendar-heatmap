@@ -4,7 +4,7 @@ import {
   Instance,
   Props,
 } from "tippy.js";
-import { ICalendarHeatmapOptions } from "../models/calendar-heatmap";
+import { ICalendarHeatmapOptions } from "../../models/calendar-heatmap";
 
 export class TippyUtils {
   public tippySingletonInstance?: CreateSingletonInstance;

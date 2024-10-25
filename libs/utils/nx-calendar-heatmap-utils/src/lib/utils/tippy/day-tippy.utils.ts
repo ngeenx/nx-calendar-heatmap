@@ -1,5 +1,5 @@
 import tippy, { Props } from "tippy.js";
-import { IHeatmapDay } from "../models/calendar-heatmap";
+import { IHeatmapDay } from "../../models/calendar-heatmap";
 import { TippyUtils } from "./tippy.utils";
 
 export class DayTippyUtils extends TippyUtils {
