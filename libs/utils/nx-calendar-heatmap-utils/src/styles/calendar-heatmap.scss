@@ -1,5 +1,5 @@
 .nx-calendar-heatmap {
-  @apply flex flex-col justify-center select-none gap-3;
+  @apply flex flex-col justify-center select-none;
 
   .body {
     @apply text-gray-800 dark:text-gray-200;
@@ -45,7 +45,7 @@
   }
 
   .footer {
-    @apply flex flex-row justify-between items-center;
+    @apply flex flex-row justify-between items-center mt-3;
 
     .legend {
       @apply flex-1;
