@@ -54,8 +54,8 @@
             <!-- First Week Empty Days -->
             <template v-if="!mergedOptions.hideEmptyDays">
               <button
-                v-for="day in firstWeekOffsetDays"
-                :key="'empty-' + day.data"
+                v-for="(day, index) in firstWeekOffsetDays"
+                :key="index"
                 class="day"
                 :class="getEmptyDayClass()"
                 :style="emptyCellStyle"
@@ -77,8 +77,8 @@
             <!-- Last Week Empty Days -->
             <template v-if="!mergedOptions.hideEmptyDays">
               <button
-                v-for="day in lastWeekOffsetDays"
-                :key="'empty-' + day.data"
+                v-for="(day, index) in lastWeekOffsetDays"
+                :key="index"
                 class="day"
                 :class="getEmptyDayClass()"
                 :style="emptyCellStyle"
@@ -238,7 +238,7 @@ const calculateLastWeekOffset = (endDate: DateTime): IHeatmapDay[] => {
     { length: weekday === 7 ? 0 : 7 - weekday },
     (_, i) =>
       <IHeatmapDay>{
-        date: endDate.minus({ days: i }),
+        date: endDate.plus({ days: i }),
         count: undefined,
         data: i,
       }
