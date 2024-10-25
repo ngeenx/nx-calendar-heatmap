@@ -95,9 +95,9 @@
         <slot name="footerContent" />
       </div>
 
-      <div class="levels">
-        <!-- Heatmap Levels -->
-        <NxHeatmapLevels
+      <div class="legend">
+        <!-- Heatmap Legend -->
+        <NxHeatmapLegend
           v-if="mergedOptions.heatmapLevels?.display"
           :options="mergedOptions"
           :min="min"
@@ -125,7 +125,7 @@ import {
   HeatmapLevelsDirection,
   CalendarUtils,
 } from '@ngeenx/nx-calendar-heatmap-utils';
-import NxHeatmapLevels from './NxHeatmapLevels.vue';
+import NxHeatmapLegend from './NxHeatmapLegend.vue';
 
 // third party
 import { DateTime } from 'luxon';

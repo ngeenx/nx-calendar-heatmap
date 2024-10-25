@@ -47,10 +47,7 @@
   .footer {
     @apply flex flex-row justify-between items-center gap-3;
 
-    .footer-content {
-    }
-
-    .levels {
+    .legend {
       @apply flex-1;
 
       .heatmap-levels {
