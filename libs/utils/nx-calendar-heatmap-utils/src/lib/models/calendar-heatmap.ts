@@ -45,6 +45,13 @@ export interface IHeatmapLevels {
   tooltipFormatter?: (color: IHeatmapColor) => string;
 }
 
+export interface IHeatmapTooltip {
+  display?: boolean;
+  unit?: string;
+  dateFormat?: string;
+  tooltipFormatter?: (day: IHeatmapDay, unit: string) => string;
+}
+
 export interface ICalendarHeatmapOptions {
   // options
   type: HeatMapCalendarType;
@@ -63,10 +70,7 @@ export interface ICalendarHeatmapOptions {
 
   // tooltip
   tippyProps?: Props | object;
-  showTooltip?: boolean;
-  tooltipUnit?: string;
-  tooltipDateFormat?: string;
-  tooltipFormatter?: (day: IHeatmapDay, unit: string) => string;
+  tooltip?: IHeatmapTooltip;
 
   // events
   onClick?: (day: IHeatmapDay) => void;

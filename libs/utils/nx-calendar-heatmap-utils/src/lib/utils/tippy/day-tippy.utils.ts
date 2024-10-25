@@ -25,6 +25,7 @@ export class DayTippyUtils extends TippyUtils {
               event.target as HTMLElement,
               {
                 content: tooltipContent,
+                ...(this.options?.tippyProps as Props as object),
               } as Props
             )
           );
@@ -44,26 +45,26 @@ export class DayTippyUtils extends TippyUtils {
    * @returns HTML string
    */
   private readonly getTooltipContent = (day: IHeatmapDay): string | null => {
-    if (this.options.showTooltip) {
+    if (this.options.tooltip.display) {
       // has value
       if (day?.count !== undefined) {
         // format with custom formatter
-        if (this.options.tooltipFormatter) {
-          return this.options.tooltipFormatter(
+        if (this.options.tooltip?.tooltipFormatter) {
+          return this.options.tooltip.tooltipFormatter(
             day,
-            this.options.tooltipUnit ?? "contributions"
+            this.options.tooltip.unit ?? "contributions"
           );
         }
 
         // default tooltip content
-        return `<b>${day.count}</b> ${this.options.tooltipUnit} ${
+        return `<b>${day.count}</b> ${this.options.tooltip.unit} ${
           this.options.i18n?.on
-        } ${day.date.toFormat(this.options.tooltipDateFormat ?? "MMMM d")}`;
+        } ${day.date.toFormat(this.options.tooltip.dateFormat ?? "MMMM d")}`;
       } else if (this.options.i18n?.noData) {
         // no data
-        return `${this.options.i18n?.noData} ${this.options.tooltipUnit} ${
+        return `${this.options.i18n?.noData} ${this.options.tooltip.unit} ${
           this.options.i18n?.on
-        } ${day.date.toFormat(this.options.tooltipDateFormat ?? "MMMM d")}`;
+        } ${day.date.toFormat(this.options.tooltip.dateFormat ?? "MMMM d")}`;
       }
     }
 

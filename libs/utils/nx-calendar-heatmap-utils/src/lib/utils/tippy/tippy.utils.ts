@@ -1,6 +1,7 @@
 import {
   createSingleton,
   CreateSingletonInstance,
+  CreateSingletonProps,
   Instance,
   Props,
 } from "tippy.js";
@@ -23,13 +24,15 @@ export class TippyUtils {
         Array.from(this.tippyInstances.values())
       );
     } else {
+      const props = {
+        moveTransition: "transform 0.1s ease-out",
+        allowHTML: true,
+        ...(this.options?.tippyProps as Props as object),
+      };
+
       this.tippySingletonInstance = createSingleton(
         Array.from(this.tippyInstances.values()),
-        {
-          moveTransition: "transform 0.1s ease-out",
-          allowHTML: true,
-          ...(this.options.tippyProps as object),
-        }
+        <CreateSingletonProps<Props>>{ ...props }
       );
     }
   }

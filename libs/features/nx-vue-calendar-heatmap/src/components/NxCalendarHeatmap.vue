@@ -129,6 +129,7 @@ import NxHeatmapLegend from './NxHeatmapLegend.vue';
 
 // third party
 import { DateTime } from 'luxon';
+import { Props } from 'tippy.js';
 
 const levels = ref(5);
 const min = ref(0);
@@ -143,10 +144,15 @@ const emptyCellStyle = ref<StyleValue>();
 const defaultOptions: ICalendarHeatmapOptions = {
   type: HeatMapCalendarType.YEARLY,
   startDate: DateTime.now().startOf('year'),
-  tooltipUnit: 'contribution',
-  tooltipDateFormat: 'MMMM d',
   locale: 'en',
-  showTooltip: true,
+  tooltip: {
+    display: true,
+    unit: 'contribution',
+    dateFormat: 'MMMM d',
+  },
+  tippyProps: {
+    placement: 'top',
+  } as Props,
   heatmapLevels: {
     display: true,
     direction: HeatmapLevelsDirection.RIGHT,

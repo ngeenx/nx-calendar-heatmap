@@ -28,6 +28,7 @@ export class LevelsTippyUtils extends TippyUtils {
               event.target as HTMLElement,
               {
                 content: tooltipContent,
+                ...(this.options?.tippyProps as Props as object),
               } as Props
             )
           );
@@ -49,13 +50,13 @@ export class LevelsTippyUtils extends TippyUtils {
   private readonly getTooltipContent = (
     heatmapColor: IHeatmapColor
   ): string | null => {
-    if (this.options.showTooltip) {
+    if (this.options.tooltip?.display) {
       if (this.options.heatmapLevels?.tooltipFormatter) {
         return this.options.heatmapLevels.tooltipFormatter(heatmapColor);
       }
 
       if (heatmapColor.min === heatmapColor.max) {
-        return `${this.options.i18n?.min}: ${heatmapColor.min} ${this.options.tooltipUnit}`;
+        return `${this.options.i18n?.min}: ${heatmapColor.min} ${this.options.tooltip.unit}`;
       }
 
       return `${this.options.i18n?.min}: ${heatmapColor.min} - ${this.options.i18n?.max}: ${heatmapColor.max}`;
