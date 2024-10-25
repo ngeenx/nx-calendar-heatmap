@@ -20,12 +20,17 @@ export interface IHeatmapDay {
 }
 
 export interface ILocale {
+  // calendar
   months?: string[];
   weekdays?: string[];
   on?: string;
   less?: string;
   more?: string;
   noData?: string;
+
+  // levels
+  min?: string;
+  max?: string;
 }
 
 export enum HeatmapLevelsDirection {

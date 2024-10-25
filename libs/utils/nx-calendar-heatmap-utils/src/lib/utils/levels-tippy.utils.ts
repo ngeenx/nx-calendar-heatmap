@@ -54,7 +54,11 @@ export class LevelsTippyUtils extends TippyUtils {
         return this.options.heatmapLevels.tooltipFormatter(heatmapColor);
       }
 
-      return `${heatmapColor.min} - ${heatmapColor.max}`;
+      if (heatmapColor.min === heatmapColor.max) {
+        return `${this.options.i18n?.min}: ${heatmapColor.min} ${this.options.tooltipUnit}`;
+      }
+
+      return `${this.options.i18n?.min}: ${heatmapColor.min} - ${this.options.i18n?.max}: ${heatmapColor.max}`;
     }
 
     return null;

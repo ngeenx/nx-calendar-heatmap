@@ -1,7 +1,7 @@
 .nx-calendar-heatmap {
   @apply flex flex-col justify-center select-none gap-3;
 
-  .calendar-container {
+  .body {
     @apply text-gray-800 dark:text-gray-200;
 
     .weekdays-container {
@@ -31,37 +31,48 @@
         }
       }
     }
-  }
 
-  .heatmap-grid {
-    @apply grid gap-[4px];
+    .heatmap-grid {
+      @apply grid gap-[4px];
 
-    grid-auto-flow: column;
+      grid-auto-flow: column;
 
-    &.monthly {
-      grid-template-rows: repeat(5, 15px);
-      grid-template-columns: repeat(5, 15px);
+      &.monthly {
+        grid-template-rows: repeat(5, 15px);
+        grid-template-columns: repeat(5, 15px);
+      }
     }
   }
 
-  .heatmap-levels {
-    @apply flex flex-row gap-2 justify-end items-center
-      text-gray-800 dark:text-gray-200;
+  .footer {
+    @apply flex flex-row justify-between items-center gap-3;
 
-    &.left {
-      @apply justify-start;
+    .footer-content {
     }
 
-    &.right {
-      @apply justify-end;
-    }
+    .levels {
+      @apply flex-1;
 
-    span {
-      @apply text-sm;
-    }
+      .heatmap-levels {
+        @apply flex flex-row gap-2 justify-end items-center
+          text-gray-800 dark:text-gray-200;
 
-    .day {
-      @apply cursor-default;
+        &.left {
+          @apply justify-start;
+        }
+
+        &.right {
+          @apply justify-end;
+        }
+
+        span {
+          @apply text-sm;
+        }
+
+        .day {
+          @apply cursor-default;
+        }
+      }
     }
   }
 

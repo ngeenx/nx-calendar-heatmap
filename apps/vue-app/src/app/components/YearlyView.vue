@@ -6,7 +6,11 @@
       :options="options"
       :heatmap-data="heatmapData"
       class="p-4 border border-gray-500 rounded-md dark:bg-gray-800"
-    />
+    >
+      <template #footerContent>
+        <a href="#" class="text-blue-400"> Learn how we count contributions </a>
+      </template>
+    </NxCalendarHeatmap>
   </div>
 </template>
 

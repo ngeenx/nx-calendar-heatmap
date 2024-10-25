@@ -1,7 +1,7 @@
 <template>
   <div class="nx-calendar-heatmap">
     <!-- Calendar Container -->
-    <div class="calendar-container">
+    <div class="body">
       <div class="weekdays-container">
         <!-- Weekdays -->
         <div
@@ -90,16 +90,24 @@
       </div>
     </div>
 
-    <!-- Heatmap Levels -->
-    <NxHeatmapLevels
-      v-if="mergedOptions.heatmapLevels?.display"
-      :options="mergedOptions"
-      :min="min"
-      :max="max"
-      :range="range"
-      :step="step"
-      :levels="levels"
-    />
+    <div class="footer">
+      <div class="footer-content">
+        <slot name="footerContent" />
+      </div>
+
+      <div class="levels">
+        <!-- Heatmap Levels -->
+        <NxHeatmapLevels
+          v-if="mergedOptions.heatmapLevels?.display"
+          :options="mergedOptions"
+          :min="min"
+          :max="max"
+          :range="range"
+          :step="step"
+          :levels="levels"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -163,6 +171,8 @@ const defaultOptions: ICalendarHeatmapOptions = {
     less: 'less',
     more: 'more',
     noData: 'No',
+    min: 'min',
+    max: 'max',
   },
 };
 
