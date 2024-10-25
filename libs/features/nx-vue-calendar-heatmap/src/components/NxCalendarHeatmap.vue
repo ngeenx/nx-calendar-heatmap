@@ -123,6 +123,7 @@ import {
   IHeatmapColor,
   DayTippyUtils,
   HeatmapLevelsDirection,
+  CalendarUtils,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 import NxHeatmapLevels from './NxHeatmapLevels.vue';
 
@@ -176,7 +177,8 @@ const defaultOptions: ICalendarHeatmapOptions = {
   },
 };
 
-let tippyUtils: DayTippyUtils | undefined;
+let tippyUtils!: DayTippyUtils;
+const calendarUtils: CalendarUtils = new CalendarUtils();
 
 /**
  * Component props
@@ -202,48 +204,6 @@ const mergedOptions = computed(() => {
     },
   };
 });
-
-/**
- * Calculate the number of empty cells before the first date
- *
- * @param startDate - The start date (luxon)
- */
-const calculateFirstWeekOffset = (startDate: DateTime): IHeatmapDay[] => {
-  // Luxon: 1 = Monday, 7 = Sunday
-  const weekday = startDate.weekday;
-
-  // Sunday (7) needs 6 empty cells, Monday (1) needs 0
-  return Array.from(
-    { length: weekday === 7 ? 6 : weekday - 1 },
-    (_, i) =>
-      <IHeatmapDay>{
-        date: startDate.minus({ days: i }),
-        count: undefined,
-        data: i,
-      }
-  );
-};
-
-/**
- * Calculate the number of empty cells after the last date
- *
- * @param endDate - The end date (luxon)
- */
-const calculateLastWeekOffset = (endDate: DateTime): IHeatmapDay[] => {
-  // Luxon: 1 = Monday, 7 = Sunday
-  const weekday = endDate.weekday;
-
-  // Sunday (7) needs 0 empty cells, Monday (1) needs 6
-  return Array.from(
-    { length: weekday === 7 ? 0 : 7 - weekday },
-    (_, i) =>
-      <IHeatmapDay>{
-        date: endDate.plus({ days: i }),
-        count: undefined,
-        data: i,
-      }
-  );
-};
 
 /**
  * Grid position calculation depending on format
@@ -312,8 +272,9 @@ const updateHeatmapData = (): void => {
   }
 
   if (type !== HeatMapCalendarType.WEEKLY) {
-    firstWeekOffsetDays.value = calculateFirstWeekOffset(startDate);
-    lastWeekOffsetDays.value = calculateLastWeekOffset(endDate);
+    firstWeekOffsetDays.value =
+      calendarUtils.calculateFirstWeekOffset(startDate);
+    lastWeekOffsetDays.value = calendarUtils.calculateLastWeekOffset(endDate);
   }
 };
 
@@ -396,6 +357,7 @@ const onDayClick = (day: IHeatmapDay): void => {
 watch(() => mergedOptions.value, updateHeatmapData, { immediate: true });
 
 onMounted(() => {
+  // tippy utils
   tippyUtils = new DayTippyUtils(mergedOptions.value);
   tippyUtils.init();
 });
