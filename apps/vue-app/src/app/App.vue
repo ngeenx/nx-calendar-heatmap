@@ -106,7 +106,7 @@ import WeeklyView from './components/WeeklyView.vue';
 import { IHeatmapColor } from '@ngeenx/nx-calendar-heatmap-utils';
 
 import { DateTime } from 'luxon';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 const startDate = ref(DateTime.now().startOf('year'));
 
@@ -264,7 +264,7 @@ const locales: string[] = ['en', 'tr', 'fr', 'de', 'ja', 'zh'];
 const years = ref<number[]>(
   Array.from({ length: 30 }, (_, i) => i + 1998).reverse()
 );
-const selectedYear = ref(years.value[0]);
+const selectedYear = ref(DateTime.now().year);
 
 const onColorVariantChange = (event: any) => {
   const colorVariant = heatmapColorsVariants.find(
