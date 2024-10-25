@@ -66,4 +66,18 @@ export class CalendarUtils {
   public getLocalizedMonthName(date: DateTime, locale = "en"): string {
     return date.setLocale(locale).toFormat("LLLL");
   }
+
+  public getLocalizedWeekdayNames(
+    locale = this.options.locale ?? "en"
+  ): string[] {
+    const weekDays: string[] = [];
+    const dt = DateTime.now().setLocale(locale);
+
+    for (let i = 1 as const; i <= 7; i++) {
+      const day = dt.set({ weekday: i }).toLocaleString({ weekday: "short" });
+      weekDays.push(day);
+    }
+
+    return weekDays;
+  }
 }

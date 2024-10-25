@@ -173,6 +173,7 @@ let tippyUtils!: DayTippyUtils;
 let calendarUtils: CalendarUtils = new CalendarUtils(defaultOptions);
 
 defaultOptions.i18n!.months = calendarUtils.getLocalizedMonthNames();
+defaultOptions.i18n!.weekdays = calendarUtils.getLocalizedWeekdayNames();
 
 /**
  * Component props
@@ -242,6 +243,12 @@ const updateHeatmapData = (): void => {
     mergedOptions.value.locale
   );
   mergedOptions.value.i18n!.months = calendarUtils.getLocalizedMonthNames(
+    mergedOptions.value.locale
+  );
+  defaultOptions.i18n!.weekdays = calendarUtils.getLocalizedWeekdayNames(
+    mergedOptions.value.locale
+  );
+  mergedOptions.value.i18n!.weekdays = calendarUtils.getLocalizedWeekdayNames(
     mergedOptions.value.locale
   );
 
