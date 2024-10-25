@@ -81,7 +81,9 @@ import YearlyView from './components/YearlyView.vue';
 import MonthlyView from './components/MonthlyView.vue';
 import WeeklyView from './components/WeeklyView.vue';
 
+// lib
 import { IHeatmapColor } from '@ngeenx/nx-calendar-heatmap-utils';
+
 import { DateTime } from 'luxon';
 import { ref, watch } from 'vue';
 
@@ -257,6 +259,8 @@ watch(selectedYear, () => {
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import '../../../../libs/utils/nx-calendar-heatmap-utils/src/styles/app.component.scss';
+@import '../../../../libs/utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss';
+@import '../../../../node_modules/tippy.js/dist/tippy.css';
 </style>

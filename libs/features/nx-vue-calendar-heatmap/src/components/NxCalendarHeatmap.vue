@@ -129,7 +129,6 @@ import NxHeatmapLegend from './NxHeatmapLegend.vue';
 
 // third party
 import { DateTime } from 'luxon';
-import 'tippy.js/dist/tippy.css';
 
 const levels = ref(5);
 const min = ref(0);
@@ -366,7 +365,3 @@ onUnmounted(() => {
   tippyUtils?.destroy();
 });
 </script>
-
-<style scoped lang="scss">
-@import '../../../../utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss';
-</style>

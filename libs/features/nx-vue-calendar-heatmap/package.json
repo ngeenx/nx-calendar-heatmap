@@ -8,5 +8,9 @@
       "import": "./index.mjs",
       "require": "./index.js"
     }
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0",
+    "tippy.js": "^6.*"
   }
 }
