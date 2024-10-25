@@ -45,7 +45,7 @@ export class DayTippyUtils extends TippyUtils {
    * @returns HTML string
    */
   private readonly getTooltipContent = (day: IHeatmapDay): string | null => {
-    if (this.options.tooltip.display) {
+    if (this.options.tooltip?.display) {
       // has value
       if (day?.count !== undefined) {
         // format with custom formatter
