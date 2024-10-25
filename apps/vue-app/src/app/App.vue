@@ -55,7 +55,15 @@
 
       <!-- Locale -->
       <div class="flex flex-col w-3/12 gap-3 m-2">
-        <span> Locale </span>
+        <span>
+          Locale
+          <a
+            href="https://moment.github.io/luxon/#/intl?id=how-locales-work"
+            target="_blank"
+            class="text-blue-300 underline"
+            >how-locales-work?
+          </a>
+        </span>
 
         <select
           v-model="selectedLocale"
