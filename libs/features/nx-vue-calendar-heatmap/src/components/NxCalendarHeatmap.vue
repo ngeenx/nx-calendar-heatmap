@@ -208,94 +208,18 @@ const mergedOptions = computed((): ICalendarHeatmapOptions => {
   };
 });
 
+// #region Styling
+
 /**
  * Grid position calculation depending on format
  *
  * @param index
  */
-const getGridPosition = (index: number): StyleValue => {
-  if (mergedOptions.value.type === HeatMapCalendarType.WEEKLY) {
-    return {
-      gridRow: 1,
-      gridColumn: index + 1,
-      height: (mergedOptions.value.cellSize || 15) + 'px',
-      width: (mergedOptions.value.cellSize || 15) + 'px',
-      ...mergedOptions.value.overWritedDayStyle,
-    };
-  } else {
-    return {
-      gridRow: ((index + firstWeekOffsetDays.value.length) % 7) + 1,
-      gridColumn:
-        Math.floor((index + firstWeekOffsetDays.value.length) / 7) + 1,
-      height: (mergedOptions.value.cellSize || 15) + 'px',
-      width: (mergedOptions.value.cellSize || 15) + 'px',
-      ...mergedOptions.value.overWritedDayStyle,
-    };
-  }
-};
-
-/**
- * Update the heatmap data based on the options
- */
-const updateHeatmapData = (): void => {
-  calendarUtils = new CalendarUtils(mergedOptions.value);
-  defaultOptions.i18n!.months = calendarUtils.getLocalizedMonthNames(
-    mergedOptions.value.locale
+const getGridPosition = (index: number): StyleValue | object => {
+  return calendarUtils.getGridPositionOfDay(
+    index,
+    firstWeekOffsetDays.value.length
   );
-  mergedOptions.value.i18n!.months = calendarUtils.getLocalizedMonthNames(
-    mergedOptions.value.locale
-  );
-  defaultOptions.i18n!.weekdays = calendarUtils.getLocalizedWeekdayNames(
-    mergedOptions.value.locale
-  );
-  mergedOptions.value.i18n!.weekdays = calendarUtils.getLocalizedWeekdayNames(
-    mergedOptions.value.locale
-  );
-
-  emptyCellStyle.value = {
-    height: (mergedOptions.value.cellSize || 15) + 'px',
-    width: (mergedOptions.value.cellSize || 15) + 'px',
-    ...mergedOptions.value.overWritedDayStyle,
-  };
-
-  if (mergedOptions.value.colors?.length) {
-    levels.value = mergedOptions.value.colors.length;
-  } else {
-    levels.value = 5;
-  }
-
-  min.value = 0;
-  max.value = 100;
-  range.value = max.value - min.value;
-  step.value = range.value / levels.value;
-
-  const { type, startDate } = mergedOptions.value;
-
-  let endDate: DateTime;
-
-  switch (type) {
-    case HeatMapCalendarType.WEEKLY:
-      // weekly, only 7 days
-      endDate = startDate.plus({ days: 6 });
-
-      break;
-    case HeatMapCalendarType.MONTHLY:
-      // monthly, all days of the month
-      endDate = startDate.endOf('month');
-
-      break;
-    case HeatMapCalendarType.YEARLY:
-      // yearly, full year
-      endDate = startDate.endOf('year');
-
-      break;
-  }
-
-  if (type !== HeatMapCalendarType.WEEKLY) {
-    firstWeekOffsetDays.value =
-      calendarUtils.calculateFirstWeekOffset(startDate);
-    lastWeekOffsetDays.value = calendarUtils.calculateLastWeekOffset(endDate);
-  }
 };
 
 /**
@@ -360,6 +284,8 @@ const getEmptyDayClass = (): string => {
   return 'level-0';
 };
 
+// #endregion
+
 /**
  * Handle day click event
  *
@@ -368,6 +294,70 @@ const getEmptyDayClass = (): string => {
 const onDayClick = (day: IHeatmapDay): void => {
   if (mergedOptions.value.onClick !== undefined) {
     mergedOptions.value.onClick(day);
+  }
+};
+
+/**
+ * Update the heatmap data based on the options
+ */
+const updateHeatmapData = (): void => {
+  calendarUtils = new CalendarUtils(mergedOptions.value);
+  defaultOptions.i18n!.months = calendarUtils.getLocalizedMonthNames(
+    mergedOptions.value.locale
+  );
+  mergedOptions.value.i18n!.months = calendarUtils.getLocalizedMonthNames(
+    mergedOptions.value.locale
+  );
+  defaultOptions.i18n!.weekdays = calendarUtils.getLocalizedWeekdayNames(
+    mergedOptions.value.locale
+  );
+  mergedOptions.value.i18n!.weekdays = calendarUtils.getLocalizedWeekdayNames(
+    mergedOptions.value.locale
+  );
+
+  emptyCellStyle.value = {
+    height: (mergedOptions.value.cellSize || 15) + 'px',
+    width: (mergedOptions.value.cellSize || 15) + 'px',
+    ...mergedOptions.value.overWritedDayStyle,
+  };
+
+  if (mergedOptions.value.colors?.length) {
+    levels.value = mergedOptions.value.colors.length;
+  } else {
+    levels.value = 5;
+  }
+
+  min.value = 0;
+  max.value = 100;
+  range.value = max.value - min.value;
+  step.value = range.value / levels.value;
+
+  const { type, startDate } = mergedOptions.value;
+
+  let endDate: DateTime;
+
+  switch (type) {
+    case HeatMapCalendarType.WEEKLY:
+      // weekly, only 7 days
+      endDate = startDate.plus({ days: 6 });
+
+      break;
+    case HeatMapCalendarType.MONTHLY:
+      // monthly, all days of the month
+      endDate = startDate.endOf('month');
+
+      break;
+    case HeatMapCalendarType.YEARLY:
+      // yearly, full year
+      endDate = startDate.endOf('year');
+
+      break;
+  }
+
+  if (type !== HeatMapCalendarType.WEEKLY) {
+    firstWeekOffsetDays.value =
+      calendarUtils.calculateFirstWeekOffset(startDate);
+    lastWeekOffsetDays.value = calendarUtils.calculateLastWeekOffset(endDate);
   }
 };
 

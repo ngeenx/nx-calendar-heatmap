@@ -1,5 +1,6 @@
 import { DateTime } from "luxon";
 import {
+  HeatMapCalendarType,
   ICalendarHeatmapOptions,
   IHeatmapDay,
 } from "../../models/calendar-heatmap";
@@ -49,6 +50,12 @@ export class CalendarUtils {
     );
   }
 
+  /**
+   * Return an array of 12 localized month names, starting from the current year
+   *
+   * @param locale - The locale to use for localization
+   * @returns An array of 12 localized month names
+   */
   public getLocalizedMonthNames(
     locale = this.options.locale ?? "en"
   ): string[] {
@@ -63,10 +70,23 @@ export class CalendarUtils {
     return months;
   }
 
+  /**
+   * Return a localized month name for a given date
+   *
+   * @param date - The date to get the localized month name for
+   * @param locale - The locale to use for localization
+   * @returns A localized month name
+   */
   public getLocalizedMonthName(date: DateTime, locale = "en"): string {
     return date.setLocale(locale).toFormat("LLLL");
   }
 
+  /**
+   * Return an array of 7 localized weekday names, starting from Monday to Sunday
+   *
+   * @param locale - The locale to use for localization
+   * @returns An array of 7 localized weekday names
+   */
   public getLocalizedWeekdayNames(
     locale = this.options.locale ?? "en"
   ): string[] {
@@ -80,4 +100,27 @@ export class CalendarUtils {
 
     return weekDays;
   }
+
+  public getGridPositionOfDay = (
+    index: number,
+    firstWeekOffsetDayLength: number
+  ): object => {
+    if (this.options.type === HeatMapCalendarType.WEEKLY) {
+      return {
+        gridRow: 1,
+        gridColumn: index + 1,
+        height: (this.options.cellSize ?? 15) + "px",
+        width: (this.options.cellSize ?? 15) + "px",
+        ...this.options.overWritedDayStyle,
+      };
+    } else {
+      return {
+        gridRow: ((index + firstWeekOffsetDayLength) % 7) + 1,
+        gridColumn: Math.floor((index + firstWeekOffsetDayLength) / 7) + 1,
+        height: (this.options.cellSize ?? 15) + "px",
+        width: (this.options.cellSize ?? 15) + "px",
+        ...this.options.overWritedDayStyle,
+      };
+    }
+  };
 }
