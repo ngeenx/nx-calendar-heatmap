@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col w-full h-full dark:bg-gray-900">
+  <div class="flex flex-col w-full h-screen">
     <div class="flex flex-row gap-5 p-3">
       <!-- Year -->
       <div class="flex flex-col w-4/12 gap-3 m-2">
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col items-start justify-start">
+    <div class="flex flex-col items-start justify-start dark:bg-gray-900">
       <YearlyView
         :selected-color-variant="selectedColorVariant"
         :selected-year="Number(selectedYear)"

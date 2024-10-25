@@ -36,7 +36,11 @@
             class="months"
           >
             <span class="centered">
-              {{ mergedOptions.startDate.toFormat('LLLL') }}
+              {{
+                mergedOptions.startDate
+                  .setLocale(mergedOptions.locale ?? 'en')
+                  .toFormat('LLLL')
+              }}
             </span>
           </div>
 

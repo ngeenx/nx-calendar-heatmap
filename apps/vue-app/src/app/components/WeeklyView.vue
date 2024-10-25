@@ -5,7 +5,7 @@
     <NxCalendarHeatmap
       :options="options"
       :heatmap-data="heatmapData"
-      class="p-4 bg-white rounded-md dark:bg-gray-800"
+      class="p-4 border border-gray-500 rounded-md dark:bg-gray-800"
     />
   </div>
 </template>

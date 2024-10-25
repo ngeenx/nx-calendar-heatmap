@@ -2,6 +2,8 @@
   @apply flex flex-col justify-center select-none gap-3;
 
   .calendar-container {
+    @apply text-gray-800 dark:text-gray-200;
+
     .weekdays-container {
       @apply flex flex-row gap-3;
 
@@ -43,7 +45,8 @@
   }
 
   .heatmap-levels {
-    @apply flex flex-row gap-2 justify-end items-center;
+    @apply flex flex-row gap-2 justify-end items-center
+      text-gray-800 dark:text-gray-200;
 
     &.left {
       @apply justify-start;
