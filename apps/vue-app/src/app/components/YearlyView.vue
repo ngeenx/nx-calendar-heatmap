@@ -51,6 +51,12 @@ const props = defineProps({
       return true;
     },
   },
+  selectedLocale: {
+    type: String,
+    default: () => {
+      return 'en';
+    },
+  },
 });
 
 const startDate = ref(DateTime.now().startOf('year'));
@@ -65,7 +71,7 @@ const options = ref<ICalendarHeatmapOptions>({
   startDate: startDate.value,
   cellSize: 15,
   hideEmptyDays: false,
-  locale: 'en',
+  locale: props.selectedLocale,
   colors: props.selectedColorVariant,
   heatmapLegend: {
     display: props.selectedHeatmapLevelState,
@@ -97,36 +103,24 @@ const generateHeatmapData = (startDate: DateTime) => {
 };
 
 watch(
-  () => props.selectedYear,
+  () => [
+    props.selectedYear,
+    props.selectedColorVariant,
+    props.selectedHeatmapLevelState,
+    props.selectedLocale,
+  ],
   () => {
     startDate.value = DateTime.fromJSDate(
       new Date(`${props.selectedYear}-01-01`)
     ) as any;
 
+    heatmapData.value = generateHeatmapData(startDate.value);
+
     options.value = {
       ...options.value,
       startDate: startDate.value,
-    };
-  }
-);
-
-watch(
-  () => props.selectedColorVariant,
-  () => {
-    options.value = {
-      ...options.value,
       colors: props.selectedColorVariant,
-    };
-
-    heatmapData.value = generateHeatmapData(startDate.value);
-  }
-);
-
-watch(
-  () => props.selectedHeatmapLevelState,
-  () => {
-    options.value = {
-      ...options.value,
+      locale: props.selectedLocale,
       heatmapLegend: {
         ...options.value.heatmapLegend,
         display: props.selectedHeatmapLevelState,

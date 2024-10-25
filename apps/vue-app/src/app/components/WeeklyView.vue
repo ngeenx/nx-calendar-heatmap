@@ -42,6 +42,12 @@ const props = defineProps({
       return true;
     },
   },
+  selectedLocale: {
+    type: String,
+    default: () => {
+      return 'en';
+    },
+  },
 });
 
 const startDate = ref(DateTime.now().startOf('year'));
@@ -89,44 +95,31 @@ const generateHeatmapData = (startDate: DateTime) => {
 };
 
 watch(
-  () => props.selectedColorVariant,
+  () => [
+    props.selectedColorVariant,
+    props.selectedYear,
+    props.selectedHeatmapLevelState,
+    props.selectedLocale,
+  ],
   () => {
     options.value = {
       ...options.value,
       colors: props.selectedColorVariant,
-    };
-
-    heatmapData.value = generateHeatmapData(startDate.value);
-  }
-);
-
-watch(
-  () => props.selectedYear,
-  () => {
-    startDate.value = DateTime.fromJSDate(
-      new Date(`${props.selectedYear}-01-01`)
-    ) as any;
-
-    options.value = {
-      ...options.value,
       startDate: startDate.value,
-    };
-  }
-);
-
-watch(
-  () => props.selectedHeatmapLevelState,
-  () => {
-    options.value = {
-      ...options.value,
+      locale: props.selectedLocale,
       heatmapLegend: {
         ...options.value.heatmapLegend,
         display: props.selectedHeatmapLevelState,
       },
     };
+
+    startDate.value = DateTime.fromJSDate(
+      new Date(`${props.selectedYear}-01-01`)
+    ) as any;
+
+    heatmapData.value = generateHeatmapData(startDate.value);
   }
 );
-
 onMounted(() => {
   heatmapData.value = generateHeatmapData(startDate.value);
 });

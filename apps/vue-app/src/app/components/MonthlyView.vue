@@ -51,6 +51,12 @@ const props = defineProps({
       return true;
     },
   },
+  selectedLocale: {
+    type: String,
+    default: () => {
+      return 'en';
+    },
+  },
 });
 
 const startDate = ref(DateTime.now().startOf('year'));
@@ -105,7 +111,12 @@ const generateHeatmapData = (startDate: DateTime) => {
 };
 
 watch(
-  () => props.selectedYear,
+  () => [
+    props.selectedYear,
+    props.selectedColorVariant,
+    props.selectedHeatmapLevelState,
+    props.selectedLocale,
+  ],
   () => {
     startDate.value = DateTime.fromJSDate(
       new Date(`${props.selectedYear}-01-01`)
@@ -114,6 +125,12 @@ watch(
     options.value = {
       ...options.value,
       startDate: startDate.value,
+      colors: props.selectedColorVariant,
+      locale: props.selectedLocale,
+      heatmapLegend: {
+        ...options.value.heatmapLegend,
+        display: props.selectedHeatmapLevelState,
+      },
     };
 
     months = Array.from(
@@ -129,29 +146,6 @@ watch(
     heatmapData.value = months.map((firstDayOfMonth: DateTime) => {
       return generateHeatmapData(firstDayOfMonth);
     });
-  }
-);
-
-watch(
-  () => props.selectedColorVariant,
-  () => {
-    options.value = {
-      ...options.value,
-      colors: props.selectedColorVariant,
-    };
-  }
-);
-
-watch(
-  () => props.selectedHeatmapLevelState,
-  () => {
-    options.value = {
-      ...options.value,
-      heatmapLegend: {
-        ...options.value.heatmapLegend,
-        display: props.selectedHeatmapLevelState,
-      },
-    };
   }
 );
 

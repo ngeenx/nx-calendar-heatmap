@@ -2,7 +2,7 @@
   <div class="flex flex-col w-full h-screen">
     <div class="flex flex-row gap-5 p-3">
       <!-- Year -->
-      <div class="flex flex-col w-4/12 gap-3 m-2">
+      <div class="flex flex-col w-3/12 gap-3 m-2">
         <span> Year </span>
 
         <select
@@ -16,7 +16,7 @@
       </div>
 
       <!-- Color Variant -->
-      <div class="flex flex-col w-4/12 gap-3 m-2">
+      <div class="flex flex-col w-3/12 gap-3 m-2">
         <span> Color Variant </span>
 
         <select
@@ -36,7 +36,7 @@
       </div>
 
       <!-- Display Heatmap Level -->
-      <div class="flex flex-col w-4/12 gap-3 m-2">
+      <div class="flex flex-col w-3/12 gap-3 m-2">
         <span> Display Heatmap Level </span>
 
         <select
@@ -52,6 +52,24 @@
           </option>
         </select>
       </div>
+
+      <!-- Locale -->
+      <div class="flex flex-col w-3/12 gap-3 m-2">
+        <span> Locale </span>
+
+        <select
+          v-model="selectedLocale"
+          class="p-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
+        >
+          <option
+            v-for="(option, index) in locales"
+            :key="index"
+            :value="option"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </div>
     </div>
 
     <div class="flex flex-col items-start justify-start dark:bg-gray-900">
@@ -59,18 +77,21 @@
         :selected-color-variant="selectedColorVariant"
         :selected-year="Number(selectedYear)"
         :selected-heatmap-level-state="selectedHeatmapLevelState"
+        :selected-locale="selectedLocale"
       />
 
       <MonthlyView
         :selected-color-variant="selectedColorVariant"
         :selected-year="Number(selectedYear)"
         :selected-heatmap-level-state="selectedHeatmapLevelState"
+        :selected-locale="selectedLocale"
       />
 
       <WeeklyView
         :selected-color-variant="selectedColorVariant"
         :selected-year="Number(selectedYear)"
         :selected-heatmap-level-state="selectedHeatmapLevelState"
+        :selected-locale="selectedLocale"
       />
     </div>
   </div>
@@ -85,7 +106,7 @@ import WeeklyView from './components/WeeklyView.vue';
 import { IHeatmapColor } from '@ngeenx/nx-calendar-heatmap-utils';
 
 import { DateTime } from 'luxon';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 
 const startDate = ref(DateTime.now().startOf('year'));
 
@@ -231,6 +252,14 @@ const heatmapColorsVariants: IHeatmapColor[][] = [
 
 const selectedHeatmapLevelState = ref<boolean>(true);
 const heatmapLevelDisplayOptions: boolean[] = [true, false];
+
+/**
+ * luxon source: https://moment.github.io/luxon/#/intl?id=how-locales-work
+ * wikipedia: https://en.wikipedia.org/wiki/IETF_language_tag
+ * stackoverflow: https://stackoverflow.com/a/38372164/6940144
+ */
+const selectedLocale = ref<string>('en');
+const locales: string[] = ['en', 'tr', 'fr', 'de', 'ja', 'zh'];
 
 const years = ref<number[]>(
   Array.from({ length: 30 }, (_, i) => i + 1998).reverse()
