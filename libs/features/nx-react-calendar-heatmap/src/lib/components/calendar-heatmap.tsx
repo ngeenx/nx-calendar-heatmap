@@ -316,16 +316,7 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
 
       {/* Footer */}
       <div className="footer">
-        <div className="footer-content">
-          <div>
-            {
-              footerContent && footerContent
-              // <div
-              //   dangerouslySetInnerHTML={{ __html: footerContent.toString() }}
-              // ></div>
-            }
-          </div>
-        </div>
+        <div className="footer-content">{footerContent && footerContent}</div>
 
         <div className="legend">
           {mergedOptions.heatmapLegend?.display && (
