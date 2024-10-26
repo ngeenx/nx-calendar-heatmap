@@ -8,6 +8,7 @@ import {
   IHeatmapColor,
   HeatmapLevelsDirection,
 } from '@ngeenx/nx-calendar-heatmap-utils';
+import HeatmapFooterHint from './HeatmapFooterHint';
 
 interface YearlyViewProps {
   selectedColorVariant: IHeatmapColor[];
@@ -15,15 +16,6 @@ interface YearlyViewProps {
   selectedHeatmapLevelState: boolean;
   selectedLocale: string;
 }
-
-const HeatmapFooterHint: React.FC = () => (
-  <div className="footerContent">
-    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-    <a href="#" className="text-blue-400">
-      Learn how we count contributions
-    </a>
-  </div>
-);
 
 const YearlyView: React.FC<YearlyViewProps> = ({
   selectedColorVariant,
