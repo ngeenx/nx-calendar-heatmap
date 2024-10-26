@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { DateTime } from 'luxon';
-import YearlyView from './components/year-view';
+import YearlyView from './components/YearView';
 // import MonthlyView from './components/MonthlyView';
 // import WeeklyView from './components/WeeklyView';
 import { IHeatmapColor } from '@ngeenx/nx-calendar-heatmap-utils';
@@ -9,7 +9,7 @@ import '/libs/utils/nx-calendar-heatmap-utils/src/styles/app.component.scss';
 import '/libs/utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss';
 import '../../../../node_modules/tippy.js/dist/tippy.css';
 
-const CalendarHeatmap: React.FC = () => {
+const App: React.FC = () => {
   const startDate = DateTime.now().startOf('year');
 
   const heatmapColorsVariants: IHeatmapColor[][] = [
@@ -188,4 +188,4 @@ const CalendarHeatmap: React.FC = () => {
   );
 };
 
-export default CalendarHeatmap;
+export default App;

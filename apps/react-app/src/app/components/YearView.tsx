@@ -16,6 +16,15 @@ interface YearlyViewProps {
   selectedLocale: string;
 }
 
+const HeatmapFooterHint: React.FC = () => (
+  <div className="footerContent">
+    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+    <a href="#" className="text-blue-400">
+      Learn how we count contributions
+    </a>
+  </div>
+);
+
 const YearlyView: React.FC<YearlyViewProps> = ({
   selectedColorVariant,
   selectedYear,
@@ -105,14 +114,7 @@ const YearlyView: React.FC<YearlyViewProps> = ({
         <NxCalendarHeatmap
           options={options}
           heatmapData={heatmapData}
-          footerContent={
-            <div className="footerContent">
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a href="#" className="text-blue-400">
-                Learn how we count contributions
-              </a>
-            </div>
-          }
+          footerContent={<HeatmapFooterHint />}
         />
       </div>
     </div>

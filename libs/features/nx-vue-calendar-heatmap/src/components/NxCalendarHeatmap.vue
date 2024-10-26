@@ -95,6 +95,7 @@
 
     <!-- Footer -->
     <div v-if="mergedOptions.heatmapLegend?.display" class="footer">
+      <!-- Footer Content -->
       <div class="footer-content">
         <slot name="footerContent" />
       </div>
