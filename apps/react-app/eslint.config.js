@@ -5,7 +5,7 @@ module.exports = [
   ...baseConfig,
   ...nx.configs['flat/react'],
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+    files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '^.+\\.scss$'],
     // Override or add rules here
     rules: {},
   },

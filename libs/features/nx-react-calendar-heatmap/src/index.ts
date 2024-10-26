@@ -1,1 +1,2 @@
-export * from './lib/nx-react-calendar-heatmap';
+// components
+export { default as NxCalendarHeatmap } from "./lib/components/calendar-heatmap";
