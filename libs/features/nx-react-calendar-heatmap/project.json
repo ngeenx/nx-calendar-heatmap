@@ -1,0 +1,9 @@
+{
+  "name": "nx-react-calendar-heatmap",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/features/nx-react-calendar-heatmap/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project nx-react-calendar-heatmap --web",
+  "targets": {}
+}

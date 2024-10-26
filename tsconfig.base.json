@@ -18,6 +18,9 @@
       "@ngeenx/nx-calendar-heatmap-utils": [
         "libs/utils/nx-calendar-heatmap-utils/src/index.ts"
       ],
+      "@ngeenx/nx-react-calendar-heatmap": [
+        "libs/features/nx-react-calendar-heatmap/src/index.ts"
+      ],
       "@ngeenx/nx-vue-calendar-heatmap": [
         "libs/features/nx-vue-calendar-heatmap/src/index.ts"
       ]
