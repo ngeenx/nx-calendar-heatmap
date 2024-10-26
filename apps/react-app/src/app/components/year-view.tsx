@@ -33,12 +33,26 @@ const YearlyView: React.FC<YearlyViewProps> = ({
     hideEmptyDays: false,
     locale: selectedLocale,
     colors: selectedColorVariant,
+    tooltip: {
+      display: true,
+      unit: 'contribution',
+      dateFormat: 'MMMM d',
+    },
     heatmapLegend: {
       display: selectedHeatmapLevelState,
       direction: HeatmapLevelsDirection.RIGHT,
     },
     onClick: (day: IHeatmapDay) => {
       console.log(`Clicked on ${day.date} with value ${day.count}`);
+    },
+    i18n: {
+      weekdays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      on: 'on',
+      less: 'less',
+      more: 'more',
+      noData: 'No',
+      min: 'min',
+      max: 'max',
     },
   });
 
@@ -87,15 +101,19 @@ const YearlyView: React.FC<YearlyViewProps> = ({
   return (
     <div className="flex flex-col items-start justify-start gap-3 p-5">
       <span> Yearly </span>
-      <NxCalendarHeatmap
-        options={options}
-        heatmapData={heatmapData}
-        // className="p-4 border border-gray-500 rounded-md dark:bg-gray-800"
-      />
-      <div className="footerContent">
-        <a href="#" className="text-blue-400">
-          Learn how we count contributions
-        </a>
+      <div className="p-4 border border-gray-500 rounded-md dark:bg-gray-800">
+        <NxCalendarHeatmap
+          options={options}
+          heatmapData={heatmapData}
+          footerContent={
+            <div className="footerContent">
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a href="#" className="text-blue-400">
+                Learn how we count contributions
+              </a>
+            </div>
+          }
+        />
       </div>
     </div>
   );

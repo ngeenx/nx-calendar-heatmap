@@ -45,7 +45,7 @@
   }
 
   .footer {
-    @apply flex flex-row justify-between items-center mt-3;
+    @apply flex flex-row justify-between items-center mt-3 w-full;
 
     .legend {
       @apply flex-1;

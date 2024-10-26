@@ -7,6 +7,7 @@ import { IHeatmapColor } from '@ngeenx/nx-calendar-heatmap-utils';
 
 import '/libs/utils/nx-calendar-heatmap-utils/src/styles/app.component.scss';
 import '/libs/utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss';
+import '../../../../node_modules/tippy.js/dist/tippy.css';
 
 const CalendarHeatmap: React.FC = () => {
   const startDate = DateTime.now().startOf('year');

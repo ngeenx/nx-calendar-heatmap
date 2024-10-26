@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+  ReactNode,
+} from 'react';
 import { DateTime } from 'luxon';
 import {
   ICalendarHeatmapOptions,
@@ -10,15 +17,18 @@ import {
   CalendarUtils,
 } from '@ngeenx/nx-calendar-heatmap-utils';
 import NxHeatmapLegend from './heatmap-legend';
+import { Props } from 'tippy.js';
 
 interface CalendarHeatmapProps {
   options?: ICalendarHeatmapOptions;
   heatmapData?: IHeatmapDay[];
+  footerContent?: ReactNode | null;
 }
 
 const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
   options = {} as ICalendarHeatmapOptions,
   heatmapData = [],
+  footerContent = null,
 }) => {
   const [levels, setLevels] = useState(5);
   const [min, setMin] = useState(0);
@@ -33,10 +43,13 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
   );
   const [emptyCellStyle, setEmptyCellStyle] = useState<React.CSSProperties>({});
 
-  const tippyUtils: DayTippyUtils | undefined = useMemo(
-    () => new DayTippyUtils(options as ICalendarHeatmapOptions),
-    []
-  );
+  let tippyUtils: DayTippyUtils | undefined;
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    tippyUtils = new DayTippyUtils(options);
+    tippyUtils.init();
+  }, []);
 
   const defaultOptions: ICalendarHeatmapOptions = {
     type: HeatMapCalendarType.YEARLY,
@@ -49,7 +62,7 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
     },
     tippyProps: {
       placement: 'top',
-    },
+    } as Props,
     heatmapLegend: {
       display: true,
       direction: HeatmapLevelsDirection.RIGHT,
@@ -65,7 +78,7 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
     },
   };
 
-  const calendarUtils = useMemo(() => new CalendarUtils(defaultOptions), []);
+  const calendarUtilsRef = useRef(new CalendarUtils(defaultOptions));
   const mergedOptions: ICalendarHeatmapOptions = useMemo(
     () => ({
       ...defaultOptions,
@@ -87,6 +100,19 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
   );
 
   useEffect(() => {
+    calendarUtilsRef.current = new CalendarUtils(mergedOptions);
+
+    if (defaultOptions.i18n) {
+      defaultOptions.i18n!.months =
+        calendarUtilsRef.current.getLocalizedMonthNames(mergedOptions.locale);
+      mergedOptions.i18n!.months =
+        calendarUtilsRef.current.getLocalizedMonthNames(mergedOptions.locale);
+      defaultOptions.i18n!.weekdays =
+        calendarUtilsRef.current.getLocalizedWeekdayNames(mergedOptions.locale);
+      mergedOptions.i18n!.weekdays =
+        calendarUtilsRef.current.getLocalizedWeekdayNames(mergedOptions.locale);
+    }
+
     setEmptyCellStyle({
       height: `${mergedOptions.cellSize || 15}px`,
       width: `${mergedOptions.cellSize || 15}px`,
@@ -121,19 +147,24 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
     }
 
     if (type !== HeatMapCalendarType.WEEKLY) {
-      setFirstWeekOffsetDays(calendarUtils.calculateFirstWeekOffset(startDate));
-      setLastWeekOffsetDays(calendarUtils.calculateLastWeekOffset(endDate));
+      setFirstWeekOffsetDays(
+        calendarUtilsRef.current.calculateFirstWeekOffset(startDate)
+      );
+      setLastWeekOffsetDays(
+        calendarUtilsRef.current.calculateLastWeekOffset(endDate)
+      );
     }
-  }, [calendarUtils, mergedOptions, levels]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mergedOptions]);
 
   const getGridPosition = useCallback(
     (index: number): React.CSSProperties => {
-      return calendarUtils.getGridPositionOfDay(
+      return calendarUtilsRef.current.getGridPositionOfDay(
         index,
         firstWeekOffsetDays.length
       ) as React.CSSProperties;
     },
-    [calendarUtils, firstWeekOffsetDays]
+    [calendarUtilsRef, firstWeekOffsetDays]
   );
 
   const getDayClass = useCallback(
@@ -195,9 +226,12 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
   );
 
   return (
+    // Calendar Container
     <div className="nx-calendar-heatmap">
+      {/* Body */}
       <div className="body">
         <div className="weekdays-container">
+          {/* Weekdays */}
           {mergedOptions.type !== HeatMapCalendarType.WEEKLY && (
             <div className="weekdays">
               {mergedOptions.i18n?.weekdays?.map((weekday, index) => (
@@ -205,7 +239,10 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
               ))}
             </div>
           )}
+
+          {/* Months */}
           <div className="months-container">
+            {/* Yearly */}
             {mergedOptions.type === HeatMapCalendarType.YEARLY && (
               <div className="months">
                 {mergedOptions.i18n?.months?.map((month, index) => (
@@ -213,16 +250,20 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
                 ))}
               </div>
             )}
+
+            {/* Monthly */}
             {mergedOptions.type === HeatMapCalendarType.MONTHLY && (
               <div className="months">
                 <span className="centered">
-                  {calendarUtils.getLocalizedMonthName(
+                  {calendarUtilsRef.current.getLocalizedMonthName(
                     mergedOptions.startDate,
                     mergedOptions.locale
                   )}
                 </span>
               </div>
             )}
+
+            {/* Calendar Grid */}
             <div
               className={`heatmap-grid ${
                 mergedOptions.type === HeatMapCalendarType.MONTHLY
@@ -230,6 +271,7 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
                   : ''
               }`}
             >
+              {/* First Week Empty Days */}
               {!mergedOptions.hideEmptyDays &&
                 firstWeekOffsetDays.map((day, index) => (
                   <button
@@ -241,6 +283,8 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
                     }
                   />
                 ))}
+
+              {/* Available Days */}
               {heatmapData.map((day, index) => (
                 <button
                   key={index}
@@ -252,6 +296,8 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
                   }
                 />
               ))}
+
+              {/* Last Week Empty Days */}
               {!mergedOptions.hideEmptyDays &&
                 lastWeekOffsetDays.map((day, index) => (
                   <button
@@ -267,8 +313,21 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Footer */}
       <div className="footer">
         <div className="footer-content">
+          <div>
+            {
+              footerContent && footerContent
+              // <div
+              //   dangerouslySetInnerHTML={{ __html: footerContent.toString() }}
+              // ></div>
+            }
+          </div>
+        </div>
+
+        <div className="legend">
           {mergedOptions.heatmapLegend?.display && (
             <NxHeatmapLegend
               options={mergedOptions}

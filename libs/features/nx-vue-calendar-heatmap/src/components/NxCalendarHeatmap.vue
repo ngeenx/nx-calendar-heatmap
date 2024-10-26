@@ -1,6 +1,7 @@
 <template>
+  <!-- Calendar Container -->
   <div class="nx-calendar-heatmap">
-    <!-- Calendar Container -->
+    <!-- Body -->
     <div class="body">
       <div class="weekdays-container">
         <!-- Weekdays -->
@@ -16,6 +17,7 @@
           </span>
         </div>
 
+        <!-- Months -->
         <div class="months-container">
           <!-- Yearly -->
           <div
@@ -91,7 +93,8 @@
       </div>
     </div>
 
-    <div class="footer">
+    <!-- Footer -->
+    <div v-if="mergedOptions.heatmapLegend?.display" class="footer">
       <div class="footer-content">
         <slot name="footerContent" />
       </div>
@@ -99,7 +102,6 @@
       <div class="legend">
         <!-- Heatmap Legend -->
         <NxHeatmapLegend
-          v-if="mergedOptions.heatmapLegend?.display"
           :options="mergedOptions"
           :min="min"
           :max="max"
