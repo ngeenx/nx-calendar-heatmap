@@ -62,7 +62,7 @@
                 class="day"
                 :class="getEmptyDayClass()"
                 :style="emptyCellStyle"
-                @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
+                @mouseover="onDayMouseOver($event, day)"
               />
             </template>
 
@@ -74,7 +74,7 @@
               :class="getDayClass(day.count)"
               :style="getGridPosition(index)"
               @click="onDayClick(day)"
-              @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
+              @mouseover="onDayMouseOver($event, day)"
             />
 
             <!-- Last Week Empty Days -->
@@ -85,7 +85,7 @@
                 class="day"
                 :class="getEmptyDayClass()"
                 :style="emptyCellStyle"
-                @mouseover="tippyUtils?.lazyLoadTooltip($event, day)"
+                @mouseover="onDayMouseOver($event, day)"
               />
             </template>
           </div>
@@ -289,6 +289,8 @@ const getEmptyDayClass = (): string => {
 
 // #endregion
 
+// #region Events
+
 /**
  * Handle day click event
  *
@@ -299,6 +301,18 @@ const onDayClick = (day: IHeatmapDay): void => {
     mergedOptions.value.onClick(day);
   }
 };
+
+/**
+ * Handle day mouse over event for tippy tooltip
+ *
+ * @param $event - The mouse event
+ * @param day - The day to show tooltip for
+ */
+const onDayMouseOver = ($event: MouseEvent, day: IHeatmapDay): void => {
+  tippyUtils?.lazyLoadTooltip($event, day);
+};
+
+// #endregion
 
 /**
  * Update the heatmap data based on the options
