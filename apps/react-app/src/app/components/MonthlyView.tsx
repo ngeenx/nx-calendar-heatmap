@@ -15,9 +15,6 @@ interface MonthlyViewProps {
   selectedLocale?: string;
 }
 
-/**
- * Component props
- */
 const MonthView: React.FC<MonthlyViewProps> = ({
   selectedColorVariant = [],
   selectedYear = DateTime.now().year,

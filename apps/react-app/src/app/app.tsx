@@ -9,6 +9,7 @@ import '/libs/utils/nx-calendar-heatmap-utils/src/styles/app.component.scss';
 import '/libs/utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss';
 import '../../../../node_modules/tippy.js/dist/tippy.css';
 import MonthlyView from './components/MonthlyView';
+import WeeklyView from './components/WeeklyView';
 
 const App: React.FC = () => {
   const heatmapColorsVariants: IHeatmapColor[][] = useMemo(
@@ -173,9 +174,8 @@ const App: React.FC = () => {
     []
   );
 
-  const [selectedColorVariant, setSelectedColorVariant] = useState<
-    IHeatmapColor[]
-  >(heatmapColorsVariants[0]);
+  const [selectedColorVariant, setSelectedColorVariant] =
+    useState<IHeatmapColor[]>();
   const [selectedHeatmapLevelState, setSelectedHeatmapLevelState] =
     useState<boolean>(true);
   const [selectedLocale, setSelectedLocale] = useState<string>('en');
@@ -291,12 +291,12 @@ const App: React.FC = () => {
           selectedHeatmapLevelState={selectedHeatmapLevelState}
           selectedLocale={selectedLocale}
         />
-        {/* <WeeklyView
+        <WeeklyView
           selectedColorVariant={selectedColorVariant}
           selectedYear={selectedYear}
           selectedHeatmapLevelState={selectedHeatmapLevelState}
           selectedLocale={selectedLocale}
-        /> */}
+        />
       </div>
     </div>
   );
