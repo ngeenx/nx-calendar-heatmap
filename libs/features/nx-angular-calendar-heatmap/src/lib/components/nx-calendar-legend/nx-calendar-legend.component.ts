@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import { Component, Input, OnInit, OnDestroy, OnChanges } from "@angular/core";
 import {
   ICalendarHeatmapOptions,
   IHeatmapColor,
@@ -12,7 +12,9 @@ import {
   standalone: true,
   imports: [CommonModule],
 })
-export class NxHeatmapCalendarLegendComponent implements OnInit, OnDestroy {
+export class NxHeatmapCalendarLegendComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   @Input() options!: ICalendarHeatmapOptions;
   @Input() min = 0;
   @Input() max = 100;
@@ -31,6 +33,10 @@ export class NxHeatmapCalendarLegendComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tippyUtils?.destroy();
+  }
+
+  ngOnChanges() {
+    this.updateLevelMap();
   }
 
   private updateLevelMap(): void {
