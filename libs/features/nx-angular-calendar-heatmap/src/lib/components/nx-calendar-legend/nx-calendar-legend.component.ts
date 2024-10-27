@@ -12,9 +12,7 @@ import {
   standalone: true,
   imports: [CommonModule],
 })
-export class NxHeatmapCalendarLegendComponent
-  implements OnInit, OnDestroy, OnChanges
-{
+export class NxCalendarLegendComponent implements OnInit, OnDestroy, OnChanges {
   @Input() options!: ICalendarHeatmapOptions;
   @Input() min = 0;
   @Input() max = 100;

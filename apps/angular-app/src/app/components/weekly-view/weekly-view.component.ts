@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from "@angular/core";
-import { NxHeatmapCalendarComponent } from "@ngeenx/nx-angular-calendar-heatmap";
+import { NxCalendarHeatmapComponent } from "@ngeenx/nx-angular-calendar-heatmap";
 import {
   IHeatmapColor,
   IHeatmapDay,
@@ -13,7 +13,7 @@ import { DateTime } from "luxon";
   selector: "app-weekly-view",
   templateUrl: "./weekly-view.component.html",
   standalone: true,
-  imports: [NxHeatmapCalendarComponent],
+  imports: [NxCalendarHeatmapComponent],
 })
 export class WeeklyViewComponent implements OnInit, OnChanges {
   @Input() selectedColorVariant: IHeatmapColor[] = [];

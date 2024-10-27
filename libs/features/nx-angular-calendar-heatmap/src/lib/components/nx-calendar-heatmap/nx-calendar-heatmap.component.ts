@@ -10,7 +10,7 @@ import {
   HeatmapLevelsDirection,
   CalendarUtils,
 } from "@ngeenx/nx-calendar-heatmap-utils";
-import { NxHeatmapCalendarLegendComponent } from "../nx-calendar-legend/nx-calendar-legend.component";
+import { NxCalendarLegendComponent } from "../nx-calendar-legend/nx-calendar-legend.component";
 
 const defaultOptions: ICalendarHeatmapOptions = {
   type: HeatMapCalendarType.YEARLY,
@@ -39,12 +39,12 @@ const defaultOptions: ICalendarHeatmapOptions = {
 };
 
 @Component({
-  imports: [CommonModule, NxHeatmapCalendarLegendComponent],
+  imports: [CommonModule, NxCalendarLegendComponent],
   selector: "nx-heatmap-calendar",
   templateUrl: "./nx-calendar-heatmap.component.html",
   standalone: true,
 })
-export class NxHeatmapCalendarComponent
+export class NxCalendarHeatmapComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @Input() options: ICalendarHeatmapOptions = {} as ICalendarHeatmapOptions;

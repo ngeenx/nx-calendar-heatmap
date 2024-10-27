@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from "@angular/core";
-import { NxHeatmapCalendarComponent } from "@ngeenx/nx-angular-calendar-heatmap";
+import { NxCalendarHeatmapComponent } from "@ngeenx/nx-angular-calendar-heatmap";
 import {
   IHeatmapColor,
   IHeatmapDay,
@@ -12,7 +12,7 @@ import { DateTime } from "luxon";
 @Component({
   selector: "app-monthly-view",
   templateUrl: "./monthly-view.component.html",
-  imports: [NxHeatmapCalendarComponent],
+  imports: [NxCalendarHeatmapComponent],
   standalone: true,
 })
 export class MonthlyViewComponent implements OnInit, OnChanges {

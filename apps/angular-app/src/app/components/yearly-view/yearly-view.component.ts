@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit } from "@angular/core";
-import { NxHeatmapCalendarComponent } from "@ngeenx/nx-angular-calendar-heatmap";
+import { NxCalendarHeatmapComponent } from "@ngeenx/nx-angular-calendar-heatmap";
 import {
   IHeatmapDay,
   HeatMapCalendarType,
@@ -14,7 +14,7 @@ import { CalendarFooterHintComponent } from "../calendar-footer-hint/calendar-fo
   selector: "app-yearly-view",
   templateUrl: "./yearly-view.component.html",
   standalone: true,
-  imports: [NxHeatmapCalendarComponent, CalendarFooterHintComponent],
+  imports: [NxCalendarHeatmapComponent, CalendarFooterHintComponent],
 })
 export class YearlyViewComponent implements OnInit, OnChanges {
   @Input() selectedColorVariant: IHeatmapColor[] = [];
