@@ -8,6 +8,7 @@ import { IHeatmapColor } from '@ngeenx/nx-calendar-heatmap-utils';
 import '/libs/utils/nx-calendar-heatmap-utils/src/styles/app.component.scss';
 import '/libs/utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss';
 import '../../../../node_modules/tippy.js/dist/tippy.css';
+import MonthlyView from './components/MonthlyView';
 
 const App: React.FC = () => {
   const heatmapColorsVariants: IHeatmapColor[][] = useMemo(
@@ -284,13 +285,13 @@ const App: React.FC = () => {
           selectedHeatmapLevelState={selectedHeatmapLevelState}
           selectedLocale={selectedLocale}
         />
-        {/* <MonthlyView
+        <MonthlyView
           selectedColorVariant={selectedColorVariant}
           selectedYear={selectedYear}
           selectedHeatmapLevelState={selectedHeatmapLevelState}
           selectedLocale={selectedLocale}
         />
-        <WeeklyView
+        {/* <WeeklyView
           selectedColorVariant={selectedColorVariant}
           selectedYear={selectedYear}
           selectedHeatmapLevelState={selectedHeatmapLevelState}
