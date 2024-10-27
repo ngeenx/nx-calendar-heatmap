@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "angular:start": "nx serve angular-app",
     "vue:start": "nx serve vue-app",
     "react:start": "nx serve react-app",
     "utils:test": "nx test nx-calendar-heatmap-utils"
