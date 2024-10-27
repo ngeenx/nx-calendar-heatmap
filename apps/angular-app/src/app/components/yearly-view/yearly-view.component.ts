@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  OnInit,
-} from "@angular/core";
+import { Component, Input, OnChanges, OnInit } from "@angular/core";
 import { NxHeatmapCalendarComponent } from "@ngeenx/nx-angular-calendar-heatmap";
 import {
   IHeatmapDay,
@@ -32,52 +26,23 @@ export class YearlyViewComponent implements OnInit, OnChanges {
   options: ICalendarHeatmapOptions;
 
   constructor() {
-    this.options = {
-      type: HeatMapCalendarType.YEARLY,
-      startDate: this.startDate,
-      cellSize: 15,
-      hideEmptyDays: false,
-      locale: this.selectedLocale,
-      colors: this.selectedColorVariant,
-      heatmapLegend: {
-        display: this.selectedHeatmapLevelState,
-        direction: HeatmapLevelsDirection.RIGHT,
-      },
-      onClick: (day: IHeatmapDay) => this.onDayClick(day),
-    };
+    this.options = this.getOptions();
   }
 
   ngOnInit(): void {
     this.heatmapData = this.generateHeatmapData(this.startDate);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      changes["selectedYear"] ||
-      changes["selectedColorVariant"] ||
-      changes["selectedHeatmapLevelState"] ||
-      changes["selectedLocale"]
-    ) {
-      this.startDate = DateTime.fromObject({ year: this.selectedYear }).startOf(
-        "year"
-      );
-      console.log("this.startDate", this.startDate.toFormat("yyyy-MM-dd"));
-      this.heatmapData = this.generateHeatmapData(this.startDate);
+  ngOnChanges(): void {
+    this.startDate = DateTime.fromObject({ year: this.selectedYear }).startOf(
+      "year"
+    );
+    this.heatmapData = this.generateHeatmapData(this.startDate);
 
-      this.options = {
-        ...this.options,
-        startDate: this.startDate,
-        colors: this.selectedColorVariant,
-        locale: this.selectedLocale,
-        heatmapLegend: {
-          ...this.options.heatmapLegend,
-          display: this.selectedHeatmapLevelState,
-        },
-      };
-    }
+    this.options = this.getOptions();
   }
 
-  onDayClick(day: IHeatmapDay): void {
+  public onDayClick(day: IHeatmapDay): void {
     console.log(`Clicked on ${day.date.toISODate()} with value ${day.count}`);
   }
 
@@ -85,8 +50,6 @@ export class YearlyViewComponent implements OnInit, OnChanges {
     const endDate = startDate.endOf("year");
     const daysBetween = Math.floor(endDate.diff(startDate, "days").days);
     const heatmap: IHeatmapDay[] = [];
-
-    console.log("endDate", endDate.toFormat("yyyy-MM-dd"));
 
     let currentDate = startDate;
 
@@ -102,5 +65,21 @@ export class YearlyViewComponent implements OnInit, OnChanges {
     }
 
     return heatmap;
+  }
+
+  private getOptions(): ICalendarHeatmapOptions {
+    return {
+      type: HeatMapCalendarType.YEARLY,
+      startDate: this.startDate,
+      cellSize: 15,
+      hideEmptyDays: false,
+      locale: this.selectedLocale,
+      colors: this.selectedColorVariant,
+      heatmapLegend: {
+        display: this.selectedHeatmapLevelState,
+        direction: HeatmapLevelsDirection.RIGHT,
+      },
+      onClick: (day: IHeatmapDay) => this.onDayClick(day),
+    };
   }
 }
