@@ -175,7 +175,7 @@ const App: React.FC = () => {
   );
 
   const [selectedColorVariant, setSelectedColorVariant] = useState<
-    IHeatmapColor[] | null
+    IHeatmapColor[]
   >([]);
   const [selectedHeatmapLevelState, setSelectedHeatmapLevelState] =
     useState<boolean>(true);

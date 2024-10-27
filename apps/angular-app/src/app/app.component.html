@@ -1,1 +1,90 @@
-<nx-heatmap-calendar />
+<div class="flex flex-col w-full h-screen">
+  <div class="flex flex-row gap-5 p-3">
+    <!-- Year -->
+    <div class="flex flex-col w-3/12 gap-3 m-2">
+      <span>Year</span>
+      <select
+        [(ngModel)]="selectedYear"
+        class="p-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
+      >
+        <option *ngFor="let year of years">{{ year }}</option>
+      </select>
+    </div>
+
+    <!-- Color Variant -->
+    <div class="flex flex-col w-3/12 gap-3 m-2">
+      <span>Color Variant</span>
+      <select
+        class="p-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
+        (change)="onColorVariantChange($event)"
+      >
+        <option value="default">Default</option>
+        <option
+          *ngFor="let variant of heatmapColorsVariants; let i = index"
+          [ngClass]="variant[heatmapColorsVariants.length - 1].className"
+          [value]="variant[0].className"
+        >
+          {{ variant[0].className }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Display Heatmap Level -->
+    <div class="flex flex-col w-3/12 gap-3 m-2">
+      <span>Display Heatmap Level</span>
+      <select
+        [(ngModel)]="selectedHeatmapLevelState"
+        class="p-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
+      >
+        <option
+          *ngFor="let option of heatmapLevelDisplayOptions"
+          [value]="option"
+        >
+          {{ option }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Locale -->
+    <div class="flex flex-col w-3/12 gap-3 m-2">
+      <span>
+        Locale
+        <a
+          href="https://moment.github.io/luxon/#/intl?id=how-locales-work"
+          target="_blank"
+          class="text-blue-300 underline"
+          >how-locales-work?</a
+        >
+      </span>
+      <select
+        [(ngModel)]="selectedLocale"
+        class="p-2 text-gray-800 border border-gray-300 rounded-md dark:text-gray-200 dark:border-gray-700 dark:bg-gray-700"
+      >
+        <option *ngFor="let locale of locales">{{ locale }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="flex flex-col items-start justify-start dark:bg-gray-900">
+    <app-yearly-view
+      [selectedColorVariant]="selectedColorVariant"
+      [selectedYear]="selectedYear"
+      [selectedHeatmapLevelState]="selectedHeatmapLevelState"
+      [selectedLocale]="selectedLocale"
+    ></app-yearly-view>
+
+    <!-- <app-monthly-view
+      [selectedColorVariant]="selectedColorVariant"
+      [selectedYear]="selectedYear"
+      [selectedHeatmapLevelState]="selectedHeatmapLevelState"
+      [selectedLocale]="selectedLocale"
+    ></app-monthly-view>
+
+    <app-weekly-view
+      [selectedColorVariant]="selectedColorVariant"
+      [selectedYear]="selectedYear"
+      [selectedHeatmapLevelState]="selectedHeatmapLevelState"
+      [selectedLocale]="selectedLocale"
+    ></app-weekly-view> -->
+  </div>
+</div>

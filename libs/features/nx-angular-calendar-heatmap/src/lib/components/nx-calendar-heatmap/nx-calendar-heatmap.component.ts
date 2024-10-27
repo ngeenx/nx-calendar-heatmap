@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from "@angular/core";
+import { Component, Input, OnInit, OnDestroy, OnChanges } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { DateTime } from "luxon";
 import {
@@ -44,7 +44,9 @@ const defaultOptions: ICalendarHeatmapOptions = {
   templateUrl: "./nx-calendar-heatmap.component.html",
   standalone: true,
 })
-export class NxHeatmapCalendarComponent implements OnInit, OnDestroy {
+export class NxHeatmapCalendarComponent
+  implements OnInit, OnDestroy, OnChanges
+{
   @Input() options: ICalendarHeatmapOptions = {} as ICalendarHeatmapOptions;
   @Input() heatmapData: IHeatmapDay[] = [];
 
@@ -69,6 +71,12 @@ export class NxHeatmapCalendarComponent implements OnInit, OnDestroy {
     this.updateHeatmapData();
     this.tippyUtils = new DayTippyUtils(this.mergedOptions);
     this.tippyUtils.init();
+  }
+
+  ngOnChanges() {
+    this.mergedOptions = { ...defaultOptions, ...this.options };
+
+    this.updateHeatmapData();
   }
 
   ngOnDestroy() {
