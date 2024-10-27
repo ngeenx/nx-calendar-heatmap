@@ -118,7 +118,7 @@ import { ref, watch } from 'vue';
 
 const startDate = ref(DateTime.now().startOf('year'));
 
-const selectedColorVariant = ref();
+const selectedColorVariant = ref<IHeatmapColor[]>([]);
 const heatmapColorsVariants: IHeatmapColor[][] = [
   // variant 1
   <IHeatmapColor[]>[

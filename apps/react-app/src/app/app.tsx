@@ -174,8 +174,9 @@ const App: React.FC = () => {
     []
   );
 
-  const [selectedColorVariant, setSelectedColorVariant] =
-    useState<IHeatmapColor[]>();
+  const [selectedColorVariant, setSelectedColorVariant] = useState<
+    IHeatmapColor[] | null
+  >([]);
   const [selectedHeatmapLevelState, setSelectedHeatmapLevelState] =
     useState<boolean>(true);
   const [selectedLocale, setSelectedLocale] = useState<string>('en');
