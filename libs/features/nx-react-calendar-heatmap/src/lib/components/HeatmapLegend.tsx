@@ -6,7 +6,7 @@ import {
 } from '@ngeenx/nx-calendar-heatmap-utils';
 
 interface NxHeatmapLegendProps {
-  options?: ICalendarHeatmapOptions;
+  options: ICalendarHeatmapOptions;
   min?: number;
   max?: number;
   range?: number;
@@ -15,7 +15,7 @@ interface NxHeatmapLegendProps {
 }
 
 const NxHeatmapLegend: React.FC<NxHeatmapLegendProps> = ({
-  options = {} as ICalendarHeatmapOptions,
+  options,
   min = 0,
   max = 100,
   range = 100,

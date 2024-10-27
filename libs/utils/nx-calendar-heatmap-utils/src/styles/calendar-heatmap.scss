@@ -11,7 +11,7 @@
         @apply flex flex-col gap-1;
 
         .months {
-          @apply flex flex-row;
+          @apply flex flex-row h-[20px];
 
           span {
             @apply text-[12.5px] w-[83px];

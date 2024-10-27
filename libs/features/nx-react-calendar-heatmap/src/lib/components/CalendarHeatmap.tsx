@@ -20,7 +20,7 @@ import NxHeatmapLegend from './HeatmapLegend';
 import { Props } from 'tippy.js';
 
 interface CalendarHeatmapProps {
-  options?: ICalendarHeatmapOptions;
+  options?: Partial<ICalendarHeatmapOptions>;
   heatmapData?: IHeatmapDay[];
   footerContent?: ReactNode | null;
 }
@@ -47,7 +47,7 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    tippyUtils = new DayTippyUtils(options);
+    tippyUtils = new DayTippyUtils(mergedOptions);
     tippyUtils.init();
 
     return () => {
@@ -55,32 +55,35 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
     };
   }, []);
 
-  const defaultOptions: ICalendarHeatmapOptions = {
-    type: HeatMapCalendarType.YEARLY,
-    startDate: DateTime.now().startOf('year'),
-    locale: 'en',
-    tooltip: {
-      display: true,
-      unit: 'contribution',
-      dateFormat: 'MMMM d',
-    },
-    tippyProps: {
-      placement: 'top',
-    } as Props,
-    heatmapLegend: {
-      display: true,
-      direction: HeatmapLevelsDirection.RIGHT,
-    },
-    i18n: {
-      weekdays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      on: 'on',
-      less: 'less',
-      more: 'more',
-      noData: 'No',
-      min: 'min',
-      max: 'max',
-    },
-  };
+  const defaultOptions: ICalendarHeatmapOptions = useMemo(
+    () => ({
+      type: HeatMapCalendarType.YEARLY,
+      startDate: DateTime.now().startOf('year'),
+      locale: 'en',
+      tooltip: {
+        display: true,
+        unit: 'contribution',
+        dateFormat: 'MMMM d',
+      },
+      tippyProps: {
+        placement: 'top',
+      } as Props,
+      heatmapLegend: {
+        display: true,
+        direction: HeatmapLevelsDirection.RIGHT,
+      },
+      i18n: {
+        weekdays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        on: 'on',
+        less: 'less',
+        more: 'more',
+        noData: 'No',
+        min: 'min',
+        max: 'max',
+      },
+    }),
+    []
+  );
 
   const calendarUtilsRef = useRef(new CalendarUtils(defaultOptions));
   const mergedOptions: ICalendarHeatmapOptions = useMemo(
@@ -100,66 +103,10 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
         ...options.tooltip,
       },
     }),
-    [options]
+    [defaultOptions, options]
   );
 
-  useEffect(() => {
-    calendarUtilsRef.current = new CalendarUtils(mergedOptions);
-
-    if (defaultOptions.i18n) {
-      defaultOptions.i18n!.months =
-        calendarUtilsRef.current.getLocalizedMonthNames(mergedOptions.locale);
-      mergedOptions.i18n!.months =
-        calendarUtilsRef.current.getLocalizedMonthNames(mergedOptions.locale);
-      defaultOptions.i18n!.weekdays =
-        calendarUtilsRef.current.getLocalizedWeekdayNames(mergedOptions.locale);
-      mergedOptions.i18n!.weekdays =
-        calendarUtilsRef.current.getLocalizedWeekdayNames(mergedOptions.locale);
-    }
-
-    setEmptyCellStyle({
-      height: `${mergedOptions.cellSize || 15}px`,
-      width: `${mergedOptions.cellSize || 15}px`,
-      ...mergedOptions.overWritedDayStyle,
-    });
-
-    const { colors } = mergedOptions;
-    if (colors?.length) {
-      setLevels(colors.length);
-    } else {
-      setLevels(5);
-    }
-
-    setMin(0);
-    setMax(100);
-    setRange(100);
-    setStep(100 / levels);
-
-    const { type, startDate } = mergedOptions;
-    let endDate: DateTime;
-
-    switch (type) {
-      case HeatMapCalendarType.WEEKLY:
-        endDate = startDate.plus({ days: 6 });
-        break;
-      case HeatMapCalendarType.MONTHLY:
-        endDate = startDate.endOf('month');
-        break;
-      case HeatMapCalendarType.YEARLY:
-        endDate = startDate.endOf('year');
-        break;
-    }
-
-    if (type !== HeatMapCalendarType.WEEKLY) {
-      setFirstWeekOffsetDays(
-        calendarUtilsRef.current.calculateFirstWeekOffset(startDate)
-      );
-      setLastWeekOffsetDays(
-        calendarUtilsRef.current.calculateLastWeekOffset(endDate)
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mergedOptions]);
+  // #region Styling
 
   const getGridPosition = useCallback(
     (index: number): React.CSSProperties => {
@@ -215,6 +162,23 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
     return defaultColor ? defaultColor.className : 'level-0';
   }, [mergedOptions]);
 
+  // #endregion
+
+  // #region Localization
+
+  const updateCalendarLabels = useCallback(() => {
+    if (mergedOptions.i18n) {
+      mergedOptions.i18n.months =
+        calendarUtilsRef.current.getLocalizedMonthNames(mergedOptions.locale);
+      mergedOptions.i18n.weekdays =
+        calendarUtilsRef.current.getLocalizedWeekdayNames(mergedOptions.locale);
+    }
+  }, [mergedOptions.i18n, mergedOptions.locale]);
+
+  // #endregion
+
+  // #region Events
+
   const onDayClick = useCallback(
     (day: IHeatmapDay): void => {
       mergedOptions.onClick?.(day);
@@ -228,6 +192,59 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
     },
     [tippyUtils]
   );
+
+  // #endregion
+
+  useEffect(() => {
+    setEmptyCellStyle({
+      height: `${mergedOptions.cellSize || 15}px`,
+      width: `${mergedOptions.cellSize || 15}px`,
+      ...mergedOptions.overWritedDayStyle,
+    });
+
+    const { colors } = mergedOptions;
+    if (colors?.length) {
+      setLevels(colors.length);
+    } else {
+      setLevels(5);
+    }
+
+    setMin(0);
+    setMax(100);
+    setRange(100);
+    setStep(100 / levels);
+
+    const { type, startDate } = mergedOptions;
+    let endDate: DateTime;
+
+    switch (type) {
+      case HeatMapCalendarType.WEEKLY:
+        endDate = startDate.plus({ days: 6 });
+        break;
+      case HeatMapCalendarType.MONTHLY:
+        endDate = startDate.endOf('month');
+        break;
+      case HeatMapCalendarType.YEARLY:
+        endDate = startDate.endOf('year');
+        break;
+    }
+
+    if (type !== HeatMapCalendarType.WEEKLY) {
+      setFirstWeekOffsetDays(
+        calendarUtilsRef.current.calculateFirstWeekOffset(startDate)
+      );
+      setLastWeekOffsetDays(
+        calendarUtilsRef.current.calculateLastWeekOffset(endDate)
+      );
+    }
+  }, [mergedOptions, heatmapData, levels]);
+
+  useEffect(() => {
+    calendarUtilsRef.current = new CalendarUtils(mergedOptions);
+
+    updateCalendarLabels();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultOptions.i18n, mergedOptions.i18n, mergedOptions.locale]);
 
   return (
     // Calendar Container
