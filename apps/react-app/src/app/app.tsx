@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { DateTime } from 'luxon';
-import YearlyView from './components/YearView';
+import YearlyView from './components/YearlyView';
 // import MonthlyView from './components/MonthlyView';
 // import WeeklyView from './components/WeeklyView';
 import { IHeatmapColor } from '@ngeenx/nx-calendar-heatmap-utils';
