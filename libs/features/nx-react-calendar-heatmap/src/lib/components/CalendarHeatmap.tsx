@@ -16,7 +16,7 @@ import {
   HeatmapLevelsDirection,
   CalendarUtils,
 } from '@ngeenx/nx-calendar-heatmap-utils';
-import NxHeatmapLegend from './heatmap-legend';
+import NxHeatmapLegend from './HeatmapLegend';
 import { Props } from 'tippy.js';
 
 interface CalendarHeatmapProps {
