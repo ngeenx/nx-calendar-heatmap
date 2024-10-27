@@ -1,9 +1,10 @@
 import { Component } from "@angular/core";
 import { RouterModule } from "@angular/router";
+import { NxHeatmapCalendarComponent } from "@ngeenx/nx-angular-calendar-heatmap";
 
 @Component({
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, NxHeatmapCalendarComponent],
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: [

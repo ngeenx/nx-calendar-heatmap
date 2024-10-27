@@ -1,0 +1,26 @@
+<!-- eslint-disable @angular-eslint/template/mouse-events-have-key-events -->
+<div
+  class="heatmap-levels"
+  [ngClass]="{
+    left: options.heatmapLegend?.direction === 'left',
+    right: options.heatmapLegend?.direction === 'right'
+  }"
+>
+  <!-- Less -->
+  <span>{{ options.i18n?.less }}</span>
+
+  <!-- Level -->
+  <button
+    *ngFor="let color of colors; let i = index"
+    class="day"
+    [style.width.px]="(options.cellSize || 15) - 2"
+    [style.height.px]="(options.cellSize || 15) - 2"
+    [ngClass]="getDayClass(color.min)"
+    (mouseover)="onMouseOver($event, color)"
+  >
+    <!-- Level Button -->
+  </button>
+
+  <!-- More -->
+  <span>{{ options.i18n?.more }}</span>
+</div>

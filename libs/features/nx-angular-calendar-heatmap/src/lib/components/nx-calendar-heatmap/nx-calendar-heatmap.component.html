@@ -1,0 +1,109 @@
+<!-- eslint-disable @angular-eslint/template/mouse-events-have-key-events -->
+<!-- Calendar Container -->
+<div class="nx-calendar-heatmap">
+  <!-- Body -->
+  <div class="body">
+    <div class="weekdays-container">
+      <!-- Weekdays -->
+      <div
+        *ngIf="mergedOptions.type !== HeatMapCalendarType.WEEKLY"
+        class="weekdays"
+      >
+        <span *ngFor="let weekday of mergedOptions.i18n?.weekdays">
+          {{ weekday }}
+        </span>
+      </div>
+
+      <!-- Months -->
+      <div class="months-container">
+        <!-- Yearly -->
+        <div
+          *ngIf="mergedOptions.type === HeatMapCalendarType.YEARLY"
+          class="months"
+        >
+          <span *ngFor="let month of mergedOptions.i18n?.months">{{
+            month
+          }}</span>
+        </div>
+
+        <!-- Monthly -->
+        <div
+          *ngIf="mergedOptions.type === HeatMapCalendarType.MONTHLY"
+          class="months"
+        >
+          <span class="centered">
+            {{
+              calendarUtils.getLocalizedMonthName(
+                mergedOptions.startDate,
+                mergedOptions.locale
+              )
+            }}
+          </span>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div
+          class="heatmap-grid"
+          [ngClass]="{
+            monthly: mergedOptions.type === HeatMapCalendarType.MONTHLY
+          }"
+        >
+          <!-- First Week Empty Days -->
+          <ng-container *ngIf="!mergedOptions.hideEmptyDays">
+            <button
+              *ngFor="let day of firstWeekOffsetDays"
+              class="day"
+              [ngClass]="getEmptyDayClass()"
+              [ngStyle]="emptyCellStyle"
+              (mouseover)="onDayMouseOver($event, day)"
+            >
+              <!-- Empty Day Button -->
+            </button>
+          </ng-container>
+
+          <!-- Available Days -->
+          <button
+            *ngFor="let day of heatmapData; let i = index"
+            class="day"
+            [ngClass]="getDayClass(day.count)"
+            [ngStyle]="getGridPosition(i)"
+            (click)="onDayClick(day)"
+            (mouseover)="onDayMouseOver($event, day)"
+          >
+            <!-- Day Button -->
+          </button>
+
+          <!-- Last Week Empty Days -->
+          <ng-container *ngIf="!mergedOptions.hideEmptyDays">
+            <button
+              *ngFor="let day of lastWeekOffsetDays"
+              class="day"
+              [ngClass]="getEmptyDayClass()"
+              [ngStyle]="emptyCellStyle"
+              (mouseover)="onDayMouseOver($event, day)"
+            >
+              <!-- Empty Day Button -->
+            </button>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div *ngIf="mergedOptions.heatmapLegend?.display" class="footer">
+    <div class="footer-content">
+      <ng-content select="[footerContent]"></ng-content>
+    </div>
+    <div class="legend">
+      <nx-heatmap-calendar-legend
+        [options]="mergedOptions"
+        [min]="min"
+        [max]="max"
+        [range]="range"
+        [step]="step"
+        [levels]="levels"
+      ></nx-heatmap-calendar-legend>
+    </div>
+  </div>
+</div>

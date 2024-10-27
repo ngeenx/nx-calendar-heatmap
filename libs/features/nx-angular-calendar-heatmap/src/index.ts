@@ -1,1 +1,1 @@
-export * from './lib/nx-angular-calendar-heatmap/nx-angular-calendar-heatmap.component';
+export * from "./lib/components/nx-calendar-heatmap/nx-calendar-heatmap.component";

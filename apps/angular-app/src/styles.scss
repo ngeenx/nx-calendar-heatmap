@@ -2,4 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-/* You can add global styles to this file, and also import other style files */
+@import "../../../libs/utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss";
