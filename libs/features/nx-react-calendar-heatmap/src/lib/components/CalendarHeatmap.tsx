@@ -49,6 +49,10 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     tippyUtils = new DayTippyUtils(options);
     tippyUtils.init();
+
+    return () => {
+      tippyUtils?.destroy();
+    };
   }, []);
 
   const defaultOptions: ICalendarHeatmapOptions = {

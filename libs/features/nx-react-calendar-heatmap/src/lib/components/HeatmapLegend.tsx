@@ -75,14 +75,17 @@ const NxHeatmapLegend: React.FC<NxHeatmapLegendProps> = ({
   );
 
   useEffect(() => {
-    updateLevelMap();
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     tippyUtils = new LevelsTippyUtils(options as ICalendarHeatmapOptions);
     tippyUtils.init();
 
     return () => {
       tippyUtils?.destroy();
     };
+  }, []);
+
+  useEffect(() => {
+    updateLevelMap();
   }, [options, updateLevelMap]);
 
   const onLegendLevelMouseOver = useCallback(
