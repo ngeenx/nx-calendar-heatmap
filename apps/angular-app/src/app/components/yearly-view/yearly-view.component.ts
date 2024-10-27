@@ -8,12 +8,13 @@ import {
   HeatmapLevelsDirection,
 } from "@ngeenx/nx-calendar-heatmap-utils";
 import { DateTime } from "luxon";
+import { CalendarFooterHintComponent } from "../calendar-footer-hint/calendar-footer-hint.component";
 
 @Component({
   selector: "app-yearly-view",
   templateUrl: "./yearly-view.component.html",
   standalone: true,
-  imports: [NxHeatmapCalendarComponent],
+  imports: [NxHeatmapCalendarComponent, CalendarFooterHintComponent],
 })
 export class YearlyViewComponent implements OnInit, OnChanges {
   @Input() selectedColorVariant: IHeatmapColor[] = [];
