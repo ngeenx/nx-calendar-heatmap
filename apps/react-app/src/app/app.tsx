@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { DateTime } from 'luxon';
 import YearlyView from './components/YearView';
 // import MonthlyView from './components/MonthlyView';
@@ -10,50 +10,167 @@ import '/libs/utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss';
 import '../../../../node_modules/tippy.js/dist/tippy.css';
 
 const App: React.FC = () => {
-  const startDate = DateTime.now().startOf('year');
-
-  const heatmapColorsVariants: IHeatmapColor[][] = [
-    // variant 1
-    [
-      {
-        min: Number.NEGATIVE_INFINITY,
-        max: 0,
-        isDefault: true,
-        className: 'custom-variant1-level-0',
-      },
-      {
-        min: 1,
-        max: 10,
-        isDefault: false,
-        className: 'custom-variant1-level-1',
-      },
-      {
-        min: 10,
-        max: 30,
-        isDefault: false,
-        className: 'custom-variant1-level-2',
-      },
-      {
-        min: 30,
-        max: 40,
-        isDefault: false,
-        className: 'custom-variant1-level-3',
-      },
-      {
-        min: 40,
-        max: 50,
-        isDefault: false,
-        className: 'custom-variant1-level-4',
-      },
-      {
-        min: 50,
-        max: Number.POSITIVE_INFINITY,
-        isDefault: false,
-        className: 'custom-variant1-level-5',
-      },
+  const heatmapColorsVariants: IHeatmapColor[][] = useMemo(
+    () => [
+      // variant 1
+      [
+        {
+          min: Number.NEGATIVE_INFINITY,
+          max: 0,
+          isDefault: true,
+          className: 'custom-variant1-level-0',
+        },
+        {
+          min: 1,
+          max: 10,
+          isDefault: false,
+          className: 'custom-variant1-level-1',
+        },
+        {
+          min: 10,
+          max: 30,
+          isDefault: false,
+          className: 'custom-variant1-level-2',
+        },
+        {
+          min: 30,
+          max: 40,
+          isDefault: false,
+          className: 'custom-variant1-level-3',
+        },
+        {
+          min: 40,
+          max: 50,
+          isDefault: false,
+          className: 'custom-variant1-level-4',
+        },
+        {
+          min: 50,
+          max: Number.POSITIVE_INFINITY,
+          isDefault: false,
+          className: 'custom-variant1-level-5',
+        },
+      ],
+      // variant 2
+      [
+        {
+          min: Number.NEGATIVE_INFINITY,
+          max: 0,
+          isDefault: true,
+          className: 'custom-variant2-level-0',
+        },
+        {
+          min: 1,
+          max: 10,
+          isDefault: false,
+          className: 'custom-variant2-level-1',
+        },
+        {
+          min: 10,
+          max: 30,
+          isDefault: false,
+          className: 'custom-variant2-level-2',
+        },
+        {
+          min: 30,
+          max: 40,
+          isDefault: false,
+          className: 'custom-variant2-level-3',
+        },
+        {
+          min: 40,
+          max: 50,
+          isDefault: false,
+          className: 'custom-variant2-level-4',
+        },
+        {
+          min: 50,
+          max: Number.POSITIVE_INFINITY,
+          isDefault: false,
+          className: 'custom-variant2-level-5',
+        },
+      ],
+      // variant 3
+      [
+        {
+          min: Number.NEGATIVE_INFINITY,
+          max: 0,
+          isDefault: true,
+          className: 'custom-variant3-level-0',
+        },
+        {
+          min: 1,
+          max: 10,
+          isDefault: false,
+          className: 'custom-variant3-level-1',
+        },
+        {
+          min: 10,
+          max: 30,
+          isDefault: false,
+          className: 'custom-variant3-level-2',
+        },
+        {
+          min: 30,
+          max: 40,
+          isDefault: false,
+          className: 'custom-variant3-level-3',
+        },
+        {
+          min: 40,
+          max: 50,
+          isDefault: false,
+          className: 'custom-variant3-level-4',
+        },
+        {
+          min: 50,
+          max: Number.POSITIVE_INFINITY,
+          isDefault: false,
+          className: 'custom-variant3-level-5',
+        },
+      ],
+      // variant 4
+      [
+        {
+          min: Number.NEGATIVE_INFINITY,
+          max: 0,
+          isDefault: true,
+          className: 'custom-variant4-level-0',
+        },
+        {
+          min: 1,
+          max: 10,
+          isDefault: false,
+          className: 'custom-variant4-level-1',
+        },
+        {
+          min: 10,
+          max: 30,
+          isDefault: false,
+          className: 'custom-variant4-level-2',
+        },
+        {
+          min: 30,
+          max: 40,
+          isDefault: false,
+          className: 'custom-variant4-level-3',
+        },
+        {
+          min: 40,
+          max: 50,
+          isDefault: false,
+          className: 'custom-variant4-level-4',
+        },
+        {
+          min: 50,
+          max: Number.POSITIVE_INFINITY,
+          isDefault: false,
+          className: 'custom-variant4-level-5',
+        },
+      ],
     ],
-    // other variants...
-  ];
+    []
+  );
 
   const [selectedColorVariant, setSelectedColorVariant] = useState<
     IHeatmapColor[]
@@ -79,11 +196,6 @@ const App: React.FC = () => {
     },
     [heatmapColorsVariants]
   );
-
-  useEffect(() => {
-    // If there are actions to be performed when the selected year changes (e.g., updating start date)
-    const updatedStartDate = DateTime.fromObject({ year: selectedYear });
-  }, [selectedYear]);
 
   return (
     <div className="flex flex-col w-full h-screen">
@@ -145,7 +257,8 @@ const App: React.FC = () => {
             <a
               href="https://moment.github.io/luxon/#/intl?id=how-locales-work"
               target="_blank"
-              className="text-blue-300 underline"
+              className="ml-2 text-blue-300 underline"
+              rel="noreferrer"
             >
               how-locales-work?
             </a>
