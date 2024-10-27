@@ -319,13 +319,13 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
       </div>
 
       {/* Footer */}
-      <div className="footer">
-        {/* Footer Content */}
-        <div className="footer-content">{footerContent && footerContent}</div>
+      {mergedOptions.heatmapLegend?.display && (
+        <div className="footer">
+          {/* Footer Content */}
+          <div className="footer-content">{footerContent && footerContent}</div>
 
-        {/* Heatmap Legend */}
-        <div className="legend">
-          {mergedOptions.heatmapLegend?.display && (
+          {/* Heatmap Legend */}
+          <div className="legend">
             <NxHeatmapLegend
               options={mergedOptions}
               min={min}
@@ -334,9 +334,9 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
               step={step}
               levels={levels}
             />
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
