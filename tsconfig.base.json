@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ngeenx/nx-angular-calendar-heatmap": [
+        "libs/features/nx-angular-calendar-heatmap/src/index.ts"
+      ],
       "@ngeenx/nx-calendar-heatmap-utils": [
         "libs/utils/nx-calendar-heatmap-utils/src/index.ts"
       ],
