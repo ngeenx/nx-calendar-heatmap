@@ -1,0 +1,14 @@
+<div class="flex flex-col items-start justify-start gap-3 p-5">
+  <span>Monthly</span>
+  <div
+    class="flex flex-row flex-wrap gap-5 p-4 bg-white border border-gray-500 rounded-md dark:bg-gray-800"
+  >
+    @for (calendar of calendars; track $index) {
+    <nx-heatmap-calendar
+      [options]="calendar.config"
+      [heatmapData]="calendar.data"
+      class="p-4 border border-gray-500 rounded-md"
+    ></nx-heatmap-calendar>
+    }
+  </div>
+</div>

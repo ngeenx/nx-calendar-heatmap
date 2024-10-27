@@ -5,10 +5,11 @@ import { FormsModule } from "@angular/forms";
 import { DateTime } from "luxon";
 import { YearlyViewComponent } from "./components/yearly-view/yearly-view.component";
 import { IHeatmapColor } from "@ngeenx/nx-calendar-heatmap-utils";
+import { MonthlyViewComponent } from "./components/monthly-view/monthly-view.component";
 
 @Component({
   standalone: true,
-  imports: [RouterModule, CommonModule, FormsModule, YearlyViewComponent],
+  imports: [RouterModule, CommonModule, FormsModule, YearlyViewComponent, MonthlyViewComponent],
   selector: "app-root",
   templateUrl: "./app.component.html",
 })
