@@ -1,15 +1,18 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { DateTime } from 'luxon';
+
+// demo components
 import YearlyView from './components/YearlyView';
-// import MonthlyView from './components/MonthlyView';
-// import WeeklyView from './components/WeeklyView';
+import MonthlyView from './components/MonthlyView';
+import WeeklyView from './components/WeeklyView';
+
+// libs
 import { IHeatmapColor } from '@ngeenx/nx-calendar-heatmap-utils';
 
+// styles
 import '/libs/utils/nx-calendar-heatmap-utils/src/styles/app.component.scss';
 import '/libs/utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss';
 import '../../../../node_modules/tippy.js/dist/tippy.css';
-import MonthlyView from './components/MonthlyView';
-import WeeklyView from './components/WeeklyView';
 
 const App: React.FC = () => {
   const heatmapColorsVariants: IHeatmapColor[][] = useMemo(
