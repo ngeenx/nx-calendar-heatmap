@@ -112,7 +112,7 @@ const MonthView: React.FC<MonthlyViewProps> = ({
                   startDate: months[index],
                 } as ICalendarHeatmapOptions
               }
-              heatmapData={_heatmapDataMonthly}
+              data={_heatmapDataMonthly}
             />
           </div>
         ))}

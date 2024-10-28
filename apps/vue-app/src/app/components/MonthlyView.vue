@@ -12,7 +12,7 @@
           ...options,
           startDate: months[index],
         }"
-        :heatmap-data="_heatmapDataMonthly"
+        :data="_heatmapDataMonthly"
         class="p-4 border border-gray-500 rounded-md"
       />
     </div>

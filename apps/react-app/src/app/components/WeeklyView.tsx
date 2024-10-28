@@ -77,7 +77,7 @@ const WeeklyHeatmap: React.FC<WeeklyViewProps> = ({
       <span> Weekly </span>
 
       <div className="p-4 border border-gray-500 rounded-md dark:bg-gray-800">
-        <NxCalendarHeatmap options={options} heatmapData={heatmapData} />
+        <NxCalendarHeatmap options={options} data={heatmapData} />
       </div>
     </div>
   );

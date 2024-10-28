@@ -21,20 +21,20 @@ export class MonthlyViewComponent implements OnInit, OnChanges {
   @Input() selectedHeatmapLevelState = true;
   @Input() selectedLocale = "en";
 
-  months: DateTime[] = [];
-  heatmapData: IHeatmapDay[][] = [];
-  options: ICalendarHeatmapOptions;
+  private options: ICalendarHeatmapOptions;
+  private months: DateTime[] = [];
   public calendars: any[] = [];
+  private montlyHeatmapData: IHeatmapDay[][] = [];
 
-  constructor() {
+  public constructor() {
     this.options = this.getOptions();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.generateHeatmapDataForYear();
   }
 
-  ngOnChanges(): void {
+  public ngOnChanges(): void {
     this.options = this.getOptions();
 
     this.generateHeatmapDataForYear();
@@ -45,11 +45,11 @@ export class MonthlyViewComponent implements OnInit, OnChanges {
       DateTime.local().set({ year: this.selectedYear, month: i + 1, day: 1 })
     );
 
-    this.heatmapData = this.months.map((monthStartDate) =>
+    this.montlyHeatmapData = this.months.map((monthStartDate) =>
       this.generateHeatmapData(monthStartDate)
     );
 
-    this.calendars = this.heatmapData.map((monthData) => ({
+    this.calendars = this.montlyHeatmapData.map((monthData) => ({
       config: { ...this.options, startDate: monthData[0].date },
       data: monthData,
     }));

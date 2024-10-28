@@ -105,7 +105,7 @@ const YearlyView: React.FC<YearlyViewProps> = ({
       <div className="p-4 border border-gray-500 rounded-md dark:bg-gray-800">
         <NxCalendarHeatmap
           options={options}
-          heatmapData={heatmapData}
+          data={heatmapData}
           footerContent={<HeatmapFooterHint />}
         />
       </div>

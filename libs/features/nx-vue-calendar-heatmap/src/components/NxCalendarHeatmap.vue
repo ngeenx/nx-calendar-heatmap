@@ -68,7 +68,7 @@
 
             <!-- Available Days -->
             <button
-              v-for="(day, index) in heatmapData"
+              v-for="(day, index) in data"
               :key="index"
               class="day"
               :class="getDayClass(day.count)"
@@ -140,7 +140,7 @@ const min = ref(0);
 const max = ref(0);
 const range = ref(0);
 const step = ref(0);
-const heatmapData = computed<IHeatmapDay[]>(() => props.heatmapData || []);
+const data = computed<IHeatmapDay[]>(() => props.data || []);
 const firstWeekOffsetDays = ref<IHeatmapDay[]>([]);
 const lastWeekOffsetDays = ref<IHeatmapDay[]>([]);
 const emptyCellStyle = ref<StyleValue>();
@@ -186,7 +186,7 @@ const props = defineProps({
     type: Object as () => ICalendarHeatmapOptions,
     default: () => ({}),
   },
-  heatmapData: {
+  data: {
     type: Array as () => IHeatmapDay[],
     default: () => [],
   },

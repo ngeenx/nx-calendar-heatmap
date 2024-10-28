@@ -21,13 +21,13 @@ import { Props } from 'tippy.js';
 
 interface CalendarHeatmapProps {
   options?: Partial<ICalendarHeatmapOptions>;
-  heatmapData?: IHeatmapDay[];
+  data?: IHeatmapDay[];
   footerContent?: ReactNode | null;
 }
 
 const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
   options = {} as ICalendarHeatmapOptions,
-  heatmapData = [],
+  data = [],
   footerContent = null,
 }) => {
   const [levels, setLevels] = useState(5);
@@ -237,7 +237,7 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
         calendarUtilsRef.current.calculateLastWeekOffset(endDate)
       );
     }
-  }, [mergedOptions, heatmapData, levels]);
+  }, [mergedOptions, data, levels]);
 
   useEffect(() => {
     calendarUtilsRef.current = new CalendarUtils(mergedOptions);
@@ -306,7 +306,7 @@ const NxCalendarHeatmap: React.FC<CalendarHeatmapProps> = ({
                 ))}
 
               {/* Available Days */}
-              {heatmapData.map((day, index) => (
+              {data.map((day, index) => (
                 <button
                   key={index}
                   className={`day ${getDayClass(day.count)}`}

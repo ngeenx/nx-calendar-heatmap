@@ -63,7 +63,7 @@
 
           <!-- Available Days -->
           <button
-            *ngFor="let day of heatmapData; let i = index"
+            *ngFor="let day of data; let i = index"
             class="day"
             [ngClass]="getDayClass(day.count)"
             [ngStyle]="getGridPosition(i)"

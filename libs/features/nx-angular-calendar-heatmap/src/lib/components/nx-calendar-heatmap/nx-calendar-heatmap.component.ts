@@ -48,7 +48,7 @@ export class NxCalendarHeatmapComponent
   implements OnInit, OnDestroy, OnChanges
 {
   @Input() options: ICalendarHeatmapOptions = {} as ICalendarHeatmapOptions;
-  @Input() heatmapData: IHeatmapDay[] = [];
+  @Input() data: IHeatmapDay[] = [];
 
   public HeatMapCalendarType: typeof HeatMapCalendarType = HeatMapCalendarType;
 
