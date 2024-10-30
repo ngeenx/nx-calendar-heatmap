@@ -27,8 +27,6 @@ const defaultOptions: ICalendarHeatmapOptions = {
     direction: HeatmapLevelsDirection.RIGHT,
   },
   i18n: {
-    weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    months: [],
     on: "on",
     less: "less",
     more: "more",
