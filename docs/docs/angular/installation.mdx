@@ -1,0 +1,59 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 📦 Installation
+
+Install the **primary** package using your package manager of choice.
+
+<Tabs>
+  <TabItem value="pnpm" label="PNPM" default>
+    ```bash
+pnpm i @ngeenx/nx-angular-calendar-heatmap
+    ```
+  </TabItem>
+  <TabItem value="npm" label="NPM">
+    ```bash
+npm i @ngeenx/nx-angular-calendar-heatmap
+    ```
+  </TabItem>
+</Tabs>
+
+## Peer Dependencies
+
+This library requires **[tippy.js](https://atomiks.github.io/tippyjs/)** and **[luxon](https://moment.github.io/luxon/#/)** (*the successor to Moment.js*) as **peer dependencies**. We are using `tippy.js` for the tooltip and `luxon` for date time manipulation.
+
+You can install them using the following commands:
+
+<Tabs>
+  <TabItem value="pnpm" label="PNPM" default>
+    ```bash
+pnpm i tippy.js luxon
+    ```
+  </TabItem>
+  <TabItem value="npm" label="NPM">
+    ```bash
+npm i tippy.js luxon
+    ```
+  </TabItem>
+</Tabs>
+
+## Types
+
+Optionally, you can install the types for `luxon` using the following commands:
+
+<Tabs>
+  <TabItem value="pnpm" label="PNPM" default>
+    ```bash
+pnpm i @types/luxon -D
+    ```
+  </TabItem>
+  <TabItem value="npm" label="NPM">
+    ```bash
+npm i @types/luxon -D
+    ```
+  </TabItem>
+</Tabs>

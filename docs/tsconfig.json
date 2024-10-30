@@ -2,6 +2,10 @@
   // This file is not used in compilation. It is here just for a nice editor experience.
   "extends": "@docusaurus/tsconfig",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@ngeenx/nx-react-calendar-heatmap": ["./node_modules/@ngeenx/nx-react-calendar-heatmap/src/index.ts"],
+      "@ngeenx/nx-calendar-heatmap-utils": ["./node_modules/@ngeenx/nx-calendar-heatmap-utils/src/index.ts"],
+    }
   }
 }

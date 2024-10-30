@@ -1,0 +1,165 @@
+---
+sidebar_position: 3
+---
+
+# 🚀 Usage
+
+Use the following steps to use the Calendar Heatmap in your Angular project.
+
+## Import
+
+Import `NxCalendarHeatmapComponent` component in your Angular module or standalone component.
+
+```ts title="app.component.ts"
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+
+// highlight-next-line
+import { NxCalendarHeatmapComponent } from "@ngeenx/nx-angular-calendar-heatmap";
+
+@Component({
+  standalone: true,
+  imports: [
+    RouterModule,
+    CommonModule,
+
+    // ...
+
+    // highlight-next-line
+    NxCalendarHeatmapComponent
+  ],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
+})
+export class AppComponent {
+  // ...
+
+  // highlight-next-line
+  public startDate: DateTime = DateTime.now().startOf("year");
+  // highlight-next-line
+  public heatmapData: IHeatmapDay[] = [];
+  // highlight-next-line
+  public options: ICalendarHeatmapOptions;
+
+  // ...
+}
+```
+
+```html  title="app.component.html"
+<!-- ... -->
+
+// highlight-next-line
+<nx-heatmap-calendar
+  // highlight-next-line
+  [options]="options"
+  // highlight-next-line
+  [data]="heatmapData"
+// highlight-next-line
+>
+  // highlight-next-line
+  <div footerContent>
+    // highlight-next-line
+    <a href="#">Learn how we count contributions</a>
+  // highlight-next-line
+  </div>
+// highlight-next-line
+</nx-heatmap-calendar>
+
+<!-- ... -->
+```
+
+## Data Source
+
+`data` property is an array of `IHeatmapDay` objects. Each object represents a day in the heatmap (*dates must sort in ascending order*).
+
+:::info[Data Source]
+
+Data must be provided by the parent component. There is no internal API call to fetch the data or date ordering features. In this case provided data must cover the selected calendar type and day order.
+
+:::
+
+```ts title="app.component.ts"
+import { Component } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+
+// highlight-next-line
+import { IHeatmapDay, ICalendarHeatmapOptions } from "@ngeenx/nx-angular-calendar-heatmap";
+
+@Component({
+  standalone: true,
+  imports: [
+    // ...
+    // highlight-next-line
+    NxCalendarHeatmapComponent
+  ],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.scss",
+})
+export class AppComponent {
+  // ...
+
+  public startDate: DateTime = DateTime.now().startOf("year");
+  public heatmapData: IHeatmapDay[] = [];
+  public options: ICalendarHeatmapOptions;
+
+  // highlight-next-line
+  public ngOnInit(): void {
+    // highlight-next-line
+    this.options = {
+      // highlight-next-line
+      type: HeatMapCalendarType.YEARLY,
+      // highlight-next-line
+      startDate: this.startDate,
+    // highlight-next-line
+    };
+    // highlight-next-line
+
+    // highlight-next-line
+    this.heatmapData = this.generateHeatmapData(this.startDate);
+  // highlight-next-line
+  }
+
+  // random data generator for yearly view
+  private generateHeatmapData(startDate: DateTime): IHeatmapDay[] {
+    // get end of the year
+    const endDate = startDate.endOf("year");
+    // get days between start and end date
+    const daysBetween = Math.floor(endDate.diff(startDate, "days").days);
+    const heatmap: IHeatmapDay[] = [];
+
+    let currentDate = startDate;
+
+    // generate random data for each day
+    for (let i = 0; i <= daysBetween; i++) {
+      const value = Math.floor(Math.random() * 101);
+
+      const day: IHeatmapDay = {
+        date: currentDate,
+        count: value,
+        data: {
+          index: i,
+          value,
+        },
+      };
+
+      heatmap.push(day);
+
+      // text day
+      currentDate = currentDate.plus({ days: 1 });
+    }
+
+    // then return the generated data to bind to the heatmap component
+    return heatmap;
+  }
+}
+```
+
+:::note
+
+`generateHeatmapData` is a helper function to generate random data for the heatmap. You can replace this function with your own data source.
+:::
+

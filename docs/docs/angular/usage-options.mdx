@@ -1,0 +1,22 @@
+---
+sidebar_position: 4
+---
+
+# 🛠️ Options
+
+You can customize the Calendar Heatmap by providing the following options:
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `HeatMapCalendarType` | **must provide with config** | `WEEKLY`\|`MONTHLY`\|`YEARLY` |
+| `startDate` | `DateTime` | **must provide with config** | The start date of the calendar. |
+| `cellSize` | Number (*as px*) | `15` | Day cell size (*also you can configure with `overWritedDayStyle` option*) |
+| `colors` | `IHeatmapColor[]` | `[]` | Heatmap colors for each level range. |
+| `hideEmptyDays` | `Boolean` | `false` | Empty days (*only start and end end month*) for filler days. |
+| `overWritedDayStyle` | `Object` | `{}` | Style each day with inline style object. |
+| `heatmapLegend` | `IHeatmapLegend` | `{}` | Configure `display`, `direction` and `tooltipFormatter` of heatmap calendar legend. |
+| `locale` | `String` | 'en' | Specify the locale for the calendar (*weekday and month names*). |
+| `i18n` | `ILocale` | [see config](notes) | Custom locale for the calendar texts (*min, max, less, more, etc.*). |
+| `tippyProps` | `Props` (*from tippy*) | `{}` | Tippy.js props for the tooltip. |
+| `tooltip` | `IHeatmapTooltip` | `{}` | Configure the tooltip for the heatmap (*unit, display state, date format and custom formatter*). |
+| `onClick` | `(day: IHeatmapDay) => void` | optional | Handle click event for each day. |
