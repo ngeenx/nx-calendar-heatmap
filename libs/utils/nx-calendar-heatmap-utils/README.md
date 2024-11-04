@@ -1,11 +1,5 @@
 # nx-calendar-heatmap-utils
 
-This library was generated with [Nx](https://nx.dev).
+[![NX Calendar Heatmap Preview](https://github.com/ngeenx/nx-calendar-heatmap/blob/main/docs/static/img/nx-calendar-heatmap-preview.gif?raw=true)](https://ngeenx.github.io/nx-calendar-heatmap/)
 
-## Building
-
-Run `nx build nx-calendar-heatmap-utils` to build the library.
-
-## Running unit tests
-
-Run `nx test nx-calendar-heatmap-utils` to execute the unit tests via [Vitest](https://vitest.dev/).
+NX Calendar Heatmap utils. Please check the **[documentation](https://ngeenx.github.io/nx-calendar-heatmap/docs/category/angular)** for installation and usage.
