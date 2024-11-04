@@ -23,6 +23,9 @@
         "assets": ["libs/utils/nx-calendar-heatmap-utils/*.md"]
       }
     },
+    "tailwind-build": {
+      "command": "npx tailwindcss -i ./libs/utils/nx-calendar-heatmap-utils/src/styles/calendar-heatmap.scss -o ./dist/libs/utils/nx-calendar-heatmap-utils/styles.css --minify"
+    },
     "nx-release-publish": {
       "options": {
         "packageRoot": "dist/{projectRoot}"

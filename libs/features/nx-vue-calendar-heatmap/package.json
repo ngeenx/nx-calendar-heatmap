@@ -1,16 +1,44 @@
 {
   "name": "@ngeenx/nx-vue-calendar-heatmap",
-  "version": "0.0.1",
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./index.mjs",
-      "require": "./index.js"
-    }
+  "version": "1.0.0",
+  "description": "Vue Calendar Heatmap component",
+  "keywords": [
+    "vue",
+    "calendar",
+    "heatmap",
+    "calendar-heatmap",
+    "heatmap-calendar"
+  ],
+  "author": "relliv <epsilonelittr@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/ngeenx/nx-calendar-heatmap/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/ngeenx/nx-calendar-heatmap#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ngeenx/nx-calendar-heatmap.git"
   },
   "peerDependencies": {
     "vue": "^3.0.0",
-    "tippy.js": "^6.*"
+    "luxon": "^3.0.0",
+    "tippy.js": "^6.0.0",
+    "@ngeenx/nx-calendar-heatmap-utils": "^1.0.0"
+  },
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "files": [
+    "CHANGELOG.md",
+    "./components",
+    "./index.js",
+    "./index.mjs",
+    "./index.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "types": "./index.d.ts"
+    }
   }
 }

@@ -1,12 +1,30 @@
 {
   "name": "@ngeenx/nx-calendar-heatmap-utils",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "dependencies": {},
   "peerDependencies": {
     "luxon": "^3.*",
     "tippy.js": "^6.*"
   },
   "main": "./index.js",
-  "module": "./index.mjs",
-  "typings": "./index.d.ts"
+  "types": "./index.d.ts",
+  "files": [
+    "CHANGELOG.md",
+    "./lib",
+    "./index.js",
+    "./index.mjs",
+    "./index.d.ts",
+    "./styles.css"
+  ],
+  "exports": {
+    ".": {
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "types": "./index.d.ts"
+    },
+    "./styles.css": {
+      "import": "./styles.css",
+      "require": "./styles.css"
+    }
+  }
 }
