@@ -4,70 +4,68 @@ sidebar_position: 3
 
 # 🚀 Usage
 
-Use the following steps to use the Calendar Heatmap in your Angular project.
+Use the following steps to use the Calendar Heatmap in your Vue project.
 
 ## Import
 
-Import `NxCalendarHeatmapComponent` component in your Angular module or standalone component.
+Import `NxCalendarHeatmap` component in your component.
 
-```ts title="app.component.ts"
-import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
-
-// highlight-next-line
-import { NxCalendarHeatmapComponent } from "@ngeenx/nx-angular-calendar-heatmap";
-
-@Component({
-  standalone: true,
-  imports: [
-    RouterModule,
-    CommonModule,
-
-    // ...
+```html  title="App.vue"
+<template>
+  <section>
+    <span> Yearly </span>
 
     // highlight-next-line
-    NxCalendarHeatmapComponent
-  ],
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
-})
-export class AppComponent {
-  // ...
-
-  // highlight-next-line
-  public startDate: DateTime = DateTime.now().startOf("year");
-  // highlight-next-line
-  public heatmapData: IHeatmapDay[] = [];
-  // highlight-next-line
-  public options: ICalendarHeatmapOptions;
-
-  // ...
-}
-```
-
-```html  title="app.component.html"
-<!-- ... -->
-
-// highlight-next-line
-<nx-heatmap-calendar
-  // highlight-next-line
-  [options]="options"
-  // highlight-next-line
-  [data]="heatmapData"
-// highlight-next-line
->
-  // highlight-next-line
-  <div footerContent>
+    <NxCalendarHeatmap :options="options" :data="heatmapData">
+      // highlight-next-line
+      <template #footerContent>
+        // highlight-next-line
+        <a href="#"> Footer hint </a>
+      // highlight-next-line
+      </template>
     // highlight-next-line
-    <a href="#">Learn how we count contributions</a>
-  // highlight-next-line
-  </div>
-// highlight-next-line
-</nx-heatmap-calendar>
+    </NxCalendarHeatmap>
+  </section>
+</template>
 
-<!-- ... -->
+<script setup lang="ts">
+// vue
+import { onMounted, ref, watch } from "vue";
+
+// highlight-next-line
+// calendar libs
+// highlight-next-line
+import { NxCalendarHeatmap } from "@ngeenx/nx-vue-calendar-heatmap";
+// highlight-next-line
+import {
+  // highlight-next-line
+  IHeatmapDay,
+  // highlight-next-line
+  HeatMapCalendarType,
+  // highlight-next-line
+  ICalendarHeatmapOptions,
+  // highlight-next-line
+  IHeatmapColor,
+  // highlight-next-line
+  HeatmapLevelsDirection,
+  // highlight-next-line
+} from "@ngeenx/nx-calendar-heatmap-utils";
+// highlight-next-line
+
+// highlight-next-line
+// third party
+// highlight-next-line
+import { DateTime } from "luxon";
+
+// ...
+</script>
+
+<style lang="scss">
+// highlight-next-line
+@import "@ngeenx/nx-calendar-heatmap-utils/styles.css";
+// highlight-next-line
+@import "tippy.js/dist/tippy.css";
+</style>
 ```
 
 ## Data Source
@@ -80,86 +78,156 @@ Data must be provided by the parent component. There is no internal API call to 
 
 :::
 
-```ts title="app.component.ts"
-import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
+```html  title="App.vue"
+<template>
+  <section>
+    <span> Yearly </span>
+
+    // highlight-next-line
+    <NxCalendarHeatmap :options="options" :data="heatmapData">
+      // highlight-next-line
+      <template #footerContent>
+        // highlight-next-line
+        <a href="#"> Footer hint </a>
+      // highlight-next-line
+      </template>
+    // highlight-next-line
+    </NxCalendarHeatmap>
+  </section>
+</template>
+
+<script setup lang="ts">
+// vue
+import { onMounted, ref, watch } from "vue";
 
 // highlight-next-line
-import { IHeatmapDay, ICalendarHeatmapOptions } from "@ngeenx/nx-angular-calendar-heatmap";
+// calendar libs
+// highlight-next-line
+import { NxCalendarHeatmap } from "@ngeenx/nx-vue-calendar-heatmap";
+// highlight-next-line
+import {
+  // highlight-next-line
+  IHeatmapDay,
+  // highlight-next-line
+  HeatMapCalendarType,
+  // highlight-next-line
+  ICalendarHeatmapOptions,
+  // highlight-next-line
+  IHeatmapColor,
+  // highlight-next-line
+  HeatmapLevelsDirection,
+  // highlight-next-line
+} from "@ngeenx/nx-calendar-heatmap-utils";
+// highlight-next-line
 
-@Component({
-  standalone: true,
-  imports: [
-    // ...
+// highlight-next-line
+// third party
+// highlight-next-line
+import { DateTime } from "luxon";
+
+// highlight-next-line
+const startDate = ref(DateTime.now().startOf("year"));
+// highlight-next-line
+const heatmapData = ref<IHeatmapDay[]>([]);
+
+// highlight-next-line
+const options = ref<ICalendarHeatmapOptions>({
+  // highlight-next-line
+  type: HeatMapCalendarType.YEARLY,
+  // highlight-next-line
+  startDate: startDate.value,
+  // highlight-next-line
+  cellSize: 15,
+  // highlight-next-line
+  hideEmptyDays: false,
+  // highlight-next-line
+  locale: props.selectedLocale,
+  // highlight-next-line
+  colors: props.selectedColorVariant,
+  // highlight-next-line
+  heatmapLegend: {
     // highlight-next-line
-    NxCalendarHeatmapComponent
-  ],
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.scss",
-})
-export class AppComponent {
-  // ...
+    display: props.selectedHeatmapLevelState,
+    // highlight-next-line
+    direction: HeatmapLevelsDirection.RIGHT,
+  // highlight-next-line
+  },
+  // highlight-next-line
+  onClick: onDayClick,
+  // highlight-next-line
+});
 
-  public startDate: DateTime = DateTime.now().startOf("year");
-  public heatmapData: IHeatmapDay[] = [];
-  public options: ICalendarHeatmapOptions;
+
+// ...
+
+// highlight-next-line
+const generateHeatmapData = (startDate: DateTime) => {
+  // highlight-next-line
+  let endDate: DateTime = startDate.endOf("year");
+  // highlight-next-line
 
   // highlight-next-line
-  public ngOnInit(): void {
+  const daysBetween = Math.floor(endDate.diff(startDate, "days").days);
+  // highlight-next-line
+  const heatmap = [];
+  // highlight-next-line
+
+  // highlight-next-line
+  let currentDate = startDate;
+  // highlight-next-line
+
+  // highlight-next-line
+  for (let i = 0; i <= daysBetween; i++) {
     // highlight-next-line
-    this.options = {
+    const day: IHeatmapDay = {
       // highlight-next-line
-      type: HeatMapCalendarType.YEARLY,
+      date: currentDate,
       // highlight-next-line
-      startDate: this.startDate,
+      count: Math.floor(Math.random() * 101),
     // highlight-next-line
     };
     // highlight-next-line
 
     // highlight-next-line
-    this.heatmapData = this.generateHeatmapData(this.startDate);
+    heatmap.push(day);
+    // highlight-next-line
+
+    // highlight-next-line
+    currentDate = currentDate.plus({ days: 1 });
   // highlight-next-line
   }
+  // highlight-next-line
 
-  // random data generator for yearly view
-  private generateHeatmapData(startDate: DateTime): IHeatmapDay[] {
-    // get end of the year
-    const endDate = startDate.endOf("year");
-    // get days between start and end date
-    const daysBetween = Math.floor(endDate.diff(startDate, "days").days);
-    const heatmap: IHeatmapDay[] = [];
+  // highlight-next-line
+  return heatmap;
+// highlight-next-line
+};
 
-    let currentDate = startDate;
+// highlight-next-line
+const onDayClick = (day: IHeatmapDay) => {
+  // highlight-next-line
+  console.log(`Clicked on ${day.date} with value ${day.count}`);
+// highlight-next-line
+};
 
-    // generate random data for each day
-    for (let i = 0; i <= daysBetween; i++) {
-      const value = Math.floor(Math.random() * 101);
+// ...
 
-      const day: IHeatmapDay = {
-        date: currentDate,
-        count: value,
-        data: {
-          index: i,
-          value,
-        },
-      };
+onMounted(() => {
+  heatmapData.value = generateHeatmapData(startDate.value);
+});
+</script>
 
-      heatmap.push(day);
-
-      // text day
-      currentDate = currentDate.plus({ days: 1 });
-    }
-
-    // then return the generated data to bind to the heatmap component
-    return heatmap;
-  }
-}
+<style lang="scss">
+// highlight-next-line
+@import "@ngeenx/nx-calendar-heatmap-utils/styles.css";
+// highlight-next-line
+@import "tippy.js/dist/tippy.css";
+</style>
 ```
+
 
 :::note
 
 `generateHeatmapData` is a helper function to generate random data for the heatmap. You can replace this function with your own data source.
-:::
 
+:::
