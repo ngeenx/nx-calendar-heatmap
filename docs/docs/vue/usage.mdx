@@ -141,13 +141,13 @@ const options = ref<ICalendarHeatmapOptions>({
   // highlight-next-line
   hideEmptyDays: false,
   // highlight-next-line
-  locale: props.selectedLocale,
+  locale: 'en',
   // highlight-next-line
-  colors: props.selectedColorVariant,
+  colors: [],
   // highlight-next-line
   heatmapLegend: {
     // highlight-next-line
-    display: props.selectedHeatmapLevelState,
+    display: true,
     // highlight-next-line
     direction: HeatmapLevelsDirection.RIGHT,
   // highlight-next-line
@@ -156,7 +156,6 @@ const options = ref<ICalendarHeatmapOptions>({
   onClick: onDayClick,
   // highlight-next-line
 });
-
 
 // ...
 
@@ -213,6 +212,7 @@ const onDayClick = (day: IHeatmapDay) => {
 // ...
 
 onMounted(() => {
+  // highlight-next-line
   heatmapData.value = generateHeatmapData(startDate.value);
 });
 </script>
