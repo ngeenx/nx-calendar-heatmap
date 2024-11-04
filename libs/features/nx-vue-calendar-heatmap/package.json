@@ -29,6 +29,7 @@
   "types": "./index.d.ts",
   "files": [
     "CHANGELOG.md",
+    "LICENSE.md",
     "./components",
     "./index.js",
     "./index.mjs",
