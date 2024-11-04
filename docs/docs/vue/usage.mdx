@@ -83,15 +83,10 @@ Data must be provided by the parent component. There is no internal API call to 
   <section>
     <span> Yearly </span>
 
-    // highlight-next-line
     <NxCalendarHeatmap :options="options" :data="heatmapData">
-      // highlight-next-line
       <template #footerContent>
-        // highlight-next-line
         <a href="#"> Footer hint </a>
-      // highlight-next-line
       </template>
-    // highlight-next-line
     </NxCalendarHeatmap>
   </section>
 </template>
@@ -100,7 +95,6 @@ Data must be provided by the parent component. There is no internal API call to 
 // vue
 import { onMounted, ref, watch } from "vue";
 
-// highlight-next-line
 // calendar libs
 // highlight-next-line
 import { NxCalendarHeatmap } from "@ngeenx/nx-vue-calendar-heatmap";
@@ -118,11 +112,8 @@ import {
   HeatmapLevelsDirection,
   // highlight-next-line
 } from "@ngeenx/nx-calendar-heatmap-utils";
-// highlight-next-line
 
-// highlight-next-line
 // third party
-// highlight-next-line
 import { DateTime } from "luxon";
 
 // highlight-next-line
@@ -137,69 +128,32 @@ const options = ref<ICalendarHeatmapOptions>({
   // highlight-next-line
   startDate: startDate.value,
   // highlight-next-line
-  cellSize: 15,
-  // highlight-next-line
-  hideEmptyDays: false,
-  // highlight-next-line
-  locale: 'en',
-  // highlight-next-line
-  colors: [],
-  // highlight-next-line
-  heatmapLegend: {
-    // highlight-next-line
-    display: true,
-    // highlight-next-line
-    direction: HeatmapLevelsDirection.RIGHT,
-  // highlight-next-line
-  },
-  // highlight-next-line
   onClick: onDayClick,
-  // highlight-next-line
+// highlight-next-line
 });
 
 // ...
 
-// highlight-next-line
 const generateHeatmapData = (startDate: DateTime) => {
-  // highlight-next-line
   let endDate: DateTime = startDate.endOf("year");
-  // highlight-next-line
 
-  // highlight-next-line
   const daysBetween = Math.floor(endDate.diff(startDate, "days").days);
-  // highlight-next-line
   const heatmap = [];
-  // highlight-next-line
 
-  // highlight-next-line
   let currentDate = startDate;
-  // highlight-next-line
 
-  // highlight-next-line
   for (let i = 0; i <= daysBetween; i++) {
-    // highlight-next-line
     const day: IHeatmapDay = {
-      // highlight-next-line
       date: currentDate,
-      // highlight-next-line
       count: Math.floor(Math.random() * 101),
-    // highlight-next-line
     };
-    // highlight-next-line
 
-    // highlight-next-line
     heatmap.push(day);
-    // highlight-next-line
 
-    // highlight-next-line
     currentDate = currentDate.plus({ days: 1 });
-  // highlight-next-line
   }
-  // highlight-next-line
 
-  // highlight-next-line
   return heatmap;
-// highlight-next-line
 };
 
 // highlight-next-line
@@ -211,16 +165,16 @@ const onDayClick = (day: IHeatmapDay) => {
 
 // ...
 
+// highlight-next-line
 onMounted(() => {
   // highlight-next-line
   heatmapData.value = generateHeatmapData(startDate.value);
+// highlight-next-line
 });
 </script>
 
 <style lang="scss">
-// highlight-next-line
 @import "@ngeenx/nx-calendar-heatmap-utils/styles.css";
-// highlight-next-line
 @import "tippy.js/dist/tippy.css";
 </style>
 ```
