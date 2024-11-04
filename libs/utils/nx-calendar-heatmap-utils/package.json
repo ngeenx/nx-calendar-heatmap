@@ -1,15 +1,31 @@
 {
   "name": "@ngeenx/nx-calendar-heatmap-utils",
   "version": "1.0.0",
+  "description": "NX Calendar Heatmap component utils",
+  "keywords": [
+    "calendar utils",
+    "heatmap utils"
+  ],
+  "author": "relliv <epsilonelittr@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/ngeenx/nx-calendar-heatmap/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/ngeenx/nx-calendar-heatmap#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ngeenx/nx-calendar-heatmap.git"
+  },
   "dependencies": {},
   "peerDependencies": {
-    "luxon": "^3.*",
-    "tippy.js": "^6.*"
+    "luxon": "^3.0.0",
+    "tippy.js": "^6.0.0"
   },
   "main": "./index.js",
   "types": "./index.d.ts",
   "files": [
     "CHANGELOG.md",
+    "LICENSE.md",
     "./lib",
     "./index.js",
     "./index.mjs",

@@ -8,11 +8,11 @@
     "react:start": "nx serve react-app",
     "vue:build": "nx build nx-vue-calendar-heatmap --skip-nx-cache",
     "utils:test": "nx test nx-calendar-heatmap-utils",
-    "utils:build": "nx build nx-calendar-heatmap-utils --skip-nx-cache",
+    "utils:build": "nx build nx-calendar-heatmap-utils --skip-nx-cache && nx run nx-calendar-heatmap-utils:tailwind-build",
     "lint:all": "nx run-many --all --target=lint",
     "build:all": "pnpm utils:build && pnpm vue:build && nx run nx-calendar-heatmap-utils:tailwind-build"
   },
-  "private": true,
+  "private": false,
   "devDependencies": {
     "@angular-devkit/build-angular": "~18.2.0",
     "@angular-devkit/core": "~18.2.0",
