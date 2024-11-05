@@ -7,6 +7,7 @@
     "vue:start": "nx serve vue-app",
     "react:start": "nx serve react-app",
     "vue:build": "nx build nx-vue-calendar-heatmap --skip-nx-cache",
+    "react:build": "nx build nx-react-calendar-heatmap --skip-nx-cache",
     "utils:test": "nx test nx-calendar-heatmap-utils",
     "utils:build": "nx build nx-calendar-heatmap-utils --skip-nx-cache && nx run nx-calendar-heatmap-utils:tailwind-build",
     "lint:all": "nx run-many --all --target=lint",
