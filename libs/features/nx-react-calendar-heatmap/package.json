@@ -1,8 +1,41 @@
 {
   "name": "@ngeenx/nx-react-calendar-heatmap",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "React Calendar Heatmap component",
+  "keywords": [
+    "react",
+    "calendar",
+    "heatmap",
+    "calendar-heatmap",
+    "heatmap-calendar"
+  ],
+  "author": "relliv <epsilonelittr@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/ngeenx/nx-calendar-heatmap/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/ngeenx/nx-calendar-heatmap#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ngeenx/nx-calendar-heatmap.git"
+  },
+  "peerDependencies": {
+    "react": "^16.0.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.0.0 || ^17.0.0 || ^18.0.0",
+    "luxon": "^3.0.0",
+    "tippy.js": "^6.0.0",
+    "@ngeenx/nx-calendar-heatmap-utils": "^1.0.0"
+  },
   "main": "./index.js",
   "types": "./index.d.ts",
+    "files": [
+    "CHANGELOG.md",
+    "LICENSE.md",
+    "./lib",
+    "./index.js",
+    "./index.mjs",
+    "./index.d.ts"
+  ],
   "exports": {
     ".": {
       "import": "./index.mjs",
