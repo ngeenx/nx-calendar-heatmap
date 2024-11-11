@@ -1,9 +1,27 @@
 {
   "name": "@ngeenx/nx-angular-calendar-heatmap",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "Angular Calendar Heatmap component",
+  "keywords": [
+    "angular",
+    "calendar",
+    "heatmap",
+    "calendar-heatmap",
+    "heatmap-calendar"
+  ],
+  "author": "relliv <epsilonelittr@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/ngeenx/nx-calendar-heatmap/issues"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/ngeenx/nx-calendar-heatmap#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ngeenx/nx-calendar-heatmap.git"
+  },
   "peerDependencies": {
-    "@angular/common": "^18.2.0",
-    "@angular/core": "^18.2.0"
+    "@angular/common": "^16.0.0 || ^17.0.0 || ^18.0.0",
+    "@angular/core": "^16.0.0 || ^17.0.0 || ^18.0.0"
   },
   "sideEffects": false
 }

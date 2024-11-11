@@ -28,7 +28,7 @@
   },
   "main": "./index.js",
   "types": "./index.d.ts",
-    "files": [
+  "files": [
     "CHANGELOG.md",
     "LICENSE.md",
     "./lib",
