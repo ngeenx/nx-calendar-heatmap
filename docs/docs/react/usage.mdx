@@ -8,64 +8,50 @@ Use the following steps to use the Calendar Heatmap in your Vue project.
 
 ## Import
 
-Import `NxCalendarHeatmap` component in your component.
+Import `NxCalendarHeatmap` component in your app.
 
-```html  title="App.vue"
-<template>
-  <section>
-    <span> Yearly </span>
+```html  title="App.tsx"
+import React, { useState, useEffect, useCallback } from 'react';
 
+// highlight-next-line
+import { NxCalendarHeatmap } from '@ngeenx/nx-react-calendar-heatmap';
+
+...
+
+// highlight-next-line
+import "@ngeenx/nx-calendar-heatmap-utils/styles.css";
+// highlight-next-line
+import "tippy.js/dist/tippy.css";
+
+const App: React.FC = (props: IAppProps) => {
+  // ...
+
+  // highlight-next-line
+  const [options, setOptions] = useState({
     // highlight-next-line
-    <NxCalendarHeatmap :options="options" :data="heatmapData">
+    type: HeatMapCalendarType.YEARLY,
+  // highlight-next-line
+  });
+
+  return (
+    <>
+      {/* ... */}
+
       // highlight-next-line
-      <template #footerContent>
+      <NxCalendarHeatmap
         // highlight-next-line
-        <a href="#"> Footer hint </a>
+        options={options}
+        // highlight-next-line
+        data={heatmapData}
+        // highlight-next-line
+        footerContent={<HeatmapFooterHint />}
       // highlight-next-line
-      </template>
-    // highlight-next-line
-    </NxCalendarHeatmap>
-  </section>
-</template>
+      />
 
-<script setup lang="ts">
-// vue
-import { onMounted, ref, watch } from "vue";
-
-// highlight-next-line
-// calendar libs
-// highlight-next-line
-import { NxCalendarHeatmap } from "@ngeenx/nx-vue-calendar-heatmap";
-// highlight-next-line
-import {
-  // highlight-next-line
-  IHeatmapDay,
-  // highlight-next-line
-  HeatMapCalendarType,
-  // highlight-next-line
-  ICalendarHeatmapOptions,
-  // highlight-next-line
-  IHeatmapColor,
-  // highlight-next-line
-  HeatmapLevelsDirection,
-  // highlight-next-line
-} from "@ngeenx/nx-calendar-heatmap-utils";
-// highlight-next-line
-
-// highlight-next-line
-// third party
-// highlight-next-line
-import { DateTime } from "luxon";
-
-// ...
-</script>
-
-<style lang="scss">
-// highlight-next-line
-@import "@ngeenx/nx-calendar-heatmap-utils/styles.css";
-// highlight-next-line
-@import "tippy.js/dist/tippy.css";
-</style>
+      {/* ... */}
+    </>
+  );
+};
 ```
 
 ## Data Source
@@ -78,26 +64,13 @@ Data must be provided by the parent component. There is no internal API call to 
 
 :::
 
-```html  title="App.vue"
-<template>
-  <section>
-    <span> Yearly </span>
+```html  title="App.tsx"
+import React, { useState, useEffect, useCallback } from 'react';
 
-    <NxCalendarHeatmap :options="options" :data="heatmapData">
-      <template #footerContent>
-        <a href="#"> Footer hint </a>
-      </template>
-    </NxCalendarHeatmap>
-  </section>
-</template>
-
-<script setup lang="ts">
-// vue
-import { onMounted, ref, watch } from "vue";
-
+// highlight-next-line
 // calendar libs
 // highlight-next-line
-import { NxCalendarHeatmap } from "@ngeenx/nx-vue-calendar-heatmap";
+import { NxCalendarHeatmap } from '@ngeenx/nx-react-calendar-heatmap';
 // highlight-next-line
 import {
   // highlight-next-line
@@ -110,75 +83,59 @@ import {
   IHeatmapColor,
   // highlight-next-line
   HeatmapLevelsDirection,
-  // highlight-next-line
-} from "@ngeenx/nx-calendar-heatmap-utils";
+// highlight-next-line
+} from '@ngeenx/nx-calendar-heatmap-utils';
+// highlight-next-line
 
+// highlight-next-line
 // third party
+// highlight-next-line
 import { DateTime } from "luxon";
+// highlight-next-line
 
 // highlight-next-line
-const startDate = ref(DateTime.now().startOf("year"));
+// styles
 // highlight-next-line
-const heatmapData = ref<IHeatmapDay[]>([]);
+import "@ngeenx/nx-calendar-heatmap-utils/styles.css";
+// highlight-next-line
+import "tippy.js/dist/tippy.css";
 
-// highlight-next-line
-const options = ref<ICalendarHeatmapOptions>({
+const App: React.FC = (props: IAppProps) => {
+  // ...
+
+  const [startDate, setStartDate] = useState<DateTime>(
+    DateTime.now().startOf('year')
+  );
+
   // highlight-next-line
-  type: HeatMapCalendarType.YEARLY,
+  const [options, setOptions] = useState({
+    // highlight-next-line
+    type: HeatMapCalendarType.YEARLY,
+    // highlight-next-line
+    startDate
   // highlight-next-line
-  startDate: startDate.value,
-  // highlight-next-line
-  onClick: onDayClick,
-// highlight-next-line
-});
+  });
 
-// ...
+  return (
+    <>
+      {/* ... */}
 
-const generateHeatmapData = (startDate: DateTime) => {
-  let endDate: DateTime = startDate.endOf("year");
+      // highlight-next-line
+      <NxCalendarHeatmap
+        // highlight-next-line
+        options={options}
+        // highlight-next-line
+        data={heatmapData}
+        // highlight-next-line
+        footerContent={<HeatmapFooterHint />}
+      // highlight-next-line
+      />
 
-  const daysBetween = Math.floor(endDate.diff(startDate, "days").days);
-  const heatmap = [];
-
-  let currentDate = startDate;
-
-  for (let i = 0; i <= daysBetween; i++) {
-    const day: IHeatmapDay = {
-      date: currentDate,
-      count: Math.floor(Math.random() * 101),
-    };
-
-    heatmap.push(day);
-
-    currentDate = currentDate.plus({ days: 1 });
-  }
-
-  return heatmap;
+      {/* ... */}
+    </>
+  );
 };
-
-// highlight-next-line
-const onDayClick = (day: IHeatmapDay) => {
-  // highlight-next-line
-  console.log(`Clicked on ${day.date} with value ${day.count}`);
-// highlight-next-line
-};
-
-// ...
-
-// highlight-next-line
-onMounted(() => {
-  // highlight-next-line
-  heatmapData.value = generateHeatmapData(startDate.value);
-// highlight-next-line
-});
-</script>
-
-<style lang="scss">
-@import "@ngeenx/nx-calendar-heatmap-utils/styles.css";
-@import "tippy.js/dist/tippy.css";
-</style>
 ```
-
 
 :::note
 
